@@ -1,19 +1,24 @@
 import type { Metadata } from "next";
-import { Bebas_Neue, Inter } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
 import { ThemeProvider } from "@/providers/ThemeProvider";
 import { SmoothScrollProvider } from "@/providers/SmoothScrollProvider";
 import { AnimationProvider } from "@/providers/AnimationProvider";
 
-const bebasNeue = Bebas_Neue({
+const bebasNeue = localFont({
+  src: "../../public/fonts/BebasNeue-Regular.ttf",
   variable: "--font-bebas-neue",
-  subsets: ["latin"],
   weight: "400",
+  style: "normal",
+  display: "swap",
 });
 
-const inter = Inter({
-  variable: "--font-inter",
-  subsets: ["latin"],
+const inter = localFont({
+  src: "../../public/fonts/Inter.ttf",
+  variable: "--font-inter-next",
+  weight: "400",
+  style: "normal",
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -27,15 +32,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" className={`${bebasNeue.variable} ${inter.variable}`} suppressHydrationWarning>
       <head>
         <link
           rel="stylesheet"
-          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1"
+          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
         />
       </head>
       <body
-        className={`${bebasNeue.variable} ${inter.variable} antialiased`}
+        className="antialiased"
       >
         <ThemeProvider
           attribute="class"

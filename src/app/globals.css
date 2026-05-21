@@ -18,7 +18,7 @@
   --spacing-container-max: 1440px;
   --spacing-section-stack: 120px;
 
-  --font-bebas: var(--font-bebas-neue), "Bebas Neue", sans-serif;
+  --font-bebas: var(--font-bebas-neue), sans-serif;
   --font-inter: var(--font-inter), "Inter", sans-serif;
   --font-sans: var(--font-inter), "Inter", sans-serif;
 }
