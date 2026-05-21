@@ -1,12 +1,14 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
-import "./globals.css";
+import "../globals.css";
+import { NextIntlClientProvider } from "next-intl";
+import { getMessages } from "next-intl/server";
 import { ThemeProvider } from "@/providers/ThemeProvider";
 import { SmoothScrollProvider } from "@/providers/SmoothScrollProvider";
 import { AnimationProvider } from "@/providers/AnimationProvider";
 
 const bebasNeue = localFont({
-  src: "../../public/fonts/BebasNeue-Regular.ttf",
+  src: "../../../public/fonts/BebasNeue-Regular.ttf",
   variable: "--font-bebas-neue",
   weight: "400",
   style: "normal",
@@ -14,7 +16,7 @@ const bebasNeue = localFont({
 });
 
 const inter = localFont({
-  src: "../../public/fonts/Inter.ttf",
+  src: "../../../public/fonts/Inter.ttf",
   variable: "--font-inter-next",
   weight: "400",
   style: "normal",
@@ -26,13 +28,18 @@ export const metadata: Metadata = {
   description: "A cinematic football experience inspired by the 2026 World Cup.",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
+  params
 }: Readonly<{
   children: React.ReactNode;
+  params: Promise<{ locale: string }>;
 }>) {
+  const { locale } = await params;
+  const messages = await getMessages();
+
   return (
-    <html lang="en" className={`${bebasNeue.variable} ${inter.variable}`} suppressHydrationWarning>
+    <html lang={locale} className={`${bebasNeue.variable} ${inter.variable}`} suppressHydrationWarning>
       <head>
         <link
           rel="stylesheet"
@@ -42,20 +49,22 @@ export default function RootLayout({
       <body
         className="antialiased"
       >
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="dark"
-          enableSystem={false}
-          disableTransitionOnChange
-        >
-          <SmoothScrollProvider>
-            <AnimationProvider>
-              <main className="relative min-h-screen">
-                {children}
-              </main>
-            </AnimationProvider>
-          </SmoothScrollProvider>
-        </ThemeProvider>
+        <NextIntlClientProvider messages={messages}>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="dark"
+            enableSystem={false}
+            disableTransitionOnChange
+          >
+            <SmoothScrollProvider>
+              <AnimationProvider>
+                <main className="relative min-h-screen">
+                  {children}
+                </main>
+              </AnimationProvider>
+            </SmoothScrollProvider>
+          </ThemeProvider>
+        </NextIntlClientProvider>
       </body>
     </html>
   );
