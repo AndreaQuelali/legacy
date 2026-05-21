@@ -1,0 +1,31 @@
+{
+  "nav": {
+    "title1": "LEGACY WORLD CUP",
+    "title2": "2026",
+    "home": "INICIO",
+    "nations": "NACIONES",
+    "players": "JUGADORES",
+    "stadiums": "ESTADIOS",
+    "road_to": "CAMINO A",
+    "about": "ACERCA DE",
+    "explore": "EXPLORAR"
+  },
+  "hero": {
+    "subtitle": "COPA DEL MUNDO",
+    "year": "2026",
+    "title_part1": "EL MUNDO",
+    "title_part2": "ES NUESTRO ESCENARIO",
+    "description": "32 naciones. 1 sueño. El camino a la gloria comienza ahora. Vive el evento futbolístico más grande de la historia en Norteamérica.",
+    "explore_btn": "EXPLORAR NACIONES",
+    "trailer_btn": "VER TRÁILER",
+    "journey": "EL VIAJE COMIENZA EN",
+    "days": "DÍAS",
+    "hours": "HORAS",
+    "minutes": "MINUTOS",
+    "location_label": "UBICACIÓN ACTUAL",
+    "location": "ESTADOS UNIDOS • MÉXICO • CANADÁ"
+  },
+  "footer": {
+    "copyright": "© 2026 COPA DEL MUNDO. TODOS LOS DERECHOS RESERVADOS. EL CAMINO A LA GLORIA COMIENZA."
+  }
+}

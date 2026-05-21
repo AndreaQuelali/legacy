@@ -1,0 +1,31 @@
+{
+  "nav": {
+    "title1": "LEGACY WORLD CUP",
+    "title2": "2026",
+    "home": "HOME",
+    "nations": "NATIONS",
+    "players": "PLAYERS",
+    "stadiums": "STADIUMS",
+    "road_to": "ROAD TO",
+    "about": "ABOUT",
+    "explore": "EXPLORE"
+  },
+  "hero": {
+    "subtitle": "WORLD CUP",
+    "year": "2026",
+    "title_part1": "THE WORLD",
+    "title_part2": "IS OUR STAGE",
+    "description": "32 nations. 1 dream. The road to glory begins now. Experience the largest football event in history across North America.",
+    "explore_btn": "EXPLORE THE NATIONS",
+    "trailer_btn": "WATCH TRAILER",
+    "journey": "THE JOURNEY BEGINS IN",
+    "days": "DAYS",
+    "hours": "HOURS",
+    "minutes": "MINUTES",
+    "location_label": "CURRENT LOCATION",
+    "location": "UNITED STATES • MEXICO • CANADA"
+  },
+  "footer": {
+    "copyright": "© 2026 WORLD CUP. ALL RIGHTS RESERVED. THE ROAD TO GLORY BEGINS."
+  }
+}
