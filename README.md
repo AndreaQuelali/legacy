@@ -1,36 +1,70 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# LEGACY | World Cup 2026 Landing Project
 
-## Getting Started
+LEGACY es una landing page cinematográfica de alto impacto inspirada en la Copa Mundial 2026, diseñada con una estética épica y deportiva premium.
 
-First, run the development server:
+## 🚀 Stack Tecnológico
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+- **Framework:** [Next.js 16+](https://nextjs.org/) (App Router)
+- **Lenguaje:** [TypeScript](https://www.typescriptlang.org/)
+- **Estilos:** [Tailwind CSS 4](https://tailwindcss.com/)
+- **Animaciones:**
+  - [GSAP](https://gsap.com/) + ScrollTrigger (Animaciones complejas y basadas en scroll)
+  - [Framer Motion](https://www.framer.com/motion/) (Micro-interacciones y transiciones de estado)
+  - [Lenis](https://lenis.darkroom.engineering/) (Smooth Scroll global)
+- **3D Engine:**
+  - [Three.js](https://threejs.org/)
+  - [React Three Fiber](https://docs.pmnd.rs/react-three-fiber)
+  - [Drei](https://github.com/pmndrs/drei)
+- **UI & Componentes:**
+  - [Shadcn UI](https://ui.shadcn.com/)
+  - [Lucide React](https://lucide.dev/)
+
+## 🏗️ Arquitectura del Proyecto
+
+El proyecto sigue una estructura limpia y escalable dentro del directorio `src/`:
+
+```text
+src/
+├── app/             # Rutas, layouts y páginas principales
+├── components/      # Componentes organizados por responsabilidad
+│   ├── 3d/          # Escenas y modelos React Three Fiber
+│   ├── animations/  # Envoltorios y utilidades de animación
+│   ├── layout/      # Navbar, Footer, etc.
+│   ├── sections/    # Secciones principales de la landing
+│   ├── ui/          # Componentes atómicos (Shadcn)
+│   └── shared/      # Componentes reutilizables generales
+├── hooks/           # Custom hooks (scroll, viewport, etc.)
+├── lib/             # Configuraciones de librerías de terceros
+├── providers/       # Providers globales (Theme, Scroll, Animation)
+├── styles/          # Tokens de diseño y CSS global
+└── utils/           # Utilidades puras
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🛠️ Cómo empezar
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+1. Instala las dependencias:
+   ```bash
+   npm install
+   ```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+2. Corre el servidor de desarrollo:
+   ```bash
+   npm run dev
+   ```
 
-## Learn More
+3. Abre [http://localhost:3000](http://localhost:3000) en tu navegador.
 
-To learn more about Next.js, take a look at the following resources:
+## 🎨 Convenciones de Diseño
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- **Paleta:** Negro profundo (`#050505`), Dorado (`#eab308`), y overlays radiales.
+- **Tipografía:** Moderna, con alto contraste en pesos para títulos.
+- **Animaciones:** Preferir GSAP para secuencias complejas. Usar el `AnimationProvider` para registrar plugins.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 📦 Agregar nueva sección
 
-## Deploy on Vercel
+1. Crea el componente en `src/components/sections/`.
+2. Importalo en `src/app/page.tsx`.
+3. Usa el helper `fadeUp` de `AnimationProvider` para añadir entrada suave.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+Desarrollado con pasión para el LEGACY PROJECT 2026.

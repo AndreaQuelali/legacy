@@ -1,0 +1,74 @@
+@import "tailwindcss";
+
+@theme {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  
+  --color-gold-light: #fef08a;
+  --color-gold: #eab308;
+  --color-gold-dark: #854d0e;
+  
+  --color-stadium-black: #050505;
+  --color-stadium-gray: #121212;
+  
+  --animate-glow: glow 2s ease-in-out infinite alternate;
+}
+
+@keyframes glow {
+  from {
+    text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px var(--color-gold), 0 0 40px var(--color-gold), 0 0 50px var(--color-gold);
+  }
+  to {
+    text-shadow: 0 0 20px #fff, 0 0 30px var(--color-gold-light), 0 0 40px var(--color-gold-light), 0 0 50px var(--color-gold-light), 0 0 60px var(--color-gold-light);
+  }
+}
+
+:root {
+  --background: #050505;
+  --foreground: #ffffff;
+}
+
+html.lenis {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+.lenis.lenis-scrolling iframe {
+  pointer-events: none;
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  overflow-x: hidden;
+}
+
+/* Custom Cinematic Overlays */
+.cinematic-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  background: radial-gradient(circle at center, transparent 0%, rgba(0,0,0,0.4) 100%);
+  z-index: 50;
+}
+
+.gold-gradient-text {
+  background: linear-gradient(to right, var(--color-gold-light), var(--color-gold), var(--color-gold-dark));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
