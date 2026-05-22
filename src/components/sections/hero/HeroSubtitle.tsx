@@ -7,7 +7,7 @@ export default function HeroSubtitle() {
   const t = useTranslations("hero")
   
   return (
-    <div className="flex flex-col items-center mb-6">
+    <div className="anim-subtitle flex flex-col items-center mb-6 opacity-0">
       <span className="hero-subtitle mb-2">
         {t("subtitle")}
       </span>

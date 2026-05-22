@@ -6,7 +6,7 @@ export default function TopNavBar() {
   const t = useTranslations('nav');
 
   return (
-    <nav className="fixed top-0 w-full z-50 backdrop-blur-md bg-black/30 border-b border-white/10">
+    <nav className="anim-navbar fixed top-0 w-full z-50 backdrop-blur-md bg-black/30 border-b border-white/10 opacity-0">
       <div className="flex items-center justify-between px-10 py-4 max-w-[1440px] mx-auto">
         {/* Logo — 2 lines */}
         <div className="font-bebas leading-none text-white">

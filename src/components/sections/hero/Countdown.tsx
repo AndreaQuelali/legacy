@@ -19,7 +19,7 @@ export default function Countdown() {
       </p>
       <div className="flex gap-6 sm:gap-10 md:gap-12">
         {stats.map(({ value, label }) => (
-          <div key={label} className="flex flex-col">
+          <div key={label} className="anim-countdown flex flex-col opacity-0">
             <span className="countdown-number">{value}</span>
             <span className="countdown-label">{label}</span>
           </div>

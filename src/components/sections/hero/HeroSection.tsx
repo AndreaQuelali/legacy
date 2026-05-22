@@ -1,7 +1,8 @@
 "use client"
 
 import { useEffect, useRef } from "react"
-import { fadeUp } from "@/providers/AnimationProvider"
+import gsap from "@/lib/gsap/gsap"
+import { playHeroTimeline } from "@/lib/gsap/timelines/heroTimeline"
 import { 
   HeroBackground, 
   HeroContent, 
@@ -11,19 +12,22 @@ import {
 } from "."
 
 export default function HeroSection() {
-  const h1Ref = useRef<HTMLHeadingElement>(null)
-  const pRef = useRef<HTMLParagraphElement>(null)
-
+  const container = useRef<HTMLElement>(null)
+  
   useEffect(() => {
-    if (h1Ref.current) fadeUp(h1Ref.current, 0.2)
-    if (pRef.current) fadeUp(pRef.current, 0.4)
+    // Calling context without scoping to container allows it to grab TopNavBar globally
+    const ctx = gsap.context(() => {
+      playHeroTimeline()
+    })
+    
+    return () => ctx.revert()
   }, [])
 
   return (
-    <section className="relative h-screen flex flex-col items-center justify-center overflow-hidden bg-[#0d0d0d]">
+    <section ref={container} className="relative h-screen flex flex-col items-center justify-center overflow-hidden bg-[#0d0d0d]">
       <HeroBackground />
 
-      <HeroContent h1Ref={h1Ref} pRef={pRef} />
+      <HeroContent />
 
       <ScrollIndicator />
 
