@@ -1,6 +1,7 @@
 "use client"
 
 import React from 'react'
+import { useTranslations } from 'next-intl'
 import TimelineHeader from './TimelineHeader'
 import TimelineItem from './TimelineItem'
 
@@ -12,31 +13,32 @@ interface Milestone {
   side: "left" | "right"
 }
 
-const milestones: Milestone[] = [
-  {
-    date: "MARCH 2024",
-    title: "QUALIFIERS BEGIN",
-    desc: "NATIONS ACROSS SIX CONTINENTS BEGIN THEIR ARDUOUS JOURNEY TO SECURE ONE OF THE 48 COVETED SPOTS.",
-    icon: "flag",
-    side: "left",
-  },
-  {
-    date: "JUNE 2025",
-    title: "THE FINAL DRAW",
-    desc: "THE WORLD WATCHES AS GROUPS ARE DRAWN AND THE PATH TO THE FINAL IS FINALLY REVEALED FOR EVERY QUALIFIED NATION.",
-    icon: "shuffle",
-    side: "right",
-  },
-  {
-    date: "JUNE 11, 2026",
-    title: "OPENING CEREMONY",
-    desc: "A SPECTACLE LIKE NO OTHER AT THE AZTECA STADIUM KICKS OFF THE MOST AMBITIOUS TOURNAMENT IN HISTORY.",
-    icon: "celebration",
-    side: "left",
-  },
-]
-
 export default function TimelineSection() {
+  const t = useTranslations('timeline')
+
+  const milestones: Milestone[] = [
+    {
+      date: t("milestone1.date"),
+      title: t("milestone1.title"),
+      desc: t("milestone1.desc"),
+      icon: "flag",
+      side: "left",
+    },
+    {
+      date: t("milestone2.date"),
+      title: t("milestone2.title"),
+      desc: t("milestone2.desc"),
+      icon: "shuffle",
+      side: "right",
+    },
+    {
+      date: t("milestone3.date"),
+      title: t("milestone3.title"),
+      desc: t("milestone3.desc"),
+      icon: "celebration",
+      side: "left",
+    },
+  ]
   return (
     <section className="py-16 sm:py-24 bg-[#131313]">
       <div className="max-w-[1440px] mx-auto px-6 sm:px-10">

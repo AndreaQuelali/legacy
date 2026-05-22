@@ -2,6 +2,8 @@
 
 import React from 'react'
 
+import { useTranslations } from 'next-intl'
+
 interface StadiumCardProps {
   title: string
   location?: string
@@ -20,6 +22,7 @@ export default function StadiumCard({
   bgColor = "#1a1918"
 }: StadiumCardProps) {
   const isLarge = variant === 'large'
+  const t = useTranslations('stadiums')
   
   return (
     <div 
@@ -44,7 +47,7 @@ export default function StadiumCard({
         
         {capacity && (
           <p className="font-inter text-[11px] font-bold text-primary uppercase tracking-[0.15em] mt-2">
-            CAPACITY: {capacity}
+            {t("capacity")}: {capacity}
           </p>
         )}
       </div>

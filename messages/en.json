@@ -25,6 +25,42 @@
     "location_label": "CURRENT LOCATION",
     "location": "UNITED STATES • MEXICO • CANADA"
   },
+  "stats": {
+    "nations": "NATIONS",
+    "players": "PLAYERS",
+    "host_cities": "HOST CITIES",
+    "champion": "CHAMPION"
+  },
+  "nations": {
+    "subtitle": "32 NATIONS. 32 STORIES.",
+    "title": "REPRESENT YOUR COUNTRY",
+    "view_team": "VIEW TEAM"
+  },
+  "stadiums": {
+    "subtitle": "IMMERSE YOURSELF",
+    "title": "THE ARENAS OF 2026",
+    "view_all": "VIEW ALL VENUES",
+    "capacity": "CAPACITY"
+  },
+  "timeline": {
+    "subtitle": "THE JOURNEY",
+    "title": "ROAD TO 2026",
+    "milestone1": {
+      "date": "MARCH 2024",
+      "title": "QUALIFIERS BEGIN",
+      "desc": "NATIONS ACROSS SIX CONTINENTS BEGIN THEIR ARDUOUS JOURNEY TO SECURE ONE OF THE 48 COVETED SPOTS."
+    },
+    "milestone2": {
+      "date": "JUNE 2025",
+      "title": "THE FINAL DRAW",
+      "desc": "THE WORLD WATCHES AS GROUPS ARE DRAWN AND THE PATH TO THE FINAL IS FINALLY REVEALED FOR EVERY QUALIFIED NATION."
+    },
+    "milestone3": {
+      "date": "JUNE 11, 2026",
+      "title": "OPENING CEREMONY",
+      "desc": "A SPECTACLE LIKE NO OTHER AT THE AZTECA STADIUM KICKS OFF THE MOST AMBITIOUS TOURNAMENT IN HISTORY."
+    }
+  },
   "footer": {
     "copyright": "© 2026 WORLD CUP. ALL RIGHTS RESERVED. THE ROAD TO GLORY BEGINS."
   }

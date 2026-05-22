@@ -2,6 +2,8 @@
 
 import React from 'react'
 
+import { useTranslations } from 'next-intl'
+
 interface NationCardProps {
   id: string
   name: string
@@ -9,6 +11,8 @@ interface NationCardProps {
 }
 
 export default function NationCard({ id, name, player }: NationCardProps) {
+  const t = useTranslations('nations')
+  
   return (
     <div
       className="relative group cursor-pointer overflow-hidden border border-white/[0.07] hover:border-primary/50 transition-all duration-500 h-[380px] sm:h-[420px]"
@@ -35,7 +39,7 @@ export default function NationCard({ id, name, player }: NationCardProps) {
           {player}
         </p>
         <button className="font-inter text-[9px] sm:text-[10px] font-bold text-primary flex items-center gap-1.5 mt-2 opacity-0 group-hover:opacity-100 transition-all duration-300 uppercase tracking-widest translate-y-2 group-hover:translate-y-0">
-          VIEW TEAM <span className="material-symbols-outlined text-[12px] sm:text-[14px]">arrow_forward</span>
+          {t("view_team")} <span className="material-symbols-outlined text-[12px] sm:text-[14px]">arrow_forward</span>
         </button>
       </div>
     </div>
