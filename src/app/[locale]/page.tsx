@@ -1,6 +1,6 @@
 import TopNavBar from "@/components/layout/TopNavBar"
 import Footer from "@/components/layout/Footer"
-import HeroSection from "@/components/sections/HeroSection"
+import { HeroSection } from "@/components/sections/hero"
 import StatsBar from "@/components/sections/StatsBar"
 import NationsSection from "@/components/sections/NationsSection"
 import StadiumSection from "@/components/sections/StadiumSection"
