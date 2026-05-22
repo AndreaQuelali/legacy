@@ -1,7 +1,8 @@
 "use client"
 
-import React from 'react'
+import React, { useEffect, useRef } from 'react'
 import { useTranslations } from 'next-intl'
+import { fadeUp } from '@/providers/AnimationProvider'
 import TimelineHeader from './TimelineHeader'
 import TimelineItem from './TimelineItem'
 
@@ -15,6 +16,13 @@ interface Milestone {
 
 export default function TimelineSection() {
   const t = useTranslations('timeline')
+  const sectionRef = useRef<HTMLElement>(null)
+  
+  useEffect(() => {
+    if (sectionRef.current) {
+      fadeUp(sectionRef.current)
+    }
+  }, [])
 
   const milestones: Milestone[] = [
     {
@@ -40,7 +48,7 @@ export default function TimelineSection() {
     },
   ]
   return (
-    <section className="py-16 sm:py-24 bg-[#131313]">
+    <section ref={sectionRef} className="py-16 sm:py-24 bg-[#131313]">
       <div className="max-w-[1440px] mx-auto px-6 sm:px-10">
         <TimelineHeader />
 

@@ -1,6 +1,7 @@
 "use client"
 
-import React from 'react'
+import React, { useEffect, useRef } from 'react'
+import { fadeUp } from '@/providers/AnimationProvider'
 import NationsHeader from './NationsHeader'
 import NationCard from './NationCard'
 
@@ -13,8 +14,16 @@ const nations = [
 ]
 
 export default function NationsSection() {
+  const sectionRef = useRef<HTMLElement>(null)
+  
+  useEffect(() => {
+    if (sectionRef.current) {
+      fadeUp(sectionRef.current)
+    }
+  }, [])
+  
   return (
-    <section className="py-16 sm:py-24 bg-[#131313]">
+    <section ref={sectionRef} className="py-16 sm:py-24 bg-[#131313]">
       <div className="max-w-[1440px] mx-auto px-6 sm:px-10">
         <NationsHeader />
 
