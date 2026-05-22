@@ -34,7 +34,66 @@
   "nations": {
     "subtitle": "32 NACIONES. 32 HISTORIAS.",
     "title": "REPRESENTA A TU PAÍS",
-    "view_team": "VER EQUIPO"
+    "view_team": "VER EQUIPO",
+    "stat_founded": "FUNDACIÓN",
+    "stat_titles": "TÍTULOS",
+    "stat_colors": "COLORES",
+    "stat_stadium": "ESTADIO",
+    "next_nation": "SIGUIENTE NACIÓN",
+    "scroll_discover": "DESLIZA PARA DESCUBRIR",
+    "legacy_continues": "EL LEGADO CONTINÚA",
+    "nations_list": [
+      {
+        "id": "01",
+        "name": "ARGENTINA",
+        "player": "LIONEL MESSI",
+        "motto": "PASIÓN. ORGULLO. GLORIA.",
+        "desc": "Tricampeones del mundo. El azul y blanco llevan décadas de pasión futbolística, brillantez técnica y una voluntad inquebrantable de ganar.",
+        "founded": "1893",
+        "titles": "3",
+        "stadium": "MONUMENTAL"
+      },
+      {
+        "id": "02",
+        "name": "BRAZIL",
+        "player": "NEYMAR JR",
+        "motto": "ALEGRÍA. HABILIDAD. DESTINO.",
+        "desc": "Pentacampeones y la nación más galardonada en la historia del Mundial. La Seleção juega al fútbol como nadie más en la tierra.",
+        "founded": "1914",
+        "titles": "5",
+        "stadium": "MARACANÃ"
+      },
+      {
+        "id": "03",
+        "name": "FRANCE",
+        "player": "KYLIAN MBAPPÉ",
+        "motto": "LIBERTAD. UNIDAD. GLORIA.",
+        "desc": "Bicampeones mundiales que combinan atletismo de élite con precisión táctica. Les Bleus representan una nueva generación de dominio.",
+        "founded": "1919",
+        "titles": "2",
+        "stadium": "STADE DE FRANCE"
+      },
+      {
+        "id": "04",
+        "name": "ENGLAND",
+        "player": "HARRY KANE",
+        "motto": "VALOR. HONOR. LEGADO.",
+        "desc": "La cuna del fútbol, persiguiendo implacablemente su segundo título mundial. Los Tres Leones despiertan a una nación unida por un sueño.",
+        "founded": "1863",
+        "titles": "1",
+        "stadium": "WEMBLEY"
+      },
+      {
+        "id": "05",
+        "name": "PORTUGAL",
+        "player": "C. RONALDO",
+        "motto": "CORAZÓN. HISTORIA. TRIUNFO.",
+        "desc": "Construido sobre talento puro y espíritu colectivo. Portugal canaliza el alma de una nación marinera en cada partido que juega.",
+        "founded": "1914",
+        "titles": "1",
+        "stadium": "ESTÁDIO DA LUZ"
+      }
+    ]
   },
   "stadiums": {
     "subtitle": "SUMÉRGETE",
