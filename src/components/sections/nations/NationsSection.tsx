@@ -1,7 +1,6 @@
 "use client"
 
-import React, { useState, useEffect, useRef } from 'react'
-import Image from 'next/image'
+import { useState, useEffect, useRef } from 'react'
 import { useTranslations } from 'next-intl'
 import { fadeUp } from '@/providers/AnimationProvider'
 import NationCard from './NationCard'
@@ -33,14 +32,14 @@ export default function NationsSection() {
   return (
     <section ref={sectionRef} className="relative bg-black overflow-hidden" style={{ height: '100svh', minHeight: '600px' }}>
 
-      <div className="absolute inset-0 ml-48">
+      <div className="absolute inset-0 md:ml-48">
         {nations.map((nation, i) => (
           <NationCard key={nation.id} nation={nation} isActive={i === activeIndex} />
         ))}
       </div>
 
       {/* LEFT PANEL — nations list sidebar */}
-      <div className="absolute left-0 top-0 bottom-0 z-20 w-48 flex flex-col justify-center pl-6 sm:pl-10 pr-6 py-10">
+      <div className="hidden md:flex absolute left-0 top-0 bottom-0 z-20 w-48 flex-col justify-center pl-6 sm:pl-10 pr-6 py-10">
         <div className="flex flex-col gap-1">
           {nations.map((nation, i) => (
             <button

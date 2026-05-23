@@ -25,7 +25,7 @@ export default function NationCard({ nation, isActive }: NationCardProps) {
 
   return (
     <div
-      className={`relative w-full h-full transition-opacity duration-700 ${isActive ? 'opacity-100' : 'opacity-0 pointer-events-none absolute inset-0'}`}
+      className={`absolute inset-0 w-full h-full transition-opacity duration-700 ${isActive ? 'opacity-100 z-10' : 'opacity-0 pointer-events-none z-0'}`}
     >
       {/* Full-bleed background image */}
       <div className="absolute inset-0">
@@ -43,7 +43,7 @@ export default function NationCard({ nation, isActive }: NationCardProps) {
       </div>
 
       {/* Main Content */}
-      <div className="relative z-10 h-full flex flex-col justify-center px-8 sm:px-14 md:px-20 max-w-[700px]">
+      <div className="relative z-10 h-full flex flex-col justify-center px-6 sm:px-14 md:px-20 max-w-[700px] mb-12 sm:mb-0">
         <p className="font-inter text-[10px] sm:text-[11px] font-bold tracking-[0.35em] text-primary uppercase mb-3">
           {nation.name}
         </p>
@@ -73,7 +73,7 @@ export default function NationCard({ nation, isActive }: NationCardProps) {
       </div>
 
       {/* Bottom-right stats panel */}
-      <div className="absolute bottom-8 right-8 z-10 flex gap-6 pr-24">
+      <div className="absolute bottom-28 md:bottom-8 left-6 md:left-auto md:right-8 z-10 flex gap-4 sm:gap-6 md:pr-24">
         <div className="flex flex-col items-center gap-1">
           <span className="font-inter text-[9px] font-bold tracking-[0.25em] text-white/40 uppercase">{t('stat_founded')}</span>
           <span className="font-bebas text-[32px] sm:text-[40px] leading-none text-white">{nation.founded}</span>

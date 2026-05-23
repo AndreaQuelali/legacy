@@ -55,7 +55,7 @@
       },
       {
         "id": "02",
-        "name": "BRAZIL",
+        "name": "BRASIL",
         "player": "NEYMAR JR",
         "motto": "ALEGRÍA. HABILIDAD. DESTINO.",
         "desc": "Pentacampeones y la nación más galardonada en la historia del Mundial. La Seleção juega al fútbol como nadie más en la tierra.",
@@ -65,7 +65,7 @@
       },
       {
         "id": "03",
-        "name": "FRANCE",
+        "name": "FRANCIA",
         "player": "KYLIAN MBAPPÉ",
         "motto": "LIBERTAD. UNIDAD. GLORIA.",
         "desc": "Bicampeones mundiales que combinan atletismo de élite con precisión táctica. Les Bleus representan una nueva generación de dominio.",
@@ -75,7 +75,7 @@
       },
       {
         "id": "04",
-        "name": "ENGLAND",
+        "name": "INGLATERRA",
         "player": "HARRY KANE",
         "motto": "VALOR. HONOR. LEGADO.",
         "desc": "La cuna del fútbol, persiguiendo implacablemente su segundo título mundial. Los Tres Leones despiertan a una nación unida por un sueño.",
