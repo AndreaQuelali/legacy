@@ -24,43 +24,47 @@ export default function HeroSection() {
       // Cinematic Scroll Sequence
       const scrollTl = gsap.timeline({
         scrollTrigger: {
+          id: 'hero-main-scroll', // Added ID for synchronization
           trigger: '.hero-section',
           start: 'top top',
-          end: '+=2500', // Pin for 2500 pixels of scroll
-          scrub: 1.5,
+          end: '+=6000', // Pinned for more phases
+          scrub: 1, 
           pin: true,
-          pinSpacing: true, // Creates scroll space for the transition
+          pinSpacing: true,
         }
       })
 
-      // 3. Title Cinematic Exit
+      // 1. Title Cinematic Exit (0 to 1.5)
       scrollTl.to('.hero-foreground-content', {
-        scale: 3.5, // Move camera "through" the text
+        scale: 3.5, 
         opacity: 0,
         y: -150,
-        duration: 2, // Allocate a bit of the scroll time for text exit
+        duration: 1.5,
         ease: 'power2.inOut'
       }, 0)
 
-      // Fade out background to let 3D trophy pop
+      // Fade out background (0 to 1.5)
       scrollTl.to('.hero-bg-overlay', {
         opacity: 0,
         duration: 1.5,
         ease: 'power1.inOut'
       }, 0)
 
-      // Fade in trophy container explicitly
+      // 2. Reveal Trophy Container (0.5 to 1.5)
       scrollTl.to('.trophy-canvas-container', {
         opacity: 1,
-        duration: 1.5,
+        duration: 1,
         ease: 'power2.inOut'
-      }, 0.5) // Slight delay so text starts disappearing first
+      }, 0.5)
+
+      // 3. Keep pinned for all rotation phases (1.5 to 6.0)
+      scrollTl.to({}, { duration: 4.5 }, 1.5)
 
       // Hide smaller elements quickly
       scrollTl.to(['.anim-scroll-indicator', '.hero-footer-bar'], {
         opacity: 0,
         y: 30,
-        duration: 1,
+        duration: 0.8,
         ease: 'power2.in'
       }, 0)
     })

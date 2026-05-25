@@ -3,6 +3,8 @@
 import { useState, useEffect, useRef } from 'react'
 import { useTranslations } from 'next-intl'
 import { fadeUp } from '@/providers/AnimationProvider'
+import gsap from '@/lib/gsap/gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import NationCard from './NationCard'
 
 export default function NationsSection() {
@@ -24,10 +26,31 @@ export default function NationsSection() {
   const nextIndex = (activeIndex + 1) % nations.length
 
   useEffect(() => {
-    if (sectionRef.current) {
-      fadeUp(sectionRef.current)
-    }
-  }, [])
+    if (!sectionRef.current) return
+
+    const ctx = gsap.context(() => {
+      // Pin the nations section and iterate through nations on scroll
+      ScrollTrigger.create({
+        trigger: sectionRef.current,
+        start: 'top top',
+        end: `+=${nations.length * 800}`, // 800px of scroll per nation
+        pin: true,
+        scrub: true,
+        onUpdate: (self) => {
+          // Calculate the current nation index based on scroll progress
+          const index = Math.floor(self.progress * nations.length)
+          // Clamp index to avoid overflow at the very end
+          const clampedIndex = Math.min(index, nations.length - 1)
+          setActiveIndex(clampedIndex)
+        },
+      })
+
+      // Initial intro animation
+      fadeUp(sectionRef.current!)
+    })
+
+    return () => ctx.revert()
+  }, [nations.length])
 
   return (
     <section ref={sectionRef} className="relative bg-black overflow-hidden" style={{ height: '100svh', minHeight: '600px' }}>
