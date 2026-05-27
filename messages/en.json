@@ -25,6 +25,101 @@
     "location_label": "CURRENT LOCATION",
     "location": "UNITED STATES • MEXICO • CANADA"
   },
+  "stats": {
+    "nations": "NATIONS",
+    "players": "PLAYERS",
+    "host_cities": "HOST CITIES",
+    "champion": "CHAMPION"
+  },
+  "nations": {
+    "subtitle": "32 NATIONS. 32 STORIES.",
+    "title": "REPRESENT YOUR COUNTRY",
+    "view_team": "VIEW TEAM",
+    "stat_founded": "FOUNDED",
+    "stat_titles": "TITLES",
+    "stat_colors": "COLORS",
+    "stat_stadium": "STADIUM",
+    "next_nation": "NEXT NATION",
+    "scroll_discover": "SCROLL TO DISCOVER",
+    "legacy_continues": "THE LEGACY CONTINUES",
+    "nations_list": [
+      {
+        "id": "01",
+        "name": "ARGENTINA",
+        "player": "LIONEL MESSI",
+        "motto": "PASSION. PRIDE. GLORY.",
+        "desc": "Three-time world champions. The blue and white carry decades of football passion, technical brilliance and an unwavering will to win.",
+        "founded": "1893",
+        "titles": "3",
+        "stadium": "MONUMENTAL"
+      },
+      {
+        "id": "02",
+        "name": "BRAZIL",
+        "player": "NEYMAR JR",
+        "motto": "JOY. SKILL. DESTINY.",
+        "desc": "Five-time champions and the most decorated nation in World Cup history. The Seleção plays football like no one else on earth.",
+        "founded": "1914",
+        "titles": "5",
+        "stadium": "MARACANÃ"
+      },
+      {
+        "id": "03",
+        "name": "FRANCE",
+        "player": "KYLIAN MBAPPÉ",
+        "motto": "LIBERTY. UNITY. GLORY.",
+        "desc": "Dual world champions who blend elite athleticism with tactical precision. Les Bleus represent a new generation of dominance.",
+        "founded": "1919",
+        "titles": "2",
+        "stadium": "STADE DE FRANCE"
+      },
+      {
+        "id": "04",
+        "name": "ENGLAND",
+        "player": "HARRY KANE",
+        "motto": "COURAGE. HONOR. LEGACY.",
+        "desc": "The birthplace of football, relentlessly pursuing their second world title. The Three Lions awaken a nation united by one dream.",
+        "founded": "1863",
+        "titles": "1",
+        "stadium": "WEMBLEY"
+      },
+      {
+        "id": "05",
+        "name": "PORTUGAL",
+        "player": "C. RONALDO",
+        "motto": "HEART. HISTORY. TRIUMPH.",
+        "desc": "Built on raw talent and collective spirit. Portugal channels the soul of a seafaring nation into every match they play.",
+        "founded": "1914",
+        "titles": "1",
+        "stadium": "ESTÁDIO DA LUZ"
+      }
+    ]
+  },
+  "stadiums": {
+    "subtitle": "IMMERSE YOURSELF",
+    "title": "THE ARENAS OF 2026",
+    "view_all": "VIEW ALL VENUES",
+    "capacity": "CAPACITY"
+  },
+  "timeline": {
+    "subtitle": "THE JOURNEY",
+    "title": "ROAD TO 2026",
+    "milestone1": {
+      "date": "MARCH 2024",
+      "title": "QUALIFIERS BEGIN",
+      "desc": "NATIONS ACROSS SIX CONTINENTS BEGIN THEIR ARDUOUS JOURNEY TO SECURE ONE OF THE 48 COVETED SPOTS."
+    },
+    "milestone2": {
+      "date": "JUNE 2025",
+      "title": "THE FINAL DRAW",
+      "desc": "THE WORLD WATCHES AS GROUPS ARE DRAWN AND THE PATH TO THE FINAL IS FINALLY REVEALED FOR EVERY QUALIFIED NATION."
+    },
+    "milestone3": {
+      "date": "JUNE 11, 2026",
+      "title": "OPENING CEREMONY",
+      "desc": "A SPECTACLE LIKE NO OTHER AT THE AZTECA STADIUM KICKS OFF THE MOST AMBITIOUS TOURNAMENT IN HISTORY."
+    }
+  },
   "footer": {
     "copyright": "© 2026 WORLD CUP. ALL RIGHTS RESERVED. THE ROAD TO GLORY BEGINS."
   }

@@ -19,8 +19,8 @@
   --spacing-section-stack: 120px;
 
   --font-bebas: var(--font-bebas-neue), sans-serif;
-  --font-inter: var(--font-inter), "Inter", sans-serif;
-  --font-sans: var(--font-inter), "Inter", sans-serif;
+  --font-inter: var(--font-inter-next), "Inter", sans-serif;
+  --font-sans: var(--font-inter-next), "Inter", sans-serif;
 }
 
 @layer base {
@@ -37,6 +37,40 @@
 }
 
 @layer components {
+  /* Typography System */
+  .hero-title {
+    @apply font-bebas leading-[0.88] tracking-tight text-white uppercase;
+    font-size: clamp(60px, 12vw, 170px);
+  }
+
+  .hero-subtitle {
+     @apply font-inter text-[11px] font-bold tracking-[0.45em] text-primary uppercase;
+  }
+
+  .section-title {
+    @apply font-bebas text-[64px] md:text-[80px] text-white uppercase leading-none tracking-tight;
+  }
+
+  .cinematic-label {
+    @apply font-inter text-[10px] font-bold tracking-[0.25em] text-white/40 uppercase;
+  }
+
+  .gold-text {
+    @apply text-primary;
+  }
+
+  .body-muted {
+    @apply font-inter text-[16px] text-white/70 leading-relaxed;
+  }
+
+  .countdown-number {
+    @apply font-bebas text-[48px] leading-none text-white;
+  }
+
+  .countdown-label {
+    @apply font-inter text-[10px] font-bold tracking-[0.2em] text-primary/70 uppercase;
+  }
+
   .glass-card {
     @apply bg-white/3 backdrop-blur-3xl border border-white/10;
   }

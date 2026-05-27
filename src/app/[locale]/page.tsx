@@ -1,10 +1,10 @@
 import TopNavBar from "@/components/layout/TopNavBar"
 import Footer from "@/components/layout/Footer"
-import HeroSection from "@/components/sections/HeroSection"
-import StatsBar from "@/components/sections/StatsBar"
-import NationsSection from "@/components/sections/NationsSection"
-import StadiumSection from "@/components/sections/StadiumSection"
-import TimelineSection from "@/components/sections/TimelineSection"
+import { HeroSection } from "@/components/sections/hero"
+import { StatsBar } from "@/components/sections/stats"
+import { NationsSection } from "@/components/sections/nations"
+import { StadiumSection } from "@/components/sections/stadiums"
+import { TimelineSection } from "@/components/sections/timeline"
 
 export default function Home() {
   return (
