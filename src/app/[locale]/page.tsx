@@ -11,9 +11,9 @@ export default function Home() {
     <>
       <TopNavBar />
       <HeroSection />
-      <StatsBar />
       <NationsSection />
       <StadiumSection />
+      <StatsBar />
       <TimelineSection />
       <Footer />
     </>

@@ -28,7 +28,7 @@ export default function HeroSection() {
           trigger: '.hero-section',
           start: 'top top',
           end: '+=6000', // Pinned for more phases
-          scrub: 1, 
+          scrub: 1,
           pin: true,
           pinSpacing: true,
         }
@@ -36,7 +36,7 @@ export default function HeroSection() {
 
       // 1. Title Cinematic Exit (0 to 1.5)
       scrollTl.to('.hero-foreground-content', {
-        scale: 3.5, 
+        scale: 3.5,
         opacity: 0,
         y: -150,
         duration: 1.5,
