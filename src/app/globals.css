@@ -37,6 +37,7 @@
 }
 
 @layer components {
+
   /* Typography System */
   .hero-title {
     @apply font-bebas leading-[0.88] tracking-tight text-white uppercase;
@@ -44,7 +45,7 @@
   }
 
   .hero-subtitle {
-     @apply font-inter text-[11px] font-bold tracking-[0.45em] text-primary uppercase;
+    @apply font-inter text-[11px] font-bold tracking-[0.45em] text-primary uppercase;
   }
 
   .section-title {
@@ -92,6 +93,38 @@
   .gold-glow:hover {
     box-shadow: 0 0 30px rgba(233, 193, 118, 0.3);
     border-color: #e9c176;
+  }
+}
+
+@import "flag-icons/css/flag-icons.min.css";
+
+@layer utilities {
+  .animate-marquee {
+    animation: marquee 120s linear infinite;
+  }
+
+  .animate-marquee-reverse {
+    animation: marquee-reverse 150s linear infinite;
+  }
+}
+
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+@keyframes marquee-reverse {
+  0% {
+    transform: translateX(-100%);
+  }
+
+  100% {
+    transform: translateX(0);
   }
 }
 
