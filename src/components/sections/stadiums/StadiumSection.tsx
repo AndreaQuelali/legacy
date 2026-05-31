@@ -7,7 +7,7 @@ import StadiumCard from './StadiumCard'
 
 export default function StadiumSection() {
   const sectionRef = useRef<HTMLElement>(null)
-  
+
   useEffect(() => {
     if (sectionRef.current) {
       fadeUp(sectionRef.current)
@@ -21,23 +21,21 @@ export default function StadiumSection() {
 
         {/* Grid Layout: Main Large Card + Sidebar with Smaller Cards */}
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_310px] gap-5 mt-4">
-          {/* Main Showcase */}
-          <StadiumCard 
+          <StadiumCard
             variant="large"
             title="AZTECA STADIUM, MEXICO CITY"
             capacity="87,523"
             height="460px"
           />
 
-          {/* Secondary Venues Column */}
           <div className="flex flex-col gap-5">
-            <StadiumCard 
+            <StadiumCard
               title="SOFI STADIUM"
               location="LOS ANGELES"
               height="220px"
               bgColor="#1a1918"
             />
-            <StadiumCard 
+            <StadiumCard
               title="BC PLACE"
               location="VANCOUVER"
               height="220px"
