@@ -23,7 +23,8 @@
     "hours": "HOURS",
     "minutes": "MINUTES",
     "location_label": "CURRENT LOCATION",
-    "location": "UNITED STATES • MEXICO • CANADA"
+    "location": "UNITED STATES • MEXICO • CANADA",
+    "cinematic_message": "EVERY NATION ARRIVES WITH A DREAM. ONLY ONE LEAVES WITH THE LEGACY."
   },
   "stats": {
     "nations": "NATIONS",
