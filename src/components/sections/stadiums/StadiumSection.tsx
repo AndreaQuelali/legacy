@@ -15,7 +15,7 @@ export default function StadiumSection() {
   }, [])
 
   return (
-    <section ref={sectionRef} className="py-16 sm:py-24 bg-[#131313]">
+    <section id="stadiums" ref={sectionRef} className="py-16 sm:py-24 bg-[#131313]">
       <div className="max-w-[1440px] mx-auto px-6 sm:px-10">
         <StadiumHeader />
 

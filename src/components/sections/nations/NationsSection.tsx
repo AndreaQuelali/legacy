@@ -50,7 +50,7 @@ export default function NationsSection() {
   }, [nations.length])
 
   return (
-    <section ref={sectionRef} className="relative bg-black overflow-hidden" style={{ height: '100svh', minHeight: '600px' }}>
+    <section id="nations" ref={sectionRef} className="relative bg-black overflow-hidden" style={{ height: '100svh', minHeight: '600px' }}>
 
       <div className="absolute inset-0 md:ml-48">
         {nations.map((nation, i) => (
