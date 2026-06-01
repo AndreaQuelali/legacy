@@ -100,7 +100,25 @@
     "subtitle": "IMMERSE YOURSELF",
     "title": "THE ARENAS OF 2026",
     "view_all": "VIEW ALL VENUES",
-    "capacity": "CAPACITY"
+    "capacity": "CAPACITY",
+    "list": [
+      { "id": "1", "name": "Azteca Stadium", "city": "Mexico City", "capacity": "87,523" },
+      { "id": "2", "name": "SoFi Stadium", "city": "Los Angeles", "capacity": "70,240" },
+      { "id": "3", "name": "BC Place", "city": "Vancouver", "capacity": "54,500" },
+      { "id": "4", "name": "MetLife Stadium", "city": "New York/NJ", "capacity": "82,500" },
+      { "id": "5", "name": "Mercedes-Benz Stadium", "city": "Atlanta", "capacity": "71,000" },
+      { "id": "6", "name": "Hard Rock Stadium", "city": "Miami", "capacity": "64,767" },
+      { "id": "7", "name": "Lumen Field", "city": "Seattle", "capacity": "69,000" },
+      { "id": "8", "name": "Levi's Stadium", "city": "San Francisco", "capacity": "68,500" },
+      { "id": "9", "name": "AT&T Stadium", "city": "Dallas", "capacity": "80,000" },
+      { "id": "10", "name": "NRG Stadium", "city": "Houston", "capacity": "72,220" },
+      { "id": "11", "name": "Arrowhead Stadium", "city": "Kansas City", "capacity": "76,416" },
+      { "id": "12", "name": "Gillette Stadium", "city": "Boston", "capacity": "65,878" },
+      { "id": "13", "name": "Lincoln Financial Field", "city": "Philadelphia", "capacity": "67,594" },
+      { "id": "14", "name": "BMO Field", "city": "Toronto", "capacity": "30,000" },
+      { "id": "15", "name": "Estadio BBVA", "city": "Monterrey", "capacity": "51,000" },
+      { "id": "16", "name": "Estadio Akron", "city": "Guadalajara", "capacity": "48,071" }
+    ]
   },
   "timeline": {
     "subtitle": "THE JOURNEY",
