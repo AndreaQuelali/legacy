@@ -3,6 +3,7 @@
 import React from 'react'
 import Image from 'next/image'
 import { useTranslations } from 'next-intl'
+import SplitTitle from '@/components/animations/SplitTitle'
 
 interface NationData {
   id: string
@@ -48,9 +49,11 @@ export default function NationCard({ nation, isActive }: NationCardProps) {
           {nation.name}
         </p>
 
-        <h2 className="font-bebas text-[52px] sm:text-[72px] md:text-[88px] leading-[0.9] text-white mb-4 drop-shadow-2xl">
-          {nation.player}
-        </h2>
+        <SplitTitle 
+          text={nation.player}
+          trigger={isActive}
+          className="font-bebas text-[52px] sm:text-[72px] md:text-[88px] leading-[0.9] text-white mb-4 drop-shadow-2xl"
+        />
 
         <p className="font-bebas text-[16px] sm:text-[20px] tracking-[0.2em] text-white/60 mb-5">
           {nation.motto}

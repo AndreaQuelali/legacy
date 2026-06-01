@@ -1,6 +1,5 @@
-"use client"
-
 import { useTranslations } from 'next-intl'
+import SplitTitle from '@/components/animations/SplitTitle'
 
 export default function NationsHeader() {
   const t = useTranslations('nations')
@@ -10,9 +9,10 @@ export default function NationsHeader() {
       <span className="hero-subtitle text-[10px] sm:text-[11px] tracking-[0.3em] sm:tracking-[0.4em]">
         {t("subtitle")}
       </span>
-      <h2 className="section-title mt-3">
-        {t("title")}
-      </h2>
+      <SplitTitle 
+        text={t("title")} 
+        className="section-title mt-3"
+      />
     </div>
   )
 }
