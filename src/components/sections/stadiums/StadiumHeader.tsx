@@ -1,8 +1,7 @@
 "use client"
 
-import React from 'react'
-
 import { useTranslations } from 'next-intl'
+import SplitTitle from '@/components/animations/SplitTitle'
 
 export default function StadiumHeader() {
   const t = useTranslations('stadiums')
@@ -13,9 +12,10 @@ export default function StadiumHeader() {
         <span className="hero-subtitle text-[10px] sm:text-[11px] tracking-[0.4em]">
           {t("subtitle")}
         </span>
-        <h2 className="section-title mt-2">
-          {t("title")}
-        </h2>
+        <SplitTitle 
+          text={t("title")} 
+          className="section-title mt-2"
+        />
       </div>
       <button className="px-7 py-3 border border-white/20 font-inter text-[10px] sm:text-[11px] font-bold text-white hover:border-primary hover:text-primary transition-all duration-300 uppercase tracking-[0.18em] whitespace-nowrap glass-card">
         {t("view_all")}
