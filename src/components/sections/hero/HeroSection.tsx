@@ -26,13 +26,13 @@ export default function HeroSection() {
       // Cinematic Scroll Sequence
       const scrollTl = gsap.timeline({
         scrollTrigger: {
-          id: 'hero-main-scroll', // Added ID for synchronization
+          id: 'hero-main-scroll',
           trigger: '.hero-section',
           start: 'top top',
-          end: '+=6000', // Pinned for more phases
+          // Match the master: 6000px of scroll budget before the slide begins
+          end: '+=6000',
           scrub: 1,
-          pin: true,
-          pinSpacing: true,
+          // No pin here — the master ScrollTrigger in page.tsx pins the container
         }
       })
 
@@ -62,26 +62,22 @@ export default function HeroSection() {
       // 3. Reveal Horizontal Message (0.8 to 0.85 progress)
       // Since end is 6000, 0.8 is 4800px. 
       // I'll use duration-based values that match TrophyScene's 0.8 mark
-      
-      scrollTl.fromTo('.hero-cinematic-marquee', 
-        { opacity: 0, scale: 0.9, x: '20vw' },
-        { opacity: 1, scale: 1, x: '0vw', duration: 0.5, ease: 'power2.out' },
-        4.8 // 80% of 6.0 total duration in the relative timeline
+
+      // 3. Reveal Marquee — text starts at x:0 so the full phrase is readable immediately
+      scrollTl.fromTo('.hero-cinematic-marquee',
+        { opacity: 0, scale: 0.95 },
+        { opacity: 1, scale: 1, duration: 0.5, ease: 'power2.out' },
+        4.8
       )
 
-      // 4. Horizontal Scroll of the message (4.8 to 5.7)
-      scrollTl.to('.marquee-text-inner', {
-        x: '-200vw', 
-        ease: 'none',
-        duration: 0.9
-      }, 4.8)
+      // 4. Scroll the marquee left — keep travel short so the full phrase stays in view
+      scrollTl.fromTo('.marquee-text-inner',
+        { x: '0vw' },
+        { x: '-150vw', ease: 'none', duration: 0.9 },
+        4.8
+      )
 
-      // 5. Transition to Nations Section - Slide OUT Horizontally (5.7 to 6.0)
-      scrollTl.to('.hero-section-inner', {
-        x: '-100vw',
-        duration: 0.3,
-        ease: 'power2.inOut'
-      }, 5.7)
+      // 5. Transition handled by master timeline in page.tsx (horizontal slide)
 
       // Initial intro text hide
       scrollTl.to('.hero-foreground-content', {
@@ -118,9 +114,11 @@ export default function HeroSection() {
         </div>
 
         {/* Cinematic Horizontal Marquee Layer (Revealed later) */}
-        <div className="hero-cinematic-marquee absolute inset-0 z-10 flex items-center pointer-events-none opacity-0">
-          <div className="marquee-text-inner whitespace-nowrap pl-[100vw]">
-            <span className="font-bebas text-[20vh] md:text-[30vh] leading-none text-white/10 uppercase tracking-tighter">
+        <div className="hero-cinematic-marquee absolute inset-0 z-10 flex items-center pointer-events-none opacity-0 overflow-hidden">
+          <div className="marquee-text-inner whitespace-nowrap pl-0">
+            <span
+              className="font-bebas text-[20vh] md:text-[28vh] leading-none uppercase tracking-tighter text-white"
+            >
               {marqueeText}
             </span>
           </div>
