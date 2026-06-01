@@ -73,7 +73,7 @@ export default function HeroSection() {
   }, [])
 
   return (
-    <section ref={container} className="hero-section relative h-screen w-full flex flex-col items-center justify-center overflow-hidden bg-[#0d0d0d]">
+    <section id="hero" ref={container} className="hero-section relative h-screen w-full flex flex-col items-center justify-center overflow-hidden bg-[#0d0d0d]">
       {/* Background static image layer */}
       <div className="hero-bg-overlay absolute inset-0 z-0">
         <HeroBackground />
