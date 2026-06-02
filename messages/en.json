@@ -106,20 +106,36 @@
     "subtitle": "THE JOURNEY",
     "title": "ROAD TO 2026",
     "milestone1": {
-      "date": "MARCH 2024",
-      "title": "QUALIFIERS BEGIN",
-      "desc": "NATIONS ACROSS SIX CONTINENTS BEGIN THEIR ARDUOUS JOURNEY TO SECURE ONE OF THE 48 COVETED SPOTS."
+      "id": "01",
+      "date": "2023 - 2025",
+      "title": "QUALIFIERS",
+      "desc": "NATIONS FIGHT FOR THEIR DREAM. ONLY THE STRONGEST EARN THEIR PLACE."
     },
     "milestone2": {
-      "date": "JUNE 2025",
-      "title": "THE FINAL DRAW",
-      "desc": "THE WORLD WATCHES AS GROUPS ARE DRAWN AND THE PATH TO THE FINAL IS FINALLY REVEALED FOR EVERY QUALIFIED NATION."
+      "id": "02",
+      "date": "2025",
+      "title": "THE DRAW",
+      "desc": "DESTINY IS WRITTEN. THE WORLD DISCOVERS THE PATH AHEAD."
     },
     "milestone3": {
-      "date": "JUNE 11, 2026",
-      "title": "OPENING CEREMONY",
-      "desc": "A SPECTACLE LIKE NO OTHER AT THE AZTECA STADIUM KICKS OFF THE MOST AMBITIOUS TOURNAMENT IN HISTORY."
-    }
+      "id": "03",
+      "date": "JUNE 2026",
+      "title": "GROUP STAGE",
+      "desc": "THE TOURNAMENT BEGINS. 32 NATIONS. 8 GROUPS. ONE CHANCE."
+    },
+    "milestone4": {
+      "id": "04",
+      "date": "JUNE - JULY 2026",
+      "title": "KNOCKOUT STAGE",
+      "desc": "VICTORY OR GO HOME. THE ROAD GETS HARDER. LEGENDS ARE MADE."
+    },
+    "milestone5": {
+      "id": "05",
+      "date": "JULY 19, 2026",
+      "title": "THE FINAL",
+      "desc": "ONE MATCH. ONE TROPHY. ETERNAL GLORY."
+    },
+    "footer_scroll": "SCROLL TO FOLLOW THE JOURNEY"
   },
   "footer": {
     "copyright": "© 2026 WORLD CUP. ALL RIGHTS RESERVED. THE ROAD TO GLORY BEGINS."
