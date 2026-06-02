@@ -6,7 +6,7 @@
     "nations": "NACIONES",
     "players": "JUGADORES",
     "stadiums": "ESTADIOS",
-    "road_to": "CAMINO A",
+    "road_to": "CAMINO",
     "about": "ACERCA DE",
     "explore": "EXPLORAR"
   },
@@ -23,7 +23,8 @@
     "hours": "HORAS",
     "minutes": "MINUTOS",
     "location_label": "UBICACIÓN ACTUAL",
-    "location": "ESTADOS UNIDOS • MÉXICO • CANADÁ"
+    "location": "ESTADOS UNIDOS • MÉXICO • CANADÁ",
+    "cinematic_message": "CADA NACIÓN LLEGA CON UN SUEÑO. SOLO UNA SE VA CON EL LEGADO."
   },
   "stats": {
     "nations": "NACIONES",
@@ -97,30 +98,98 @@
   },
   "stadiums": {
     "subtitle": "SUMÉRGETE",
-    "title": "LAS ARENAS DE 2026",
+    "title": "LAS ARENAS DEL 2026",
     "view_all": "VER TODAS LAS SEDES",
-    "capacity": "CAPACIDAD"
+    "capacity": "CAPACIDAD",
+    "list": [
+      { "id": "1", "name": "Estadio Azteca", "city": "Ciudad de México", "capacity": "87,523" },
+      { "id": "2", "name": "SoFi Stadium", "city": "Los Ángeles", "capacity": "70,240" },
+      { "id": "3", "name": "BC Place", "city": "Vancouver", "capacity": "54,500" },
+      { "id": "4", "name": "MetLife Stadium", "city": "Nueva York/NJ", "capacity": "82,500" },
+      { "id": "5", "name": "Mercedes-Benz Stadium", "city": "Atlanta", "capacity": "71,000" },
+      { "id": "6", "name": "Hard Rock Stadium", "city": "Miami", "capacity": "64,767" },
+      { "id": "7", "name": "Lumen Field", "city": "Seattle", "capacity": "69,000" },
+      { "id": "8", "name": "Levi's Stadium", "city": "San Francisco", "capacity": "68,500" },
+      { "id": "9", "name": "AT&T Stadium", "city": "Dallas", "capacity": "80,000" },
+      { "id": "10", "name": "NRG Stadium", "city": "Houston", "capacity": "72,220" },
+      { "id": "11", "name": "Arrowhead Stadium", "city": "Kansas City", "capacity": "76,416" },
+      { "id": "12", "name": "Gillette Stadium", "city": "Boston", "capacity": "65,878" },
+      { "id": "13", "name": "Lincoln Financial Field", "city": "Filadelfia", "capacity": "67,594" },
+      { "id": "14", "name": "BMO Field", "city": "Toronto", "capacity": "30,000" },
+      { "id": "15", "name": "Estadio BBVA", "city": "Monterrey", "capacity": "51,000" },
+      { "id": "16", "name": "Estadio Akron", "city": "Guadalajara", "capacity": "48,071" }
+    ]
   },
   "timeline": {
     "subtitle": "EL VIAJE",
     "title": "CAMINO A 2026",
     "milestone1": {
-      "date": "MARZO 2024",
-      "title": "COMIENZAN LAS ELIMINATORIAS",
-      "desc": "NACIONES DE SEIS CONTINENTES COMIENZAN SU ARDUO VIAJE PARA ASEGURAR UNO DE LOS 48 LUGARES CODICIADOS."
+      "id": "01",
+      "date": "2023 - 2025",
+      "title": "ELIMINATORIAS",
+      "desc": "LAS NACIONES LUCHAN POR SU SUEÑO. SOLO LAS MÁS FUERTES LOGRAN SU LUGAR."
     },
     "milestone2": {
-      "date": "JUNIO 2025",
-      "title": "EL SORTEO FINAL",
-      "desc": "EL MUNDO OBSERVA MIENTRAS SE SORTEAN LOS GRUPOS Y FINALMENTE SE REVELA EL CAMINO A LA FINAL PARA CADA NACIÓN CLASIFICADA."
+      "id": "02",
+      "date": "2025",
+      "title": "EL SORTEO",
+      "desc": "EL DESTINO ESTÁ ESCRITO. EL MUNDO DESCUBRE EL CAMINO POR DELANTE."
     },
     "milestone3": {
-      "date": "11 DE JUNIO DE 2026",
-      "title": "CEREMONIA DE APERTURA",
-      "desc": "UN ESPECTÁCULO SIN IGUAL EN EL ESTADIO AZTECA DA INICIO AL TORNEO MÁS AMBICIOSO DE LA HISTORIA."
-    }
+      "id": "03",
+      "date": "JUNIO 2026",
+      "title": "FASE DE GRUPOS",
+      "desc": "COMIENZA EL TORNEO. 32 NACIONES. 8 GRUPOS. UNA OPORTUNIDAD."
+    },
+    "milestone4": {
+      "id": "04",
+      "date": "JUNIO - JULIO 2026",
+      "title": "FASE FINAL",
+      "desc": "VICTORIA O A CASA. EL CAMINO SE VUELVE MÁS DIFÍCIL. SE CREAN LEYENDAS."
+    },
+    "milestone5": {
+      "id": "05",
+      "date": "19 DE JULIO DE 2026",
+      "title": "LA FINAL",
+      "desc": "UN PARTIDO. UN TROFEO. GLORIA ETERNA."
+    },
+    "footer_scroll": "DESLIZA PARA SEGUIR EL VIAJE"
   },
   "footer": {
     "copyright": "© 2026 COPA DEL MUNDO. TODOS LOS DERECHOS RESERVADOS. EL CAMINO A LA GLORIA COMIENZA."
+  },
+  "countries": {
+    "ar": "Argentina",
+    "br": "Brasil",
+    "fr": "Francia",
+    "de": "Alemania",
+    "es": "España",
+    "uy": "Uruguay",
+    "it": "Italia",
+    "eng": "Inglaterra",
+    "us": "EE. UU.",
+    "mx": "México",
+    "jp": "Japón",
+    "kr": "Corea del Sur",
+    "ma": "Marruecos",
+    "hr": "Croacia",
+    "nl": "Países Bajos",
+    "pt": "Portugal",
+    "be": "Bélgica",
+    "ch": "Suiza",
+    "dk": "Dinamarca",
+    "sn": "Senegal",
+    "co": "Colombia",
+    "cl": "Chile",
+    "ec": "Ecuador",
+    "ca": "Canadá",
+    "au": "Australia",
+    "gh": "Ghana",
+    "cm": "Camerún",
+    "sa": "Arabia Saudita",
+    "pl": "Polonia",
+    "se": "Suecia",
+    "rs": "Serbia",
+    "tn": "Túnez"
   }
 }

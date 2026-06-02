@@ -6,7 +6,7 @@
     "nations": "NATIONS",
     "players": "PLAYERS",
     "stadiums": "STADIUMS",
-    "road_to": "ROAD TO",
+    "road_to": "ROAD",
     "about": "ABOUT",
     "explore": "EXPLORE"
   },
@@ -23,7 +23,8 @@
     "hours": "HOURS",
     "minutes": "MINUTES",
     "location_label": "CURRENT LOCATION",
-    "location": "UNITED STATES • MEXICO • CANADA"
+    "location": "UNITED STATES • MEXICO • CANADA",
+    "cinematic_message": "EVERY NATION ARRIVES WITH A DREAM. ONLY ONE LEAVES WITH THE LEGACY."
   },
   "stats": {
     "nations": "NATIONS",
@@ -99,28 +100,96 @@
     "subtitle": "IMMERSE YOURSELF",
     "title": "THE ARENAS OF 2026",
     "view_all": "VIEW ALL VENUES",
-    "capacity": "CAPACITY"
+    "capacity": "CAPACITY",
+    "list": [
+      { "id": "1", "name": "Azteca Stadium", "city": "Mexico City", "capacity": "87,523" },
+      { "id": "2", "name": "SoFi Stadium", "city": "Los Angeles", "capacity": "70,240" },
+      { "id": "3", "name": "BC Place", "city": "Vancouver", "capacity": "54,500" },
+      { "id": "4", "name": "MetLife Stadium", "city": "New York/NJ", "capacity": "82,500" },
+      { "id": "5", "name": "Mercedes-Benz Stadium", "city": "Atlanta", "capacity": "71,000" },
+      { "id": "6", "name": "Hard Rock Stadium", "city": "Miami", "capacity": "64,767" },
+      { "id": "7", "name": "Lumen Field", "city": "Seattle", "capacity": "69,000" },
+      { "id": "8", "name": "Levi's Stadium", "city": "San Francisco", "capacity": "68,500" },
+      { "id": "9", "name": "AT&T Stadium", "city": "Dallas", "capacity": "80,000" },
+      { "id": "10", "name": "NRG Stadium", "city": "Houston", "capacity": "72,220" },
+      { "id": "11", "name": "Arrowhead Stadium", "city": "Kansas City", "capacity": "76,416" },
+      { "id": "12", "name": "Gillette Stadium", "city": "Boston", "capacity": "65,878" },
+      { "id": "13", "name": "Lincoln Financial Field", "city": "Philadelphia", "capacity": "67,594" },
+      { "id": "14", "name": "BMO Field", "city": "Toronto", "capacity": "30,000" },
+      { "id": "15", "name": "Estadio BBVA", "city": "Monterrey", "capacity": "51,000" },
+      { "id": "16", "name": "Estadio Akron", "city": "Guadalajara", "capacity": "48,071" }
+    ]
   },
   "timeline": {
     "subtitle": "THE JOURNEY",
     "title": "ROAD TO 2026",
     "milestone1": {
-      "date": "MARCH 2024",
-      "title": "QUALIFIERS BEGIN",
-      "desc": "NATIONS ACROSS SIX CONTINENTS BEGIN THEIR ARDUOUS JOURNEY TO SECURE ONE OF THE 48 COVETED SPOTS."
+      "id": "01",
+      "date": "2023 - 2025",
+      "title": "QUALIFIERS",
+      "desc": "NATIONS FIGHT FOR THEIR DREAM. ONLY THE STRONGEST EARN THEIR PLACE."
     },
     "milestone2": {
-      "date": "JUNE 2025",
-      "title": "THE FINAL DRAW",
-      "desc": "THE WORLD WATCHES AS GROUPS ARE DRAWN AND THE PATH TO THE FINAL IS FINALLY REVEALED FOR EVERY QUALIFIED NATION."
+      "id": "02",
+      "date": "2025",
+      "title": "THE DRAW",
+      "desc": "DESTINY IS WRITTEN. THE WORLD DISCOVERS THE PATH AHEAD."
     },
     "milestone3": {
-      "date": "JUNE 11, 2026",
-      "title": "OPENING CEREMONY",
-      "desc": "A SPECTACLE LIKE NO OTHER AT THE AZTECA STADIUM KICKS OFF THE MOST AMBITIOUS TOURNAMENT IN HISTORY."
-    }
+      "id": "03",
+      "date": "JUNE 2026",
+      "title": "GROUP STAGE",
+      "desc": "THE TOURNAMENT BEGINS. 32 NATIONS. 8 GROUPS. ONE CHANCE."
+    },
+    "milestone4": {
+      "id": "04",
+      "date": "JUNE - JULY 2026",
+      "title": "KNOCKOUT STAGE",
+      "desc": "VICTORY OR GO HOME. THE ROAD GETS HARDER. LEGENDS ARE MADE."
+    },
+    "milestone5": {
+      "id": "05",
+      "date": "JULY 19, 2026",
+      "title": "THE FINAL",
+      "desc": "ONE MATCH. ONE TROPHY. ETERNAL GLORY."
+    },
+    "footer_scroll": "SCROLL TO FOLLOW THE JOURNEY"
   },
   "footer": {
     "copyright": "© 2026 WORLD CUP. ALL RIGHTS RESERVED. THE ROAD TO GLORY BEGINS."
+  },
+  "countries": {
+    "ar": "Argentina",
+    "br": "Brazil",
+    "fr": "France",
+    "de": "Germany",
+    "es": "Spain",
+    "uy": "Uruguay",
+    "it": "Italy",
+    "eng": "England",
+    "us": "USA",
+    "mx": "Mexico",
+    "jp": "Japan",
+    "kr": "South Korea",
+    "ma": "Morocco",
+    "hr": "Croatia",
+    "nl": "Netherlands",
+    "pt": "Portugal",
+    "be": "Belgium",
+    "ch": "Switzerland",
+    "dk": "Denmark",
+    "sn": "Senegal",
+    "co": "Colombia",
+    "cl": "Chile",
+    "ec": "Ecuador",
+    "ca": "Canada",
+    "au": "Australia",
+    "gh": "Ghana",
+    "cm": "Cameroon",
+    "sa": "Saudi Arabia",
+    "pl": "Poland",
+    "se": "Sweden",
+    "rs": "Serbia",
+    "tn": "Tunisia"
   }
 }

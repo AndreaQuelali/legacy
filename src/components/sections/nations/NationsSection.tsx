@@ -29,17 +29,14 @@ export default function NationsSection() {
     if (!sectionRef.current) return
 
     const ctx = gsap.context(() => {
-      // Pin the nations section and iterate through nations on scroll
+      // Pinning handled by master in page.tsx
       ScrollTrigger.create({
         trigger: sectionRef.current,
-        start: 'top top',
-        end: `+=${nations.length * 800}`, // 800px of scroll per nation
-        pin: true,
+        start: () => 7000, 
+        end: () => `+=4000`, 
         scrub: true,
         onUpdate: (self) => {
-          // Calculate the current nation index based on scroll progress
           const index = Math.floor(self.progress * nations.length)
-          // Clamp index to avoid overflow at the very end
           const clampedIndex = Math.min(index, nations.length - 1)
           setActiveIndex(clampedIndex)
         },
@@ -53,7 +50,7 @@ export default function NationsSection() {
   }, [nations.length])
 
   return (
-    <section ref={sectionRef} className="relative bg-black overflow-hidden" style={{ height: '100svh', minHeight: '600px' }}>
+    <section id="nations" ref={sectionRef} className="relative bg-black overflow-hidden" style={{ height: '100svh', minHeight: '600px' }}>
 
       <div className="absolute inset-0 md:ml-48">
         {nations.map((nation, i) => (

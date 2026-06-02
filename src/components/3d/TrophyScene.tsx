@@ -21,58 +21,56 @@ function Trophy() {
       const p = st.progress // 0 to 1
 
       // Thresholds (Normalized 0 to 1)
-      const revealEnd = 0.2
-      const p1End = 0.4
-      const p2End = 0.6
-      const p3End = 0.8
+      const revealEnd = 0.15
+      const p1End = 0.35
+      const p2End = 0.55
+      const p3End = 0.75
+      const globePhaseStart = 0.8
+      const messagePhaseEnd = 0.95
       const finalPhase = 1.0
 
       // Continuous rotation values
       const horizontalRot = Math.PI * 2
-      const diagonalTilt = Math.PI * 0.15 // Subtle tilt for diagonal
+      const diagonalTilt = Math.PI * 0.15 
 
       if (p <= revealEnd) {
-        // Just revealing, state is static or handled by GSAP
         groupRef.current.rotation.set(0, 0, 0)
         groupRef.current.scale.set(1, 1, 1)
         groupRef.current.position.y = -1.2
       }
       else if (p <= p1End) {
-        // Phase 1: Smooth Horizontal
         const local = (p - revealEnd) / (p1End - revealEnd)
         groupRef.current.rotation.set(0, local * Math.PI * 2, 0)
-        groupRef.current.scale.set(1, 1, 1)
-        groupRef.current.position.y = -1.2
       }
       else if (p <= p2End) {
-        // Phase 2: Smooth Transition into Diagonal Right
         const local = (p - p1End) / (p2End - p1End)
-        // Keep Y rotation going while introducing Z tilt
         groupRef.current.rotation.set(0, horizontalRot + local * Math.PI * 2, local * diagonalTilt)
-        groupRef.current.scale.set(1, 1, 1)
-        groupRef.current.position.y = -1.2
       }
       else if (p <= p3End) {
-        // Phase 3: Smooth Transition into Diagonal Left
         const local = (p - p2End) / (p3End - p2End)
-        // Transition Z tilt from positive to negative
         groupRef.current.rotation.set(0, horizontalRot * 2 + local * Math.PI * 2, diagonalTilt - local * (diagonalTilt * 2))
-        groupRef.current.scale.set(1, 1, 1)
-        groupRef.current.position.y = -1.2
+      }
+      else if (p <= globePhaseStart) {
+         // Transitioning to Globe
+         const local = (p - p3End) / (globePhaseStart - p3End)
+         const scaleAmount = 1 + local * 7
+         groupRef.current.scale.set(scaleAmount, scaleAmount, scaleAmount)
+         groupRef.current.position.y = -1.2 - (local * 16)
+         groupRef.current.rotation.set(0, horizontalRot * 3 + local * Math.PI * 2, -diagonalTilt * (1 - local))
+      }
+      else if (p <= messagePhaseEnd) {
+        // HOLD GLOBE - STOP ANIMATION FOR TEXT
+        const scaleAmount = 8
+        groupRef.current.scale.set(scaleAmount, scaleAmount, scaleAmount)
+        groupRef.current.position.y = -17.2
+        groupRef.current.rotation.set(0, horizontalRot * 4, 0)
       }
       else {
-        // Final Phase: Horizontal + Extreme Scale + Focus on Globe
-        const local = (p - p3End) / (finalPhase - p3End)
-        const scaleAmount = 1 + local * 7 // Dramatic zoom
-        groupRef.current.scale.set(scaleAmount, scaleAmount, scaleAmount)
-
-        // Push the trophy DOWN aggressively so the globe (at the top) stays in frame
-        // Previous -6 was not enough, using -16 to target the top globe precisely
-        groupRef.current.position.y = -1.2 - (local * 16)
-
-        // Subtle tilt recovery and continuous rotation
-        const currentZTilt = -diagonalTilt * (1 - local)
-        groupRef.current.rotation.set(0, horizontalRot * 3 + local * Math.PI * 2, currentZTilt)
+        // TRANSITION TO NATIONS SECTION (Move trophy away or fade)
+        const local = (p - messagePhaseEnd) / (finalPhase - messagePhaseEnd)
+        // @ts-expect-error - Custom property or R3F group issues
+        groupRef.current.opacity = 1 - local 
+        groupRef.current.position.x = -local * 10 
       }
     }
   })

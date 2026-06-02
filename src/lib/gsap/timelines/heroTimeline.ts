@@ -1,4 +1,4 @@
-import gsap from '../gsap'
+import gsap, { SplitText } from '../gsap'
 
 export const playHeroTimeline = () => {
   const tl = gsap.timeline({
@@ -19,10 +19,23 @@ export const playHeroTimeline = () => {
     { y: 0, opacity: 1, duration: 1 },
     "-=0.6"
   )
-  .fromTo(['.anim-title-1', '.anim-title-2'],
-    { y: 40, opacity: 0, filter: 'blur(10px)' },
-    { y: 0, opacity: 1, filter: 'blur(0px)', duration: 1.2, stagger: 0.2 },
-    "-=0.8"
+
+  // Use SplitText for the main titles
+  const title1 = new SplitText('.anim-title-1', { type: 'chars' })
+  const title2 = new SplitText('.anim-title-2', { type: 'chars' })
+
+  // Set parents to visible immediately as we are animating characters
+  gsap.set(['.anim-title-1', '.anim-title-2'], { opacity: 1 })
+
+  tl.fromTo(title1.chars,
+    { opacity: 0, y: 15, filter: 'blur(10px)' },
+    { opacity: 1, y: 0, filter: 'blur(0px)', duration: 0.5, stagger: 0.08 },
+    "-=0.6"
+  )
+  .fromTo(title2.chars,
+    { opacity: 0, y: 15, filter: 'blur(10px)' },
+    { opacity: 1, y: 0, filter: 'blur(0px)', duration: 0.5, stagger: 0.08 },
+    "-=0.7"
   )
   .fromTo('.anim-desc',
     { y: 20, opacity: 0 },

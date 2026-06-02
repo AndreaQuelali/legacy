@@ -49,13 +49,13 @@ export default async function RootLayout({
       <body
         className="antialiased"
       >
-        <NextIntlClientProvider messages={messages}>
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="dark"
-            enableSystem={false}
-            disableTransitionOnChange
-          >
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="dark"
+          enableSystem={false}
+          disableTransitionOnChange
+        >
+          <NextIntlClientProvider locale={locale} messages={messages}>
             <SmoothScrollProvider>
               <AnimationProvider>
                 <main className="relative min-h-screen">
@@ -63,8 +63,8 @@ export default async function RootLayout({
                 </main>
               </AnimationProvider>
             </SmoothScrollProvider>
-          </ThemeProvider>
-        </NextIntlClientProvider>
+          </NextIntlClientProvider>
+        </ThemeProvider>
       </body>
     </html>
   );
