@@ -2,27 +2,33 @@
 
 import React from 'react'
 import Image from 'next/image'
+import { useTranslations } from 'next-intl'
 
 interface StadiumCardProps {
   id: string
   name: string
   city: string
+  capacity: string
   image: string
   className?: string
+  hidden?: boolean
 }
 
 export default function StadiumCard({
   id,
   name,
   city,
+  capacity,
   image,
-  className = ""
+  className = "",
+  hidden = false,
 }: StadiumCardProps) {
+  const t = useTranslations('stadiums')
 
   return (
     <div
-      data-flip-id={id}
-      className={`relative overflow-hidden group rounded-sm border border-white/10 ${className}`}
+      data-flip-id={`stadium-${id}`}
+      className={`relative overflow-hidden group rounded-sm border border-white/10 transition-[border-color] duration-300 hover:border-primary/30 ${hidden ? 'opacity-0 pointer-events-none' : 'opacity-100'} ${className}`}
     >
       {/* Background Image */}
       <div className="absolute inset-0 z-0">
@@ -33,31 +39,43 @@ export default function StadiumCard({
           className="object-cover transition-transform duration-700 group-hover:scale-110"
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
         />
-        {/* Cinematic Overlays */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent opacity-80" />
-        <div className="absolute inset-0 bg-black/20 group-hover:bg-black/0 transition-colors duration-500" />
+        {/* Cinematic gradient overlays */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent" />
+        <div className="absolute inset-0 bg-black/25 group-hover:bg-black/5 transition-colors duration-500" />
       </div>
 
       {/* Content */}
       <div className="absolute inset-0 flex flex-col justify-end p-5 z-10">
+        {/* City — slides in on hover */}
         <div className="overflow-hidden">
-          <span className="block font-inter text-[9px] font-bold text-primary uppercase tracking-[0.25em] mb-1 translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
+          <span className="block font-inter text-[9px] sm:text-[10px] font-bold text-primary uppercase tracking-[0.3em] translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500 ease-out mb-1">
             {city}
           </span>
         </div>
-        <div>
-          <h4 className="font-bebas text-white uppercase tracking-wider leading-normal text-xl sm:text-2xl group-hover:text-primary transition-colors duration-300">
-            {name}
-          </h4>
+
+        {/* Stadium name — always visible */}
+        <h4 className="font-bebas text-white uppercase tracking-wider leading-tight text-[22px] sm:text-[26px] group-hover:text-primary transition-colors duration-300">
+          {name}
+        </h4>
+
+        {/* Capacity — slides in on hover */}
+        <div className="overflow-hidden">
+          <div className="flex items-center gap-2 translate-y-6 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-400 ease-out mt-1.5">
+            <div className="h-px flex-1 bg-primary/40" />
+            <span className="font-inter text-[9px] font-bold text-primary/70 uppercase tracking-[0.25em] whitespace-nowrap">
+              {t('capacity')}: {capacity}
+            </span>
+            <div className="h-px w-3 bg-primary/40" />
+          </div>
         </div>
 
-        {/* Decorative corner */}
-        <div className="absolute top-4 right-4 w-4 h-4 border-t border-r border-primary/40 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+        {/* Decorative corner accent */}
+        <div className="absolute top-4 right-4 w-5 h-5 border-t border-r border-white/10 group-hover:border-primary/50 transition-all duration-500" />
+        <div className="absolute top-5 right-5 w-1 h-1 rounded-full bg-primary/0 group-hover:bg-primary/60 transition-all duration-500 delay-100" />
       </div>
 
-      {/* Glass reflection effect */}
-      <div className="absolute inset-0 pointer-events-none bg-gradient-to-tr from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+      {/* Glass shimmer on hover */}
+      <div className="absolute inset-0 pointer-events-none bg-gradient-to-tr from-white/0 via-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
     </div>
   )
 }
-
