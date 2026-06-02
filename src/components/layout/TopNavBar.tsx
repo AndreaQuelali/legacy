@@ -4,7 +4,6 @@ import { useState, useEffect, useRef } from 'react'
 import { useTranslations, useLocale } from 'next-intl'
 import { Link, usePathname, useRouter } from '@/i18n/routing'
 import { useLenis } from 'lenis/react'
-import gsap from '@/lib/gsap/gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
 export default function TopNavBar() {
@@ -45,19 +44,19 @@ export default function TopNavBar() {
         scrollTriggers.current.push(st);
       });
       
-      // Force a refresh once after a delay to account for other components' pinning
-      setTimeout(() => {
-        ScrollTrigger.refresh();
-      }, 1500);
-    };
+    // Force a refresh once after a delay to account for other components' pinning
+    setTimeout(() => {
+      ScrollTrigger.refresh();
+    }, 2500);
+  };
 
-    // Initialize after a short delay to let sections register their own ScrollTriggers
-    const mainTimer = setTimeout(initTriggers, 500);
+  // Initialize after a longer delay to let sections register their own ScrollTriggers
+  const mainTimer = setTimeout(initTriggers, 800);
 
-    return () => {
-      clearTimeout(mainTimer);
-      cleanup();
-    };
+  return () => {
+    clearTimeout(mainTimer);
+    cleanup();
+  };
   }, []);
 
   const handleLocaleChange = (newLocale: string) => {
