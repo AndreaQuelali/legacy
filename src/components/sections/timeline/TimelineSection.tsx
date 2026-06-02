@@ -47,9 +47,11 @@ export default function TimelineSection() {
         }
       })
 
-      // Background Parallax
-      gsap.to(".timeline-map", {
-        x: -200,
+      // Background Parallax — vertical only, no horizontal movement
+      gsap.fromTo(".timeline-map", {
+        y: -40,
+      }, {
+        y: 40,
         ease: "none",
         scrollTrigger: {
           trigger: containerRef.current,
@@ -119,7 +121,7 @@ export default function TimelineSection() {
           alt="North America Map"
           fill
           sizes='150vw'
-          className="object-cover timeline-map scale-110"
+          className="object-cover timeline-map scale-125"
         />
         <div className="absolute inset-0 bg-gradient-to-b from-[#050505] via-transparent to-[#050505]" />
       </div>
