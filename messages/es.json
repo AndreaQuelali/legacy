@@ -124,20 +124,36 @@
     "subtitle": "EL VIAJE",
     "title": "CAMINO A 2026",
     "milestone1": {
-      "date": "MARZO 2024",
-      "title": "COMIENZAN LAS ELIMINATORIAS",
-      "desc": "NACIONES DE SEIS CONTINENTES COMIENZAN SU ARDUO VIAJE PARA ASEGURAR UNO DE LOS 48 LUGARES CODICIADOS."
+      "id": "01",
+      "date": "2023 - 2025",
+      "title": "ELIMINATORIAS",
+      "desc": "LAS NACIONES LUCHAN POR SU SUEÑO. SOLO LAS MÁS FUERTES LOGRAN SU LUGAR."
     },
     "milestone2": {
-      "date": "JUNIO 2025",
-      "title": "EL SORTEO FINAL",
-      "desc": "EL MUNDO OBSERVA MIENTRAS SE SORTEAN LOS GRUPOS Y FINALMENTE SE REVELA EL CAMINO A LA FINAL PARA CADA NACIÓN CLASIFICADA."
+      "id": "02",
+      "date": "2025",
+      "title": "EL SORTEO",
+      "desc": "EL DESTINO ESTÁ ESCRITO. EL MUNDO DESCUBRE EL CAMINO POR DELANTE."
     },
     "milestone3": {
-      "date": "11 DE JUNIO DE 2026",
-      "title": "CEREMONIA DE APERTURA",
-      "desc": "UN ESPECTÁCULO SIN IGUAL EN EL ESTADIO AZTECA DA INICIO AL TORNEO MÁS AMBICIOSO DE LA HISTORIA."
-    }
+      "id": "03",
+      "date": "JUNIO 2026",
+      "title": "FASE DE GRUPOS",
+      "desc": "COMIENZA EL TORNEO. 32 NACIONES. 8 GRUPOS. UNA OPORTUNIDAD."
+    },
+    "milestone4": {
+      "id": "04",
+      "date": "JUNIO - JULIO 2026",
+      "title": "FASE FINAL",
+      "desc": "VICTORIA O A CASA. EL CAMINO SE VUELVE MÁS DIFÍCIL. SE CREAN LEYENDAS."
+    },
+    "milestone5": {
+      "id": "05",
+      "date": "19 DE JULIO DE 2026",
+      "title": "LA FINAL",
+      "desc": "UN PARTIDO. UN TROFEO. GLORIA ETERNA."
+    },
+    "footer_scroll": "DESLIZA PARA SEGUIR EL VIAJE"
   },
   "footer": {
     "copyright": "© 2026 COPA DEL MUNDO. TODOS LOS DERECHOS RESERVADOS. EL CAMINO A LA GLORIA COMIENZA."
