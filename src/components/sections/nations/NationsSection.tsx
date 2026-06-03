@@ -2,7 +2,6 @@
 
 import { useState, useEffect, useRef } from 'react'
 import { useTranslations } from 'next-intl'
-import { fadeUp } from '@/providers/AnimationProvider'
 import gsap from '@/lib/gsap/gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import NationCard from './NationCard'
@@ -23,116 +22,120 @@ export default function NationsSection() {
     stadium: string
   }>
 
-  const nextIndex = (activeIndex + 1) % nations.length
-
   useEffect(() => {
-    if (!sectionRef.current) return
-
+    const totalNations = nations.length
+    
     const ctx = gsap.context(() => {
-      // Pinning handled by master in page.tsx
+      // Use absolute values matching page.tsx master timeline
+      // Hero (0-6000) + Transition (6000-7000) = Nations start at 7000
       ScrollTrigger.create({
-        trigger: sectionRef.current,
-        start: () => 7000, 
-        end: () => `+=4000`, 
+        trigger: "body", // Track global scroll
+        start: 7000,
+        end: 11000,
         scrub: true,
+        id: "nations-internal",
         onUpdate: (self) => {
-          const index = Math.floor(self.progress * nations.length)
-          const clampedIndex = Math.min(index, nations.length - 1)
-          setActiveIndex(clampedIndex)
+          const progress = self.progress
+          const newIndex = Math.min(
+            Math.floor(progress * totalNations),
+            totalNations - 1
+          )
+          if (newIndex !== activeIndex) {
+            setActiveIndex(newIndex)
+          }
         },
       })
-
-      // Initial intro animation
-      fadeUp(sectionRef.current!)
     })
 
     return () => ctx.revert()
-  }, [nations.length])
+  }, [nations.length, activeIndex])
 
   return (
-    <section id="nations" ref={sectionRef} className="relative bg-black overflow-hidden" style={{ height: '100svh', minHeight: '600px' }}>
+    <section 
+      id="nations" 
+      ref={sectionRef} 
+      className="relative h-screen w-full bg-[#050505] overflow-hidden"
+    >
+      {/* Background Atmosphere (Static across all cards for coherence) */}
+      <div className="absolute inset-0 z-0 bg-[radial-gradient(circle_at_20%_30%,_rgba(255,255,255,0.03)_0%,_transparent_50%)]" />
 
-      <div className="absolute inset-0 md:ml-48">
+      {/* Nation Chapters */}
+      <div className="relative h-full w-full">
         {nations.map((nation, i) => (
-          <NationCard key={nation.id} nation={nation} isActive={i === activeIndex} />
+          <NationCard 
+            key={nation.id} 
+            nation={nation} 
+            isActive={i === activeIndex} 
+            index={i}
+          />
         ))}
       </div>
 
-      {/* LEFT PANEL — nations list sidebar */}
-      <div className="hidden md:flex absolute left-0 top-0 bottom-0 z-20 w-48 flex-col justify-center pl-6 sm:pl-10 pr-6 py-10">
-        <div className="flex flex-col gap-1">
+      {/* SIDE INDICATOR (PROGRESS BAR) */}
+      <div className="absolute left-6 sm:left-10 md:left-12 top-1/2 -translate-y-1/2 z-30 hidden sm:flex flex-col items-center gap-6">
+        <div className="w-[1px] h-32 bg-white/10 relative overflow-hidden">
+          <div 
+            className="absolute top-0 left-0 w-full bg-primary transition-all duration-500 ease-out"
+            style={{ height: `${((activeIndex + 1) / nations.length) * 100}%` }}
+          />
+        </div>
+        
+        <div className="flex flex-col gap-4">
           {nations.map((nation, i) => (
             <button
               key={nation.id}
-              onClick={() => setActiveIndex(i)}
-              className={`group flex items-center gap-4 py-3 border-l-2 pl-4 text-left transition-all duration-400 ${i === activeIndex
-                ? 'border-primary'
-                : 'border-white/10 hover:border-white/30'
-                }`}
+              onClick={() => {
+                // Calculate absolute scroll position: 7000 (start) + (i * 800) (per nation)
+                // 4000 total range / 5 nations = 800px per nation
+                const scrollToPos = 7000 + (i * 800) + 1; // +1 to ensure it triggers
+                window.scrollTo({
+                  top: scrollToPos,
+                  behavior: 'smooth'
+                })
+              }}
+              className="group relative flex items-center"
             >
-              <span className={`font-bebas text-[13px] transition-colors duration-300 ${i === activeIndex ? 'text-primary' : 'text-white/20 group-hover:text-white/40'
-                }`}>
+               <span className={`font-bebas text-[14px] tracking-widest transition-all duration-500 ${i === activeIndex ? 'text-primary scale-110' : 'text-white/20 group-hover:text-white/40'}`}>
                 {nation.id}
               </span>
-              <div className="flex flex-col">
-                {i === activeIndex && (
-                  <span className="font-inter text-[8px] font-bold tracking-[0.25em] text-primary uppercase mb-0.5">
-                    {nation.player}
-                  </span>
-                )}
-                <span className={`font-bebas text-[14px] sm:text-[15px] tracking-widest transition-colors duration-300 ${i === activeIndex ? 'text-white' : 'text-white/30 group-hover:text-white/60'
-                  }`}>
-                  {nation.name}
-                </span>
-              </div>
+              {i === activeIndex && (
+                <div className="absolute -left-4 w-2 h-2 rounded-full bg-primary animate-pulse" />
+              )}
             </button>
           ))}
         </div>
       </div>
 
-      {/* BOTTOM BAR */}
-      <div className="absolute bottom-0 inset-x-0 z-20 flex items-center justify-between px-6 sm:px-10 py-6 border-t border-white/[0.06]">
-        <button
-          onClick={() => setActiveIndex(nextIndex)}
-          className="group flex items-center gap-3"
-        >
-          <div className="flex flex-col items-start">
-            <span className="font-inter text-[9px] font-bold tracking-[0.25em] text-white/30 uppercase">
-              {t('next_nation')}
-            </span>
-            <span className="font-bebas text-[16px] tracking-widest text-white group-hover:text-primary transition-colors duration-300">
-              {nations[nextIndex].name}
-            </span>
-          </div>
-          <span className="material-symbols-outlined text-white/30 group-hover:text-primary text-[20px] transition-colors duration-300">
-            arrow_forward
-          </span>
-        </button>
-
-        <div className="hidden sm:flex flex-col items-center gap-1">
-          <span className="font-inter text-[9px] font-bold tracking-[0.3em] text-primary uppercase">
-            {t('legacy_continues')}
-          </span>
-          <div className="flex gap-1 items-center mt-0.5">
-            {[0, 1, 2].map(i => (
-              <span key={i} className="material-symbols-outlined text-white/20 text-[14px]">chevron_right</span>
-            ))}
-          </div>
-          <span className="font-inter text-[9px] tracking-[0.2em] text-white/30 uppercase">
-            {t('scroll_discover')}
-          </span>
-        </div>
-
-        <div className="font-bebas text-[18px] sm:text-[22px] tracking-widest">
-          <span className="text-primary">{String(activeIndex + 1).padStart(2, '0')}</span>
-          <span className="text-white/20"> / {String(nations.length).padStart(2, '0')}</span>
+      {/* BOTTOM TRANSITION INDICATOR */}
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-30 flex flex-col items-center gap-2 pointer-events-none opacity-50">
+        <span className="font-inter text-[9px] font-bold tracking-[0.4em] text-white/40 uppercase">
+          {t('scroll_discover')}
+        </span>
+        <div className="h-12 w-[1px] bg-gradient-to-b from-white/20 to-transparent relative overflow-hidden">
+          <div className="absolute top-0 left-0 w-full h-1/2 bg-primary animate-scroll-hint" />
         </div>
       </div>
 
-      <div
-        className="absolute top-0 left-0 h-[2px] bg-primary z-30 transition-all duration-700"
-        style={{ width: `${((activeIndex + 1) / nations.length) * 100}%` }}
-      />
+      {/* STYLES FOR ANIMATIONS */}
+      <style jsx global>{`
+        @keyframes scroll-hint {
+          0% { transform: translateY(-100%); }
+          100% { transform: translateY(200%); }
+        }
+        .animate-scroll-hint {
+          animation: scroll-hint 2s infinite ease-in-out;
+        }
+        .ease-expo {
+          transition-timing-function: cubic-bezier(0.19, 1, 0.22, 1);
+        }
+        @keyframes float-slow {
+          0%, 100% { transform: translate(0, 0); }
+          50% { transform: translate(-1%, 2%); }
+        }
+        .animate-float-slow {
+          animation: float-slow 15s infinite ease-in-out;
+        }
+      `}</style>
     </section>
   )
 }
