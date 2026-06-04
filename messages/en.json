@@ -76,13 +76,13 @@
       },
       {
         "id": "04",
-        "name": "ENGLAND",
-        "player": "HARRY KANE",
-        "motto": "COURAGE. HONOR. LEGACY.",
-        "desc": "The birthplace of football, relentlessly pursuing their second world title. The Three Lions awaken a nation united by one dream.",
-        "founded": "1863",
-        "titles": "1",
-        "stadium": "WEMBLEY"
+        "name": "GERMANY",
+        "player": "JAMAL MUSIALA",
+        "motto": "POWER. PRECISION. AMBITION.",
+        "desc": "Four-time world champions. The Nationalmannschaft blends perfect football engineering with an unwavering winning mentality.",
+        "founded": "1900",
+        "titles": "4",
+        "stadium": "ALLIANZ ARENA"
       },
       {
         "id": "05",

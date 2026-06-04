@@ -28,8 +28,16 @@ const NATION_COLORS: Record<string, string> = {
   "01": "rgba(0, 191, 255, 0.4)", // Argentina
   "02": "rgba(251, 191, 36, 0.4)", // Brazil
   "03": "rgba(59, 130, 246, 0.4)", // France
-  "04": "rgba(248, 250, 252, 0.2)", // England
+  "04": "rgba(248, 250, 252, 0.2)", // Germany
   "05": "rgba(239, 68, 68, 0.4)",  // Portugal
+}
+
+const NATION_FOLDERS: Record<string, string> = {
+  "01": "argentina",
+  "02": "brazil",
+  "03": "france",
+  "04": "germany",
+  "05": "portugal",
 }
 
 export default function NationCard({ nation, isActive, index }: NationCardProps) {
@@ -75,6 +83,7 @@ export default function NationCard({ nation, isActive, index }: NationCardProps)
   }, [isActive])
 
   const accentColor = NATION_COLORS[nation.id] || "rgba(233, 193, 118, 0.4)"
+  const folder = NATION_FOLDERS[nation.id] || "argentina"
 
   return (
     <div
@@ -84,7 +93,7 @@ export default function NationCard({ nation, isActive, index }: NationCardProps)
       {/* LAYER 1: DEEP BACKGROUND (City/Stadium) */}
       <div ref={bgRef} className="absolute inset-0 z-0">
         <Image
-          src="/images/nations/argentina/bg.png"
+          src={`/images/nations/${folder}/bg.png`}
           alt={`${nation.name} background`}
           fill
           className="object-cover"
@@ -105,7 +114,7 @@ export default function NationCard({ nation, isActive, index }: NationCardProps)
         className="absolute inset-x-0 top-0 h-full w-[120%] -left-[10%] z-1 opacity-40 pointer-events-none mix-blend-overlay"
       >
         <Image
-          src="/images/nations/argentina/flag.png"
+          src={`/images/nations/${folder}/flag.png`}
           alt={`${nation.name} flag`}
           fill
           className="object-cover scale-110"
@@ -119,7 +128,7 @@ export default function NationCard({ nation, isActive, index }: NationCardProps)
       >
         <div className="relative w-full h-full flex items-end justify-end translate-x-[10%] md:translate-x-0">
           <Image
-            src="/images/nations/argentina/player.png"
+            src={`/images/nations/${folder}/player.png`}
             alt={nation.player}
             width={1200}
             height={1600}
