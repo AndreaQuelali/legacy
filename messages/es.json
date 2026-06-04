@@ -76,13 +76,13 @@
       },
       {
         "id": "04",
-        "name": "INGLATERRA",
-        "player": "HARRY KANE",
-        "motto": "VALOR. HONOR. LEGADO.",
-        "desc": "La cuna del fútbol, persiguiendo implacablemente su segundo título mundial. Los Tres Leones despiertan a una nación unida por un sueño.",
-        "founded": "1863",
-        "titles": "1",
-        "stadium": "WEMBLEY"
+        "name": "ALEMANIA",
+        "player": "JAMAL MUSIALA",
+        "motto": "PODER. PRECISIÓN. AMBICIÓN.",
+        "desc": "Cuatro veces campeones mundiales. La Nationalmannschaft combina una ingeniería futbolística perfecta con una mentalidad ganadora inquebrantable.",
+        "founded": "1900",
+        "titles": "4",
+        "stadium": "ALLIANZ ARENA"
       },
       {
         "id": "05",
