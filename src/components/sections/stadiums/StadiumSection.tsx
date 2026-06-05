@@ -7,15 +7,15 @@ import StadiumHeader from './StadiumHeader'
 import StadiumCard from './StadiumCard'
 
 const STADIUM_DATA = [
-  { id: '1',  image: '/images/Azteca.jpg' },
-  { id: '2',  image: '/images/SoFi.jpg' },
-  { id: '3',  image: '/images/BC-Place.jpg' },
-  { id: '4',  image: '/images/Metlife.jpg' },
-  { id: '5',  image: '/images/Mercedes-Benz.jpg' },
-  { id: '6',  image: '/images/Hard-Rock.jpeg' },
-  { id: '7',  image: '/images/Lumen.jpg' },
-  { id: '8',  image: "/images/Levi's.jpg" },
-  { id: '9',  image: '/images/ATT.jpg' },
+  { id: '1', image: '/images/Azteca.jpg' },
+  { id: '2', image: '/images/SoFi.jpg' },
+  { id: '3', image: '/images/BC-Place.jpg' },
+  { id: '4', image: '/images/Metlife.jpg' },
+  { id: '5', image: '/images/Mercedes-Benz.jpg' },
+  { id: '6', image: '/images/Hard-Rock.jpeg' },
+  { id: '7', image: '/images/Lumen.jpg' },
+  { id: '8', image: "/images/Levi's.jpg" },
+  { id: '9', image: '/images/ATT.jpg' },
   { id: '10', image: '/images/NRG.jpeg' },
   { id: '11', image: '/images/Arrowhead.jpeg' },
   { id: '12', image: '/images/Gillette.jpeg' },
@@ -58,19 +58,19 @@ const BENTO_CLASSES_B = [
 ]
 
 export default function StadiumSection() {
-  const containerRef  = useRef<HTMLDivElement>(null)
-  const gridARef      = useRef<HTMLDivElement>(null)
-  const gridBRef      = useRef<HTMLDivElement>(null)
+  const containerRef = useRef<HTMLDivElement>(null)
+  const gridARef = useRef<HTMLDivElement>(null)
+  const gridBRef = useRef<HTMLDivElement>(null)
   const [showB, setShowB] = useState(false)
-  const isAnimating   = useRef(false)
+  const isAnimating = useRef(false)
 
   const t = useTranslations('stadiums')
   const stadiumList = t.raw('list') as Array<{ id: string; name: string; city: string; capacity: string }>
 
   const stadiums = STADIUM_DATA.map((item, i) => ({
     ...item,
-    name:     stadiumList[i]?.name     || '',
-    city:     stadiumList[i]?.city     || '',
+    name: stadiumList[i]?.name || '',
+    city: stadiumList[i]?.city || '',
     capacity: stadiumList[i]?.capacity || '',
   }))
 
@@ -86,7 +86,7 @@ export default function StadiumSection() {
     if (!gridARef.current || !gridBRef.current) return
     isAnimating.current = true
 
-    const gridIn  = nextShowB ? gridBRef.current : gridARef.current
+    const gridIn = nextShowB ? gridBRef.current : gridARef.current
     const gridOut = nextShowB ? gridARef.current : gridBRef.current
 
     // Make incoming grid visible but transparent so GSAP Flip can read positions
@@ -101,7 +101,7 @@ export default function StadiumSection() {
     gsap.delayedCall(0, () => {
       // Cross-fade the grids
       gsap.to(gridOut, { autoAlpha: 0, duration: 0.6, ease: 'power2.in' })
-      gsap.to(gridIn,  { autoAlpha: 1, duration: 0.6, delay: 0.15, ease: 'power2.out' })
+      gsap.to(gridIn, { autoAlpha: 1, duration: 0.6, delay: 0.15, ease: 'power2.out' })
 
       // GSAP Flip morphs card positions
       Flip.from(state, {
@@ -121,8 +121,8 @@ export default function StadiumSection() {
         onComplete: () => {
           gsap.set(gridOut, { display: 'none' })
           isAnimating.current = false
-          // Force refresh so navbar and other sections sync correctly with pinning
-          ScrollTrigger.refresh()
+          // Use a small delay for safety before refresh
+          setTimeout(() => ScrollTrigger.refresh(), 100)
         },
       })
     })
@@ -136,12 +136,12 @@ export default function StadiumSection() {
   // ─── ScrollTrigger ──────────────────────────────────────────────────────
   useEffect(() => {
     if (!containerRef.current) return
-    
+
     const ctx = gsap.context(() => {
       ScrollTrigger.create({
         trigger: containerRef.current,
         start: 'top top',
-        end: '+=160%',
+        end: () => window.innerWidth < 768 ? '+=120%' : '+=200%',
         pin: true,
         scrub: 1,
         onUpdate: (self) => {
@@ -156,7 +156,7 @@ export default function StadiumSection() {
   }, [triggerFlip])
 
   // ─── Shared grid class ──────────────────────────────────────────────────
-  const gridClass = 'grid grid-cols-1 md:grid-cols-8 md:grid-rows-3 gap-4 md:gap-5 md:h-[680px] w-full'
+  const gridClass = 'grid grid-cols-2 md:grid-cols-8 md:grid-rows-3 gap-3 md:gap-5 md:h-[680px] w-full'
 
   return (
     <section
@@ -174,7 +174,7 @@ export default function StadiumSection() {
         <StadiumHeader />
 
         {/* Grid container — relative so absolute grids can stack */}
-        <div className="relative mt-8 min-h-[500px] md:h-[680px] w-full flex items-center justify-center">
+        <div className="relative mt-4 min-h-[640px] md:h-[680px] w-full flex items-center justify-center">
 
           {/* ── GRID A (stadiums 1–8) ── */}
           <div ref={gridARef} className={gridClass}>
@@ -186,7 +186,7 @@ export default function StadiumSection() {
                 city={s.city}
                 capacity={s.capacity}
                 image={s.image}
-                className={`stadium-card ${BENTO_CLASSES_A[i]} h-[180px] md:h-auto`}
+                className={`stadium-card ${BENTO_CLASSES_A[i]} h-[140px] md:h-auto`}
               />
             ))}
           </div>
@@ -205,7 +205,7 @@ export default function StadiumSection() {
                 city={s.city}
                 capacity={s.capacity}
                 image={s.image}
-                className={`stadium-card ${BENTO_CLASSES_B[i]} h-[180px] md:h-auto`}
+                className={`stadium-card ${BENTO_CLASSES_B[i]} h-[140px] md:h-auto`}
               />
             ))}
           </div>
@@ -216,7 +216,7 @@ export default function StadiumSection() {
       {/* Progress indicator */}
       <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex items-center gap-3 z-20">
         <div className={`rounded-full transition-all duration-500 ${!showB ? 'w-10 h-[3px] bg-primary' : 'w-3 h-[2px] bg-white/20'}`} />
-        <div className={`rounded-full transition-all duration-500 ${showB  ? 'w-10 h-[3px] bg-primary' : 'w-3 h-[2px] bg-white/20'}`} />
+        <div className={`rounded-full transition-all duration-500 ${showB ? 'w-10 h-[3px] bg-primary' : 'w-3 h-[2px] bg-white/20'}`} />
       </div>
     </section>
   )
