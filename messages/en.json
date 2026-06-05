@@ -8,7 +8,8 @@
     "stadiums": "STADIUMS",
     "road_to": "ROAD",
     "about": "ABOUT",
-    "explore": "EXPLORE"
+    "explore": "EXPLORE",
+    "navigate": "NAVIGATE"
   },
   "hero": {
     "subtitle": "WORLD CUP",
@@ -17,7 +18,6 @@
     "title_part2": "IS OUR STAGE",
     "description": "32 nations. 1 dream. The road to glory begins now. Experience the largest football event in history across North America.",
     "explore_btn": "EXPLORE THE NATIONS",
-    "trailer_btn": "WATCH TRAILER",
     "journey": "THE JOURNEY BEGINS IN",
     "days": "DAYS",
     "hours": "HOURS",
@@ -102,22 +102,102 @@
     "view_all": "VIEW ALL VENUES",
     "capacity": "CAPACITY",
     "list": [
-      { "id": "1", "name": "Azteca Stadium", "city": "Mexico City", "capacity": "87,523" },
-      { "id": "2", "name": "SoFi Stadium", "city": "Los Angeles", "capacity": "70,240" },
-      { "id": "3", "name": "BC Place", "city": "Vancouver", "capacity": "54,500" },
-      { "id": "4", "name": "MetLife Stadium", "city": "New York/NJ", "capacity": "82,500" },
-      { "id": "5", "name": "Mercedes-Benz Stadium", "city": "Atlanta", "capacity": "71,000" },
-      { "id": "6", "name": "Hard Rock Stadium", "city": "Miami", "capacity": "64,767" },
-      { "id": "7", "name": "Lumen Field", "city": "Seattle", "capacity": "69,000" },
-      { "id": "8", "name": "Levi's Stadium", "city": "San Francisco", "capacity": "68,500" },
-      { "id": "9", "name": "AT&T Stadium", "city": "Dallas", "capacity": "80,000" },
-      { "id": "10", "name": "NRG Stadium", "city": "Houston", "capacity": "72,220" },
-      { "id": "11", "name": "Arrowhead Stadium", "city": "Kansas City", "capacity": "76,416" },
-      { "id": "12", "name": "Gillette Stadium", "city": "Boston", "capacity": "65,878" },
-      { "id": "13", "name": "Lincoln Financial Field", "city": "Philadelphia", "capacity": "67,594" },
-      { "id": "14", "name": "BMO Field", "city": "Toronto", "capacity": "30,000" },
-      { "id": "15", "name": "Estadio BBVA", "city": "Monterrey", "capacity": "51,000" },
-      { "id": "16", "name": "Estadio Akron", "city": "Guadalajara", "capacity": "48,071" }
+      {
+        "id": "1",
+        "name": "Azteca Stadium",
+        "city": "Mexico City",
+        "capacity": "87,523"
+      },
+      {
+        "id": "2",
+        "name": "SoFi Stadium",
+        "city": "Los Angeles",
+        "capacity": "70,240"
+      },
+      {
+        "id": "3",
+        "name": "BC Place",
+        "city": "Vancouver",
+        "capacity": "54,500"
+      },
+      {
+        "id": "4",
+        "name": "MetLife Stadium",
+        "city": "New York/NJ",
+        "capacity": "82,500"
+      },
+      {
+        "id": "5",
+        "name": "Mercedes-Benz Stadium",
+        "city": "Atlanta",
+        "capacity": "71,000"
+      },
+      {
+        "id": "6",
+        "name": "Hard Rock Stadium",
+        "city": "Miami",
+        "capacity": "64,767"
+      },
+      {
+        "id": "7",
+        "name": "Lumen Field",
+        "city": "Seattle",
+        "capacity": "69,000"
+      },
+      {
+        "id": "8",
+        "name": "Levi's Stadium",
+        "city": "San Francisco",
+        "capacity": "68,500"
+      },
+      {
+        "id": "9",
+        "name": "AT&T Stadium",
+        "city": "Dallas",
+        "capacity": "80,000"
+      },
+      {
+        "id": "10",
+        "name": "NRG Stadium",
+        "city": "Houston",
+        "capacity": "72,220"
+      },
+      {
+        "id": "11",
+        "name": "Arrowhead Stadium",
+        "city": "Kansas City",
+        "capacity": "76,416"
+      },
+      {
+        "id": "12",
+        "name": "Gillette Stadium",
+        "city": "Boston",
+        "capacity": "65,878"
+      },
+      {
+        "id": "13",
+        "name": "Lincoln Financial Field",
+        "city": "Philadelphia",
+        "capacity": "67,594"
+      },
+      {
+        "id": "14",
+        "name": "BMO Field",
+        "city": "Toronto",
+        "capacity": "30,000"
+      },
+      {
+        "id": "15",
+        "name": "Estadio BBVA",
+        "city": "Monterrey",
+        "capacity": "51,000"
+      },
+      {
+        "id": "16",
+        "name": "Estadio Akron",
+        "city": "Guadalajara",
+        "capacity": "48,071"
+      }
     ]
   },
   "timeline": {
@@ -156,7 +236,7 @@
     "footer_scroll": "SCROLL TO FOLLOW THE JOURNEY"
   },
   "footer": {
-    "copyright": "© 2026 WORLD CUP. ALL RIGHTS RESERVED. THE ROAD TO GLORY BEGINS."
+    "copyright": "© 2026 LEGACY. THE ROAD TO GLORY BEGINS."
   },
   "countries": {
     "ar": "Argentina",

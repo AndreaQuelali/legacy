@@ -27,12 +27,12 @@ export default function HeroSection() {
       const scrollTl = gsap.timeline({
         scrollTrigger: {
           id: 'hero-main-scroll',
-          trigger: '.hero-section',
+          trigger: container.current,
           start: 'top top',
-          // Match the master: 6000px of scroll budget before the slide begins
           end: '+=6000',
           scrub: 1,
-          // No pin here — the master ScrollTrigger in page.tsx pins the container
+          pin: true,
+          anticipatePin: 1,
         }
       })
 

@@ -9,7 +9,7 @@ export default function NationsSequence() {
   const t = useTranslations("nations")
   const containerRef = useRef<HTMLDivElement>(null)
   const horizontalWrapperRef = useRef<HTMLDivElement>(null)
-  
+
   const nations = t.raw("nations_list") as Array<{
     id: string
     name: string
@@ -30,7 +30,7 @@ export default function NationsSequence() {
 
       const totalWidth = wrapper.scrollWidth
       const windowWidth = window.innerWidth
-      
+
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: containerRef.current,
@@ -53,8 +53,8 @@ export default function NationsSequence() {
 
   return (
     <section ref={containerRef} className="relative h-screen bg-black overflow-hidden">
-      <div 
-        ref={horizontalWrapperRef} 
+      <div
+        ref={horizontalWrapperRef}
         className="flex h-full items-center"
       >
         {/* Phase 1: Cinematic Message */}
@@ -68,13 +68,13 @@ export default function NationsSequence() {
         <div className="flex h-full items-center gap-0">
           {nations.map((nation) => (
             <div key={nation.id} className="w-screen h-full flex-shrink-0 relative overflow-hidden flex items-center justify-center">
-               {/* 
+              {/* 
                   Reusing NationCard but forcing it to be always active 
                   since we are scrolling them horizontally into viewport 
                */}
-               <div className="w-[90vw] h-[80vh] relative">
-                  <NationCard nation={nation} isActive={true} />
-               </div>
+              <div className="w-[90vw] h-[80vh] relative">
+                <NationCard nation={nation} isActive={true} />
+              </div>
             </div>
           ))}
         </div>
