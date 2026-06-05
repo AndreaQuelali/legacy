@@ -126,12 +126,12 @@ export default function TimelineSection() {
         <div className="absolute inset-0 bg-gradient-to-b from-[#050505] via-transparent to-[#050505]" />
       </div>
 
-      <div ref={containerRef} className="relative z-10 min-h-screen flex flex-col justify-center">
-        <div className="px-6 py-12">
+      <div ref={containerRef} className="relative z-10 min-h-screen flex flex-col pt-10 md:pt-20">
+        <div className="px-6 py-4 md:py-6">
           <TimelineHeader />
         </div>
 
-        <div className="flex-grow flex items-center overflow-hidden">
+        <div className="flex flex-col items-center overflow-hidden mt-4 md:mt-8">
           <div
             ref={horizontalRef}
             className="flex gap-20 px-[20vw] md:px-[30vw]"
