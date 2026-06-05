@@ -22,25 +22,29 @@ export default function NationsSection() {
     stadium: string
   }>
 
+  const activeIndexRef = useRef(0)
+
   useEffect(() => {
     const totalNations = nations.length
     
     const ctx = gsap.context(() => {
-      // Use absolute values matching page.tsx master timeline
-      // Hero (0-6000) + Transition (6000-7000) = Nations start at 7000
       ScrollTrigger.create({
-        trigger: "body", // Track global scroll
-        start: 7000,
-        end: 11000,
+        trigger: sectionRef.current,
+        start: "top top",
+        end: "+=5000",
         scrub: true,
+        pin: true,
+        anticipatePin: 1,
         id: "nations-internal",
         onUpdate: (self) => {
           const progress = self.progress
+          // We use totalNations + 0.2 to give the last nation more screen time
           const newIndex = Math.min(
-            Math.floor(progress * totalNations),
+            Math.floor(progress * (totalNations + 0.2)),
             totalNations - 1
           )
-          if (newIndex !== activeIndex) {
+          if (newIndex !== activeIndexRef.current) {
+            activeIndexRef.current = newIndex
             setActiveIndex(newIndex)
           }
         },
@@ -48,7 +52,7 @@ export default function NationsSection() {
     })
 
     return () => ctx.revert()
-  }, [nations.length, activeIndex])
+  }, [nations.length])
 
   return (
     <section 
@@ -85,9 +89,9 @@ export default function NationsSection() {
             <button
               key={nation.id}
               onClick={() => {
-                // Calculate absolute scroll position: 7000 (start) + (i * 800) (per nation)
-                // 4000 total range / 5 nations = 800px per nation
-                const scrollToPos = 7000 + (i * 800) + 1; // +1 to ensure it triggers
+                if (!sectionRef.current) return
+                // Calculate absolute scroll position: offsetTop + (i / 5.2 * 5000)
+                const scrollToPos = sectionRef.current.offsetTop + (i / (nations.length + 0.2)) * 5000 + 1; 
                 window.scrollTo({
                   top: scrollToPos,
                   behavior: 'smooth'

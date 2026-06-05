@@ -141,7 +141,9 @@ export default function TopNavBar() {
             </div>
 
             {/* Desktop: explore button only */}
-            <button className="hidden lg:block cinematic-label text-primary border border-primary px-6 py-2.5 hover:bg-primary hover:text-black transition-all duration-300 glass-card">
+            <button 
+              onClick={(e) => handleNavClick(e as unknown as React.MouseEvent<HTMLAnchorElement>, '#nations')}
+              className="hidden lg:block cinematic-label text-primary border border-primary px-6 py-2.5 hover:bg-primary hover:text-black transition-all duration-300 glass-card">
               {t('explore')}
             </button>
 
