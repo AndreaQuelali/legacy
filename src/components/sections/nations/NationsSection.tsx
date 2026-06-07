@@ -1,15 +1,16 @@
 "use client"
 
-import { useState, useEffect, useRef } from 'react'
+import { useState, useRef } from 'react'
 import { useTranslations } from 'next-intl'
-import gsap from '@/lib/gsap/gsap'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import NationCard from './NationCard'
+import Image from 'next/image'
+import { AnimatePresence, motion } from 'framer-motion'
+import PlayerGallery3D from './PlayerGallery3D'
+import NationInfoOverlay from './NationInfoOverlay'
 
 export default function NationsSection() {
   const t = useTranslations('nations')
   const sectionRef = useRef<HTMLElement>(null)
-  const [activeIndex, setActiveIndex] = useState(0)
+  const [selectedId, setSelectedId] = useState<string | null>(null)
 
   const nations = t.raw('nations_list') as Array<{
     id: string
@@ -22,37 +23,17 @@ export default function NationsSection() {
     stadium: string
   }>
 
-  const activeIndexRef = useRef(0)
+  const selectedNation = nations.find(n => n.id === selectedId) || null
 
-  useEffect(() => {
-    const totalNations = nations.length
-    
-    const ctx = gsap.context(() => {
-      ScrollTrigger.create({
-        trigger: sectionRef.current,
-        start: "top top",
-        end: "+=5000",
-        scrub: true,
-        pin: true,
-        anticipatePin: 1,
-        id: "nations-internal",
-        onUpdate: (self) => {
-          const progress = self.progress
-          // We use totalNations + 0.2 to give the last nation more screen time
-          const newIndex = Math.min(
-            Math.floor(progress * (totalNations + 0.2)),
-            totalNations - 1
-          )
-          if (newIndex !== activeIndexRef.current) {
-            activeIndexRef.current = newIndex
-            setActiveIndex(newIndex)
-          }
-        },
-      })
-    })
+  const NATION_FOLDERS: Record<string, string> = {
+    "01": "argentina",
+    "02": "brazil",
+    "03": "france",
+    "04": "germany",
+    "05": "portugal",
+  }
 
-    return () => ctx.revert()
-  }, [nations.length])
+  const folder = selectedId ? NATION_FOLDERS[selectedId] : null
 
   return (
     <section 
@@ -60,86 +41,83 @@ export default function NationsSection() {
       ref={sectionRef} 
       className="relative h-screen w-full bg-[#050505] overflow-hidden"
     >
-      {/* Background Atmosphere (Static across all cards for coherence) */}
-      <div className="absolute inset-0 z-0 bg-[radial-gradient(circle_at_20%_30%,_rgba(255,255,255,0.03)_0%,_transparent_50%)]" />
+      {/* 1. DYNAMIC BACKGROUND LAYER (Shows only when a nation is selected) */}
+      <AnimatePresence>
+        {selectedId && folder && (
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 1 }}
+            className="absolute inset-0 z-0"
+          >
+            {/* Stadium Image */}
+            <div className="absolute inset-0 z-0">
+              <Image
+                src={`/images/nations/${folder}/bg.png`}
+                alt="Background"
+                fill
+                className="object-cover opacity-40"
+                priority
+              />
+              <div className="absolute inset-0 bg-black/60" />
+            </div>
 
-      {/* Nation Chapters */}
-      <div className="relative h-full w-full">
-        {nations.map((nation, i) => (
-          <NationCard 
-            key={nation.id} 
-            nation={nation} 
-            isActive={i === activeIndex} 
-            index={i}
-          />
-        ))}
+            {/* Flag Overlay */}
+            <div className="absolute inset-0 z-1 opacity-20 pointer-events-none mix-blend-overlay">
+              <Image
+                src={`/images/nations/${folder}/flag.png`}
+                alt="Flag"
+                fill
+                className="object-cover scale-110"
+              />
+            </div>
+            
+            {/* Dark vignette to focus on content */}
+            <div className="absolute inset-0 z-2 bg-gradient-to-r from-black via-transparent to-black/40" />
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* 2. ATMOSPHERIC GRADIENT (Always present) */}
+      <div className="absolute inset-0 z-5 bg-[radial-gradient(circle_at_50%_50%,_rgba(234,179,8,0.02)_0%,_transparent_70%)] pointer-events-none" />
+
+      {/* 3. 3D GALLERY CANVAS */}
+      <div className="relative z-10 h-full w-full">
+        <PlayerGallery3D onSelect={setSelectedId} />
       </div>
 
-      {/* SIDE INDICATOR (PROGRESS BAR) */}
-      <div className="absolute left-6 sm:left-10 md:left-12 top-1/2 -translate-y-1/2 z-30 hidden sm:flex flex-col items-center gap-6">
-        <div className="w-[1px] h-32 bg-white/10 relative overflow-hidden">
-          <div 
-            className="absolute top-0 left-0 w-full bg-primary transition-all duration-500 ease-out"
-            style={{ height: `${((activeIndex + 1) / nations.length) * 100}%` }}
-          />
-        </div>
-        
-        <div className="flex flex-col gap-4">
-          {nations.map((nation, i) => (
-            <button
-              key={nation.id}
-              onClick={() => {
-                if (!sectionRef.current) return
-                // Calculate absolute scroll position: offsetTop + (i / 5.2 * 5000)
-                const scrollToPos = sectionRef.current.offsetTop + (i / (nations.length + 0.2)) * 5000 + 1; 
-                window.scrollTo({
-                  top: scrollToPos,
-                  behavior: 'smooth'
-                })
-              }}
-              className="group relative flex items-center"
-            >
-               <span className={`font-bebas text-[14px] tracking-widest transition-all duration-500 ${i === activeIndex ? 'text-primary scale-110' : 'text-white/20 group-hover:text-white/40'}`}>
-                {nation.id}
-              </span>
-              {i === activeIndex && (
-                <div className="absolute -left-4 w-2 h-2 rounded-full bg-primary animate-pulse" />
-              )}
-            </button>
-          ))}
-        </div>
-      </div>
+      {/* 4. DETAIL OVERLAY (Left or Right side info) */}
+      <NationInfoOverlay 
+        nation={selectedNation} 
+        side={nations.findIndex(n => n.id === selectedId) > 2 ? 'right' : 'left'}
+        onClose={() => setSelectedId(null)} 
+      />
 
-      {/* BOTTOM TRANSITION INDICATOR */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-30 flex flex-col items-center gap-2 pointer-events-none opacity-50">
-        <span className="font-inter text-[9px] font-bold tracking-[0.4em] text-white/40 uppercase">
-          {t('scroll_discover')}
+      {/* 5. SECTION HEADER (Hidden if something is selected to avoid clutter) */}
+      {!selectedId && (
+        <div className="absolute top-24 left-1/2 -translate-x-1/2 z-20 text-center pointer-events-none">
+          <div className="flex items-center justify-center gap-4 mb-4">
+            <div className="h-[1px] w-8 bg-primary/40" />
+            <span className="font-bebas text-sm tracking-[0.4em] text-white/40 uppercase">
+              {t('subtitle')}
+            </span>
+            <div className="h-[1px] w-8 bg-primary/40" />
+          </div>
+          <h2 className="font-bebas text-4xl md:text-6xl text-white tracking-widest drop-shadow-lg">
+             ESTRELLAS DEL MAÑANA
+          </h2>
+        </div>
+      )}
+
+      {/* BOTTOM SCROLL INDICATOR */}
+      <div className="absolute bottom-12 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-2 pointer-events-none opacity-40">
+        <span className="font-inter text-[8px] font-bold tracking-[0.5em] text-white/40 uppercase">
+          EXPLORA LA GLORIA
         </span>
-        <div className="h-12 w-[1px] bg-gradient-to-b from-white/20 to-transparent relative overflow-hidden">
-          <div className="absolute top-0 left-0 w-full h-1/2 bg-primary animate-scroll-hint" />
-        </div>
+        <div className="h-8 w-[1px] bg-gradient-to-b from-white/20 to-transparent" />
       </div>
-
-      {/* STYLES FOR ANIMATIONS */}
-      <style jsx global>{`
-        @keyframes scroll-hint {
-          0% { transform: translateY(-100%); }
-          100% { transform: translateY(200%); }
-        }
-        .animate-scroll-hint {
-          animation: scroll-hint 2s infinite ease-in-out;
-        }
-        .ease-expo {
-          transition-timing-function: cubic-bezier(0.19, 1, 0.22, 1);
-        }
-        @keyframes float-slow {
-          0%, 100% { transform: translate(0, 0); }
-          50% { transform: translate(-1%, 2%); }
-        }
-        .animate-float-slow {
-          animation: float-slow 15s infinite ease-in-out;
-        }
-      `}</style>
     </section>
   )
 }
+
