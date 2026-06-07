@@ -12,6 +12,7 @@ import {
   ScrollIndicator
 } from "."
 import TrophyScene from "@/components/3d/TrophyScene"
+import FlagOverlay from "./FlagOverlay"
 
 export default function HeroSection() {
   const t = useTranslations("hero")
@@ -192,6 +193,9 @@ export default function HeroSection() {
         <div className="trophy-canvas-container absolute inset-0 z-[2] opacity-0">
           <TrophyScene />
         </div>
+
+        {/* Flag Overlay — staggered country flags synced to trophy spin */}
+        <FlagOverlay />
 
         {/* Cinematic Horizontal Marquee Layer (Revealed later) */}
         {/* The inner div is absolutely positioned at vertical-center; GSAP drives the horizontal x. */}
