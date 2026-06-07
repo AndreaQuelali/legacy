@@ -17,11 +17,12 @@ interface NationData {
 }
 
 const NATION_COLORS: Record<string, string> = {
-  "01": "#00bfff", // Argentina
-  "02": "#fbbf24", // Brazil
-  "03": "#3b82f6", // France
-  "04": "#f8fafc", // Germany
-  "05": "#ef4444", // Portugal
+  "01": "#dc2626",
+  "02": "#3b82f6",
+  "03": "#00bfff",
+  "04": "#ef4444",
+  "05": "#fbbf24",
+  "06": "#f8fafc",
 }
 
 export default function NationInfoOverlay({ 
@@ -47,17 +48,17 @@ export default function NationInfoOverlay({
           animate={{ opacity: 1, x: 0 }}
           exit={{ opacity: 0, x: initialX }}
           transition={{ duration: 0.6, ease: "easeOut" }}
-          className={`absolute inset-y-0 ${isRight ? 'right-0' : 'left-0'} w-full md:w-1/2 z-[40] pointer-events-none flex flex-col justify-center px-6 sm:px-14 md:px-24`}
+          className={`absolute inset-y-0 ${isRight ? 'right-0' : 'left-0'} w-full md:w-1/2 z-[40] pointer-events-none flex flex-col justify-center px-6 sm:px-14 md:px-24 max-h-[85vh] overflow-y-auto`}
         >
           <div className={`max-w-[500px] pointer-events-auto ${isRight ? 'ml-auto' : ''}`}>
-            {/* Close Button / Back to Gallery */}
             <button 
               onClick={onClose}
+              aria-label={t('back_gallery')}
               className={`mb-10 flex items-center gap-3 group ${isRight ? 'justify-end w-full' : ''}`}
             >
               {!isRight && <div className="w-8 h-[1px] bg-white/20 group-hover:w-12 group-hover:bg-primary transition-all duration-300" />}
               <span className="font-bebas text-sm tracking-[0.3em] text-white/40 group-hover:text-white transition-colors">
-                VOLVER A LA GALERÍA
+                {t('back_gallery')}
               </span>
               {isRight && <div className="w-8 h-[1px] bg-white/20 group-hover:w-12 group-hover:bg-primary transition-all duration-300" />}
             </button>
@@ -70,8 +71,8 @@ export default function NationInfoOverlay({
               {isRight && <div className="h-[2px] w-12" style={{ backgroundColor: NATION_COLORS[nation.id] || "#eab308" }} />}
             </div>
 
-            <h1 className={`font-bebas text-[60px] sm:text-[80px] md:text-[100px] leading-[0.85] text-white mb-6 drop-shadow-2xl ${isRight ? 'text-right' : ''}`}>
-              {nation.player}
+            <h1 className={`font-bebas text-[60px] sm:text-[70px] md:text-[80px] lg:text-[100px] leading-[0.85] text-white mb-6 drop-shadow-2xl ${isRight ? 'text-right' : ''}`}>
+              {nation.name}
             </h1>
 
             <p className={`font-bebas text-[18px] sm:text-[24px] tracking-[0.15em] text-white/70 mb-8 italic ${isRight ? 'text-right' : ''}`}>

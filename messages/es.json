@@ -42,31 +42,26 @@
     "stat_colors": "COLORES",
     "stat_stadium": "ESTADIO",
     "next_nation": "SIGUIENTE NACIÓN",
+    "prev_nation": "NACIÓN ANTERIOR",
     "scroll_discover": "DESLIZA PARA DESCUBRIR",
     "legacy_continues": "EL LEGADO CONTINÚA",
+    "select_hint": "SELECCIONA UNA NACIÓN PARA EXPLORAR",
+    "back_gallery": "VOLVER A LA GALERÍA",
+    "close": "CERRAR",
+    "explore_glory": "EXPLORA LA GLORIA",
     "nations_list": [
       {
         "id": "01",
-        "name": "ARGENTINA",
-        "player": "LIONEL MESSI",
-        "motto": "PASIÓN. ORGULLO. GLORIA.",
-        "desc": "Tricampeones del mundo. El azul y blanco llevan décadas de pasión futbolística, brillantez técnica y una voluntad inquebrantable de ganar.",
-        "founded": "1893",
-        "titles": "3",
-        "stadium": "MONUMENTAL"
+        "name": "ESPAÑA",
+        "player": "PEDRI",
+        "motto": "TECNICA. PASIÓN. DOMINIO.",
+        "desc": "La Roja revolucionó el fútbol moderno con el tiqui-taca. Campeones de todo con una generación dorada que hoy sigue brillando.",
+        "founded": "1909",
+        "titles": "1",
+        "stadium": "ESTADIO BERNABÉU"
       },
       {
         "id": "02",
-        "name": "BRASIL",
-        "player": "NEYMAR JR",
-        "motto": "ALEGRÍA. HABILIDAD. DESTINO.",
-        "desc": "Pentacampeones y la nación más galardonada en la historia del Mundial. La Seleção juega al fútbol como nadie más en la tierra.",
-        "founded": "1914",
-        "titles": "5",
-        "stadium": "MARACANÃ"
-      },
-      {
-        "id": "03",
         "name": "FRANCIA",
         "player": "KYLIAN MBAPPÉ",
         "motto": "LIBERTAD. UNIDAD. GLORIA.",
@@ -76,17 +71,17 @@
         "stadium": "STADE DE FRANCE"
       },
       {
-        "id": "04",
-        "name": "ALEMANIA",
-        "player": "JAMAL MUSIALA",
-        "motto": "PODER. PRECISIÓN. AMBICIÓN.",
-        "desc": "Cuatro veces campeones mundiales. La Nationalmannschaft combina una ingeniería futbolística perfecta con una mentalidad ganadora inquebrantable.",
-        "founded": "1900",
-        "titles": "4",
-        "stadium": "ALLIANZ ARENA"
+        "id": "03",
+        "name": "ARGENTINA",
+        "player": "LIONEL MESSI",
+        "motto": "PASIÓN. ORGULLO. GLORIA.",
+        "desc": "Tricampeones del mundo. El azul y blanco llevan décadas de pasión futbolística, brillantez técnica y una voluntad inquebrantable de ganar.",
+        "founded": "1893",
+        "titles": "3",
+        "stadium": "MONUMENTAL"
       },
       {
-        "id": "05",
+        "id": "04",
         "name": "PORTUGAL",
         "player": "C. RONALDO",
         "motto": "CORAZÓN. HISTORIA. TRIUNFO.",
@@ -96,14 +91,24 @@
         "stadium": "ESTÁDIO DA LUZ"
       },
       {
+        "id": "05",
+        "name": "BRASIL",
+        "player": "NEYMAR JR",
+        "motto": "ALEGRÍA. HABILIDAD. DESTINO.",
+        "desc": "Pentacampeones y la nación más galardonada en la historia del Mundial. La Seleção juega al fútbol como nadie más en la tierra.",
+        "founded": "1914",
+        "titles": "5",
+        "stadium": "MARACANÃ"
+      },
+      {
         "id": "06",
-        "name": "ESPAÑA",
-        "player": "PEDRI",
-        "motto": "TECNICA. PASIÓN. DOMINIO.",
-        "desc": "La Roja revolucionó el fútbol moderno con el tiqui-taca. Campeones de todo con una generación dorada que hoy sigue brillando.",
-        "founded": "1909",
-        "titles": "1",
-        "stadium": "ESTADIO BERNABÉU"
+        "name": "ALEMANIA",
+        "player": "JAMAL MUSIALA",
+        "motto": "PODER. PRECISIÓN. AMBICIÓN.",
+        "desc": "Cuatro veces campeones mundiales. La Nationalmannschaft combina una ingeniería futbolística perfecta con una mentalidad ganadora inquebrantable.",
+        "founded": "1900",
+        "titles": "4",
+        "stadium": "ALLIANZ ARENA"
       }
     ]
   },

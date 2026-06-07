@@ -1,8 +1,12 @@
+"use client"
+
 import * as THREE from "three"
 import { useRef, useState, useMemo } from "react"
+import { useTranslations } from "next-intl"
 import { Canvas, useFrame } from "@react-three/fiber"
 import { useCursor, MeshReflectorMaterial, Image, Text, Environment } from "@react-three/drei"
 import { easing } from "maath"
+import { NATIONS } from "@/data/nations"
 
 const GOLDEN_RATIO = 1.61803398875
 
@@ -13,33 +17,41 @@ interface PlayerData {
   folder: string
 }
 
-const PLAYERS: PlayerData[] = [
-  { id: "01", name: "ARGENTINA", player: "LIONEL MESSI", folder: "argentina" },
-  { id: "02", name: "BRASIL", player: "NEYMAR JR", folder: "brazil" },
-  { id: "03", name: "FRANCIA", player: "KYLIAN MBAPPÉ", folder: "france" },
-  { id: "04", name: "ALEMANIA", player: "JAMAL MUSIALA", folder: "germany" },
-  { id: "05", name: "PORTUGAL", player: "C. RONALDO", folder: "portugal" },
-  { id: "06", name: "ESPAÑA", player: "PEDRI", folder: "spain" },
-]
+export type GalleryItem = PlayerData
 
 function getSide(index: number, total: number): 'left' | 'right' {
   return index < total / 2 ? 'left' : 'right'
 }
 
 export default function PlayerGallery3D({ onSelect }: { onSelect: (id: string | null, side: 'left' | 'right') => void }) {
+  const t = useTranslations('nations')
+  const nationsList = t.raw('nations_list') as Array<{ id: string; name: string; player: string }>
+
+  const players = useMemo<PlayerData[]>(() => {
+    return NATIONS.map(({ id, folder }) => {
+      const nation = nationsList.find((n) => n.id === id)
+      return {
+        id,
+        folder,
+        name: nation?.name ?? folder.toUpperCase(),
+        player: nation?.player ?? '',
+      }
+    })
+  }, [nationsList])
+
   const [selected, setSelected] = useState<string | null>(null)
 
   const handleSelect = (id: string | null) => {
     setSelected(id)
     if (id) {
-      const idx = PLAYERS.findIndex(p => p.id === id)
-      onSelect(id, getSide(idx, PLAYERS.length))
+      const idx = players.findIndex(p => p.id === id)
+      onSelect(id, getSide(idx, players.length))
     } else {
       onSelect(null, 'left')
     }
   }
 
-  const selectedIndex = selected ? PLAYERS.findIndex(p => p.id === selected) : -1
+  const selectedIndex = selected ? players.findIndex(p => p.id === selected) : -1
 
   return (
     <div className="w-full h-full">
@@ -53,7 +65,7 @@ export default function PlayerGallery3D({ onSelect }: { onSelect: (id: string | 
 
         <group position={[0, -0.5, 0]}>
           <Frames
-            items={PLAYERS}
+            items={players}
             selected={selected}
             selectedIndex={selectedIndex}
             onSelect={handleSelect}
@@ -77,7 +89,7 @@ export default function PlayerGallery3D({ onSelect }: { onSelect: (id: string | 
           </mesh>
         </group>
 
-        <CameraRig selected={selected} selectedIndex={selectedIndex} />
+        <CameraRig selected={selected} selectedIndex={selectedIndex} total={players.length} />
       </Canvas>
     </div>
   )
@@ -101,6 +113,7 @@ function Frames({ items, selected, selectedIndex, onSelect }: {
             key={item.id}
             item={item}
             index={i}
+            total={items.length}
             selectedIndex={selectedIndex}
             isSelected={isSelected}
             isAdjacent={isAdjacent}
@@ -113,9 +126,10 @@ function Frames({ items, selected, selectedIndex, onSelect }: {
   )
 }
 
-function Frame({ item, index, selectedIndex, isSelected, isAdjacent, hasSelection, onSelect }: {
+function Frame({ item, index, total, selectedIndex, isSelected, isAdjacent, hasSelection, onSelect }: {
   item: PlayerData
   index: number
+  total: number
   selectedIndex: number
   isSelected: boolean
   isAdjacent: boolean
@@ -129,7 +143,7 @@ function Frame({ item, index, selectedIndex, isSelected, isAdjacent, hasSelectio
   const [hovered, hover] = useState(false)
   useCursor(hovered)
 
-  const side = useMemo(() => getSide(selectedIndex, 6), [selectedIndex])
+  const side = useMemo(() => getSide(selectedIndex, total), [selectedIndex, total])
 
   useFrame((_, dt) => {
     if (!imageRef.current || !bgRef.current || !borderRef.current || !groupRef.current) return
@@ -140,7 +154,7 @@ function Frame({ item, index, selectedIndex, isSelected, isAdjacent, hasSelectio
 
     if (!hasSelection) {
       // Circular Gallery View (Initial State) - Larger radius for larger frames
-      const arcAngle = ((index / (6 - 1)) - 0.5) * Math.PI * 0.8
+      const arcAngle = ((index / (total - 1)) - 0.5) * Math.PI * 0.8
       const radius = 11
       targetX = Math.sin(arcAngle) * radius
       targetZ = Math.cos(arcAngle) * radius - radius
@@ -250,12 +264,12 @@ function Frame({ item, index, selectedIndex, isSelected, isAdjacent, hasSelectio
   )
 }
 
-function CameraRig({ selected, selectedIndex }: { selected: string | null, selectedIndex: number }) {
+function CameraRig({ selected, selectedIndex, total }: { selected: string | null, selectedIndex: number, total: number }) {
   const lookAtRef = useRef(new THREE.Vector3(0, 2, 0))
 
   useFrame((state, dt) => {
     if (selected) {
-      const side = getSide(selectedIndex, 6)
+      const side = getSide(selectedIndex, total)
       // To keep the selected frame perfectly straight ("de frente recto"), 
       // we offset the camera position as well, avoiding perspective rotation.
       const lookX = side === 'left' ? -0.8 : 0.8
