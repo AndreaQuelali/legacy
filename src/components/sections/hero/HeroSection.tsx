@@ -16,6 +16,7 @@ import TrophyScene from "@/components/3d/TrophyScene"
 export default function HeroSection() {
   const t = useTranslations("hero")
   const container = useRef<HTMLElement>(null)
+  const marqueeInnerRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     // Calling context without scoping to container allows it to grab TopNavBar globally
@@ -77,17 +78,25 @@ export default function HeroSection() {
       // Since end is 6000, 0.8 is 4800px. 
       // I'll use duration-based values that match TrophyScene's 0.8 mark
 
-      // 3. Reveal Marquee — text starts at x:0 so the full phrase is readable immediately
+      // 3. Reveal Marquee
       scrollTl.fromTo('.hero-cinematic-marquee',
         { opacity: 0, scale: 0.95 },
         { opacity: 1, scale: 1, duration: 0.5, ease: 'power2.out' },
         4.8
       )
 
-      // 4. Scroll the marquee left — keep travel short so the full phrase stays in view
+      // 4. Sweep marquee: measure actual text width and compute exact pixel travel.
+      //    xStart: text left edge aligns with viewport right edge (just entering from right)
+      //    xEnd:   text right edge aligns with viewport right edge (last character visible)
+      //    This works regardless of language (EN vs ES) or screen width.
+      const vw = window.innerWidth
+      const textWidth = marqueeInnerRef.current?.offsetWidth ?? vw * 4
+      const xStart = vw                      // text starts off-screen-right
+      const xEnd = -(textWidth - vw)         // last character lands at right viewport edge
+
       scrollTl.fromTo('.marquee-text-inner',
-        { x: '0vw' },
-        { x: '-150vw', ease: 'none', duration: 0.9 },
+        { x: xStart, y: '-50%' },
+        { x: xEnd, y: '-50%', ease: 'none', duration: 1.5 },
         4.8
       )
 
@@ -185,8 +194,13 @@ export default function HeroSection() {
         </div>
 
         {/* Cinematic Horizontal Marquee Layer (Revealed later) */}
-        <div className="hero-cinematic-marquee absolute inset-0 z-10 flex items-center pointer-events-none opacity-0 overflow-hidden">
-          <div className="marquee-text-inner whitespace-nowrap pl-0">
+        {/* The inner div is absolutely positioned at vertical-center; GSAP drives the horizontal x. */}
+        <div className="hero-cinematic-marquee absolute inset-0 z-10 pointer-events-none opacity-0">
+          <div
+            ref={marqueeInnerRef}
+            className="marquee-text-inner whitespace-nowrap"
+            style={{ position: 'absolute', top: '50%', left: 0 }}
+          >
             <span
               className="font-bebas text-[20vh] md:text-[28vh] leading-none uppercase tracking-tighter text-white"
             >
