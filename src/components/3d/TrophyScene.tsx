@@ -77,16 +77,16 @@ function Particles() {
     if (!st) return
     const p = st.progress
 
-    // Fade in at 0.4, hold, fade out before globe phase
+    // Fade in at 0.4, hold through the marquee phase, then fade out at the very end
     let opacity = 0
-    if (p >= 0.4 && p <= 0.5)  opacity = (p - 0.4) / 0.1
-    else if (p > 0.5 && p <= 0.62) opacity = 0.7
-    else if (p > 0.62 && p <= 0.72) opacity = 0.7 * (1 - (p - 0.62) / 0.1)
+    if (p >= 0.4 && p <= 0.5) opacity = (p - 0.4) / 0.1
+    else if (p > 0.5 && p <= 0.95) opacity = 0.7
+    else if (p > 0.95) opacity = 0.7 * (1 - (p - 0.95) / 0.05)
 
     materialRef.current.opacity = opacity
 
-    // Drift particles upward and loop them back
-    if (p > 0.4 && p < 0.75) {
+    // Drift particles upward and loop them back - keep active until the very end
+    if (p > 0.4 && p <= 1.0) {
       const arr  = posRef.current
       const geo  = pointsRef.current.geometry as THREE.BufferGeometry
       const attr = geo.attributes.position as THREE.BufferAttribute
