@@ -52,12 +52,12 @@ export default function HeroSection() {
         ease: 'power1.inOut'
       }, 0)
 
-      // 2. Reveal Trophy Container (0.5 to 1.5)
+      // 2. Reveal Trophy Container (Starts after title exit)
       scrollTl.to('.trophy-canvas-container', {
         opacity: 1,
         duration: 1,
         ease: 'power2.inOut'
-      }, 0.5)
+      }, 1.5)
 
       // 3. Reveal Horizontal Message (0.8 to 0.85 progress)
       // Since end is 6000, 0.8 is 4800px. 
@@ -109,7 +109,7 @@ export default function HeroSection() {
         </div>
 
         {/* 3D Scene Layer */}
-        <div className="trophy-canvas-container absolute inset-0 z-0 opacity-20">
+        <div className="trophy-canvas-container absolute inset-0 z-0 opacity-0">
           <TrophyScene />
         </div>
 

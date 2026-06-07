@@ -20,12 +20,12 @@ function Trophy() {
     if (st) {
       const p = st.progress // 0 to 1
 
-      // Thresholds (Normalized 0 to 1)
-      const revealEnd = 0.15
-      const p1End = 0.35
-      const p2End = 0.55
-      const p3End = 0.75
-      const globePhaseStart = 0.8
+      // Thresholds (Normalized 0 to 1) - Shifted to start after Hero Exit
+      const revealEnd = 0.4
+      const p1End = 0.55
+      const p2End = 0.70
+      const p3End = 0.80
+      const globePhaseStart = 0.85
       const messagePhaseEnd = 0.95
       const finalPhase = 1.0
 
@@ -94,28 +94,28 @@ function Trophy() {
         }
       })
 
-      // Phase 1: Reveal & Bloom (0 to 1.2) - 20% of the timeline
+      // Phase 1: Reveal & Bloom (Modified to start after Hero Exit)
       tl.to(groupRef.current!.position, {
         z: 0,
         y: -1.2,
         duration: 1.2,
         ease: 'power2.inOut'
-      }, 0)
+      }, 1.5)
 
-      // Lighting Reveal (0 to 1.2)
+      // Lighting Reveal
       if (spotLightRef.current) {
         tl.to(spotLightRef.current, {
           intensity: 100,
           duration: 1.2,
           ease: 'power2.inOut'
-        }, 0)
+        }, 1.5)
       }
 
       if (ambientLightRef.current) {
         tl.to(ambientLightRef.current, {
           intensity: 1,
           duration: 1.2
-        }, 0)
+        }, 1.5)
       }
     })
 
