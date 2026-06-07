@@ -94,6 +94,16 @@
         "founded": "1914",
         "titles": "1",
         "stadium": "ESTÁDIO DA LUZ"
+      },
+      {
+        "id": "06",
+        "name": "SPAIN",
+        "player": "PEDRI",
+        "motto": "TECHNIQUE. PASSION. MASTERY.",
+        "desc": "La Roja revolutionized modern football with tiki-taka. Champions of everything with a golden generation that continues to shine today.",
+        "founded": "1909",
+        "titles": "1",
+        "stadium": "BERNABÉU STADIUM"
       }
     ]
   },

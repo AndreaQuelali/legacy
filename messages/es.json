@@ -94,6 +94,16 @@
         "founded": "1914",
         "titles": "1",
         "stadium": "ESTÁDIO DA LUZ"
+      },
+      {
+        "id": "06",
+        "name": "ESPAÑA",
+        "player": "PEDRI",
+        "motto": "TECNICA. PASIÓN. DOMINIO.",
+        "desc": "La Roja revolucionó el fútbol moderno con el tiqui-taca. Campeones de todo con una generación dorada que hoy sigue brillando.",
+        "founded": "1909",
+        "titles": "1",
+        "stadium": "ESTADIO BERNABÉU"
       }
     ]
   },
