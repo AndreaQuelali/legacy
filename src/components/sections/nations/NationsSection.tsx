@@ -1,9 +1,10 @@
 "use client"
 
-import { useState, useRef, useMemo } from 'react'
+import { useState, useRef, useMemo, useEffect, useCallback } from 'react'
 import { useTranslations } from 'next-intl'
 import Image from 'next/image'
 import { AnimatePresence, motion } from 'framer-motion'
+import { useLenis } from 'lenis/react'
 import SplitTitle from '@/components/animations/SplitTitle'
 import PlayerGallery3D, { type GalleryItem } from './PlayerGallery3D'
 import NationInfoOverlay from './NationInfoOverlay'
@@ -11,8 +12,68 @@ import { NATIONS, getNationFolder, orderNationsByConfig, type NationData } from 
 
 export default function NationsSection() {
   const t = useTranslations('nations')
+  const lenis = useLenis()
   const sectionRef = useRef<HTMLElement>(null)
   const [selectedId, setSelectedId] = useState<string | null>(null)
+  const [ballIntroComplete, setBallIntroComplete] = useState(false)
+  const [ballHoveredIndex, setBallHoveredIndex] = useState<number | null>(null)
+  const [sectionInView, setSectionInView] = useState(false)
+
+  const showBallIntro = sectionInView && !ballIntroComplete && !selectedId
+  const shouldLockScroll = showBallIntro
+
+  const handleBallCardEnter = useCallback((index: number) => {
+    setBallHoveredIndex(index)
+    setTimeout(() => setBallHoveredIndex(null), 600)
+  }, [])
+
+  const handleBallComplete = useCallback(() => {
+    setBallHoveredIndex(null)
+    setBallIntroComplete(true)
+  }, [])
+
+  // Start intro only when the section is actually visible in the viewport
+  useEffect(() => {
+    const el = sectionRef.current
+    if (!el) return
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && entry.intersectionRatio >= 0.5) {
+          setSectionInView(true)
+        }
+      },
+      { threshold: [0.5] }
+    )
+
+    observer.observe(el)
+    return () => observer.disconnect()
+  }, [])
+
+  // Lock scroll only while the ball intro is playing inside the visible section
+  useEffect(() => {
+    if (!lenis) return
+    if (shouldLockScroll) {
+      lenis.stop()
+      lenis.scrollTo('#nations', { immediate: true })
+    } else {
+      lenis.start()
+    }
+    return () => {
+      lenis.start()
+    }
+  }, [lenis, shouldLockScroll])
+
+  // Safety net: unlock scroll if the intro never completes (GLB hang, network, etc.)
+  useEffect(() => {
+    if (!showBallIntro) return
+
+    const timeout = setTimeout(() => {
+      handleBallComplete()
+    }, 12000)
+
+    return () => clearTimeout(timeout)
+  }, [showBallIntro, handleBallComplete])
 
   const nationsRaw = t.raw('nations_list') as NationData[]
   const nations = useMemo(() => orderNationsByConfig(nationsRaw), [nationsRaw])
@@ -86,6 +147,10 @@ export default function NationsSection() {
           items={galleryItems}
           selectedId={selectedId}
           onSelect={(id) => setSelectedId(id)}
+          ballHoveredIndex={ballHoveredIndex}
+          showBallIntro={showBallIntro}
+          onBallCardEnter={handleBallCardEnter}
+          onBallComplete={handleBallComplete}
         />
       </div>
 

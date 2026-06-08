@@ -1,11 +1,12 @@
 "use client"
 
 import * as THREE from "three"
-import { useRef, useState } from "react"
+import { useRef, Suspense, useState } from "react"
 import { Canvas, useFrame } from "@react-three/fiber"
 import { useCursor, MeshReflectorMaterial, Image, Text, Environment } from "@react-three/drei"
 import { easing } from "maath"
 import CameraFlashes from "@/components/3d/CameraFlashes"
+import BallIntro from "./BallIntro"
 
 const GOLDEN_RATIO = 1.61803398875
 
@@ -25,6 +26,25 @@ const SEL_MAT_BORDER = 0.1
 /** Primary gold from globals.css (--color-primary) */
 const PRIMARY_GOLD = "#e9c176"
 
+// First card X minus entry offset — matches BallIntro segment 0 start
+const CARD_X_PLACEHOLDER_X = -25.5 - 18
+
+/** Visible placeholder while the ball GLB loads inside Suspense */
+function BallIntroPlaceholder() {
+  return (
+    <mesh position={[CARD_X_PLACEHOLDER_X, 6, 3.5]}>
+      <sphereGeometry args={[1, 20, 20]} />
+      <meshStandardMaterial
+        color={PRIMARY_GOLD}
+        emissive={PRIMARY_GOLD}
+        emissiveIntensity={0.35}
+        roughness={0.4}
+        metalness={0.2}
+      />
+    </mesh>
+  )
+}
+
 interface PlayerData {
   id: string
   name: string
@@ -38,12 +58,22 @@ interface PlayerGallery3DProps {
   items: GalleryItem[]
   selectedId: string | null
   onSelect: (id: string | null) => void
+  /** Index of the card the ball is currently hovering over, or null */
+  ballHoveredIndex?: number | null
+  /** Whether to show the intro ball animation */
+  showBallIntro?: boolean
+  onBallCardEnter?: (index: number) => void
+  onBallComplete?: () => void
 }
 
 export default function PlayerGallery3D({
   items,
   selectedId,
   onSelect,
+  ballHoveredIndex = null,
+  showBallIntro = false,
+  onBallCardEnter,
+  onBallComplete,
 }: PlayerGallery3DProps) {
   const selectedIndex = selectedId ? items.findIndex((p) => p.id === selectedId) : -1
   const isIdle = selectedId === null
@@ -65,7 +95,7 @@ export default function PlayerGallery3D({
         {isIdle && <color attach="background" args={["#050505"]} />}
         <fog attach="fog" args={["#050505", isIdle ? 35 : 10, isIdle ? 70 : 35]} />
         <Environment preset="city" />
-        <CameraFlashes active={isIdle} />
+        <CameraFlashes active={isIdle && !showBallIntro} />
 
         <group position={[0, isIdle ? 1.55 : 0.5, 0]}>
           <Frames
@@ -73,6 +103,7 @@ export default function PlayerGallery3D({
             selectedId={selectedId}
             selectedIndex={selectedIndex}
             onSelect={handleSelect}
+            ballHoveredIndex={ballHoveredIndex}
           />
 
           {isIdle && (
@@ -93,6 +124,17 @@ export default function PlayerGallery3D({
               />
             </mesh>
           )}
+
+          {/* Ball intro animation inside Suspense so useGLTF can suspend safely */}
+          {showBallIntro && onBallCardEnter && onBallComplete && (
+            <Suspense fallback={<BallIntroPlaceholder />}>
+              <BallIntro
+                key="ball-intro"
+                onCardEnter={onBallCardEnter}
+                onComplete={onBallComplete}
+              />
+            </Suspense>
+          )}
         </group>
 
         <CameraRig selectedId={selectedId} />
@@ -106,11 +148,13 @@ function Frames({
   selectedId,
   selectedIndex,
   onSelect,
+  ballHoveredIndex,
 }: {
   items: PlayerData[]
   selectedId: string | null
   selectedIndex: number
   onSelect: (id: string | null) => void
+  ballHoveredIndex?: number | null
 }) {
   return (
     <group>
@@ -129,6 +173,7 @@ function Frames({
             isSelected={isSelected}
             isAdjacent={isAdjacent}
             hasSelection={hasSelection}
+            isBallHovered={ballHoveredIndex === i}
             onSelect={() => onSelect(isSelected ? null : item.id)}
           />
         )
@@ -145,6 +190,7 @@ function Frame({
   isSelected,
   isAdjacent,
   hasSelection,
+  isBallHovered,
   onSelect,
 }: {
   item: PlayerData
@@ -154,6 +200,7 @@ function Frame({
   isSelected: boolean
   isAdjacent: boolean
   hasSelection: boolean
+  isBallHovered: boolean
   onSelect: () => void
 }) {
   const imageRef = useRef<THREE.Mesh>(null)
@@ -167,6 +214,9 @@ function Frame({
 
   const goldColor = useRef(new THREE.Color(PRIMARY_GOLD))
   const blackColor = useRef(new THREE.Color("#0a0a0a"))
+
+  // Treat ball-hover the same as pointer hover for visuals
+  const isEffectivelyHovered = hovered || isBallHovered
 
   const frameW = hasSelection ? SEL_FRAME_WIDTH : IDLE_FRAME_WIDTH
   const frameH = hasSelection ? SEL_FRAME_HEIGHT : IDLE_FRAME_HEIGHT
@@ -237,7 +287,7 @@ function Frame({
       targetOpacity = distFromCenter > 2.5 ? 0.55 : 1
     }
 
-    const targetZoom = isSelected ? 1 : hovered ? 1.05 : 1
+    const targetZoom = isSelected ? 1 : isEffectivelyHovered ? 1.05 : 1
 
     const mat = imageRef.current.material as THREE.Material
     easing.damp(mat, "zoom", targetZoom, 0.2, dt)
@@ -246,9 +296,9 @@ function Frame({
     easing.damp(outerBorderRef.current, "opacity", targetOpacity, 0.25, dt)
     easing.damp(matBorderRef.current, "opacity", targetOpacity, 0.25, dt)
 
-    // Animate border color: gold when selected, black otherwise
+    // Animate border: gold when selected OR ball-hovered, black otherwise
     outerBorderRef.current.color.lerp(
-      isSelected ? goldColor.current : blackColor.current,
+      isSelected || isBallHovered ? goldColor.current : blackColor.current,
       Math.min(dt * 5, 1)
     )
 
@@ -302,7 +352,7 @@ function Frame({
             position={[0, 0, 0.01]}
           />
 
-          {hovered && !isSelected && (
+          {(isEffectivelyHovered || isBallHovered) && !isSelected && (
             <mesh position={[0, 0, 0.012]}>
               <planeGeometry args={[frameW, frameH]} />
               <meshBasicMaterial transparent color="#ffffff" opacity={0.08} />
