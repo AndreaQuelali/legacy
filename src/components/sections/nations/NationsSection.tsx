@@ -142,7 +142,7 @@ export default function NationsSection() {
     <section
       id="nations"
       ref={sectionRef}
-      className={`relative min-h-[100dvh] w-full bg-[#050505] overflow-hidden ${
+      className={`relative h-[100dvh] w-full bg-[#050505] overflow-hidden ${
         heroCinematicDone ? '' : 'invisible pointer-events-none'
       }`}
     >
@@ -177,8 +177,7 @@ export default function NationsSection() {
 
       {/* 3. FRAME UNDER NAVBAR */}
       <div
-        className="relative flex flex-col overflow-hidden"
-        style={{ height: '100dvh', paddingTop: 'var(--nav-h, 5rem)' }}
+        className="relative flex flex-col overflow-hidden h-full pt-[var(--nav-h,5rem)]"
       >
         {/* Header — only idle mode */}
         {!selectedId && (

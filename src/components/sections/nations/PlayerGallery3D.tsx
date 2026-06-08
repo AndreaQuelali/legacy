@@ -371,8 +371,8 @@ function Frame({
             maxWidth={frameW + 2}
             anchorX="center"
             anchorY="bottom"
-            position={[0, frameH / 2 + outerBorder + 0.25, 0.02]}
-            fontSize={0.48}
+            position={[0, frameH / 2 + outerBorder + 0.45, 0.02]}
+            fontSize={0.96}
             font="/fonts/BebasNeue-Regular.ttf"
             color="white"
             fillOpacity={0.65}
