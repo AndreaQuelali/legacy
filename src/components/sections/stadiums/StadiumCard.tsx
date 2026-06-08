@@ -45,16 +45,16 @@ export default function StadiumCard({
       </div>
 
       {/* Content */}
-      <div className="absolute inset-0 flex flex-col justify-end p-5 z-10">
+      <div className="absolute inset-0 flex flex-col justify-end p-3 sm:p-5 z-10">
         {/* City — slides in on hover */}
         <div className="overflow-hidden">
-          <span className="block font-inter text-[9px] sm:text-[10px] font-bold text-primary uppercase tracking-[0.3em] translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500 ease-out mb-1">
+          <span className="block font-inter text-[8px] sm:text-[10px] font-bold text-primary uppercase tracking-[0.3em] translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500 ease-out mb-0.5">
             {city}
           </span>
         </div>
 
         {/* Stadium name — always visible */}
-        <h4 className="font-bebas text-white uppercase tracking-wider leading-tight text-[22px] sm:text-[26px] group-hover:text-primary transition-colors duration-300">
+        <h4 className="font-bebas text-white uppercase tracking-wider leading-tight text-[16px] xs:text-[18px] sm:text-[26px] group-hover:text-primary transition-colors duration-300">
           {name}
         </h4>
 

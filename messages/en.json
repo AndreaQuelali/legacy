@@ -6,9 +6,10 @@
     "nations": "NATIONS",
     "players": "PLAYERS",
     "stadiums": "STADIUMS",
-    "road_to": "ROAD",
+    "road_to": "SCHEDULE",
     "about": "ABOUT",
-    "explore": "EXPLORE"
+    "explore": "EXPLORE",
+    "navigate": "NAVIGATE"
   },
   "hero": {
     "subtitle": "WORLD CUP",
@@ -17,11 +18,11 @@
     "title_part2": "IS OUR STAGE",
     "description": "32 nations. 1 dream. The road to glory begins now. Experience the largest football event in history across North America.",
     "explore_btn": "EXPLORE THE NATIONS",
-    "trailer_btn": "WATCH TRAILER",
     "journey": "THE JOURNEY BEGINS IN",
     "days": "DAYS",
     "hours": "HOURS",
     "minutes": "MINUTES",
+    "seconds": "SECONDS",
     "location_label": "CURRENT LOCATION",
     "location": "UNITED STATES • MEXICO • CANADA",
     "cinematic_message": "EVERY NATION ARRIVES WITH A DREAM. ONLY ONE LEAVES WITH THE LEGACY."
@@ -41,31 +42,26 @@
     "stat_colors": "COLORS",
     "stat_stadium": "STADIUM",
     "next_nation": "NEXT NATION",
+    "prev_nation": "PREVIOUS NATION",
     "scroll_discover": "SCROLL TO DISCOVER",
     "legacy_continues": "THE LEGACY CONTINUES",
+    "select_hint": "SELECT A NATION TO EXPLORE",
+    "back_gallery": "BACK TO GALLERY",
+    "close": "CLOSE",
+    "explore_glory": "EXPLORE THE GLORY",
     "nations_list": [
       {
         "id": "01",
-        "name": "ARGENTINA",
-        "player": "LIONEL MESSI",
-        "motto": "PASSION. PRIDE. GLORY.",
-        "desc": "Three-time world champions. The blue and white carry decades of football passion, technical brilliance and an unwavering will to win.",
-        "founded": "1893",
-        "titles": "3",
-        "stadium": "MONUMENTAL"
+        "name": "SPAIN",
+        "player": "PEDRI",
+        "motto": "TECHNIQUE. PASSION. MASTERY.",
+        "desc": "La Roja revolutionized modern football with tiki-taka. Champions of everything with a golden generation that continues to shine today.",
+        "founded": "1909",
+        "titles": "1",
+        "stadium": "BERNABÉU STADIUM"
       },
       {
         "id": "02",
-        "name": "BRAZIL",
-        "player": "NEYMAR JR",
-        "motto": "JOY. SKILL. DESTINY.",
-        "desc": "Five-time champions and the most decorated nation in World Cup history. The Seleção plays football like no one else on earth.",
-        "founded": "1914",
-        "titles": "5",
-        "stadium": "MARACANÃ"
-      },
-      {
-        "id": "03",
         "name": "FRANCE",
         "player": "KYLIAN MBAPPÉ",
         "motto": "LIBERTY. UNITY. GLORY.",
@@ -75,17 +71,17 @@
         "stadium": "STADE DE FRANCE"
       },
       {
-        "id": "04",
-        "name": "ENGLAND",
-        "player": "HARRY KANE",
-        "motto": "COURAGE. HONOR. LEGACY.",
-        "desc": "The birthplace of football, relentlessly pursuing their second world title. The Three Lions awaken a nation united by one dream.",
-        "founded": "1863",
-        "titles": "1",
-        "stadium": "WEMBLEY"
+        "id": "03",
+        "name": "ARGENTINA",
+        "player": "LIONEL MESSI",
+        "motto": "PASSION. PRIDE. GLORY.",
+        "desc": "Three-time world champions. The blue and white carry decades of football passion, technical brilliance and an unwavering will to win.",
+        "founded": "1893",
+        "titles": "3",
+        "stadium": "MONUMENTAL"
       },
       {
-        "id": "05",
+        "id": "04",
         "name": "PORTUGAL",
         "player": "C. RONALDO",
         "motto": "HEART. HISTORY. TRIUMPH.",
@@ -93,6 +89,26 @@
         "founded": "1914",
         "titles": "1",
         "stadium": "ESTÁDIO DA LUZ"
+      },
+      {
+        "id": "05",
+        "name": "BRAZIL",
+        "player": "NEYMAR JR",
+        "motto": "JOY. SKILL. DESTINY.",
+        "desc": "Five-time champions and the most decorated nation in World Cup history. The Seleção plays football like no one else on earth.",
+        "founded": "1914",
+        "titles": "5",
+        "stadium": "MARACANÃ"
+      },
+      {
+        "id": "06",
+        "name": "GERMANY",
+        "player": "JAMAL MUSIALA",
+        "motto": "POWER. PRECISION. AMBITION.",
+        "desc": "Four-time world champions. The Nationalmannschaft blends perfect football engineering with an unwavering winning mentality.",
+        "founded": "1900",
+        "titles": "4",
+        "stadium": "ALLIANZ ARENA"
       }
     ]
   },
@@ -102,61 +118,153 @@
     "view_all": "VIEW ALL VENUES",
     "capacity": "CAPACITY",
     "list": [
-      { "id": "1", "name": "Azteca Stadium", "city": "Mexico City", "capacity": "87,523" },
-      { "id": "2", "name": "SoFi Stadium", "city": "Los Angeles", "capacity": "70,240" },
-      { "id": "3", "name": "BC Place", "city": "Vancouver", "capacity": "54,500" },
-      { "id": "4", "name": "MetLife Stadium", "city": "New York/NJ", "capacity": "82,500" },
-      { "id": "5", "name": "Mercedes-Benz Stadium", "city": "Atlanta", "capacity": "71,000" },
-      { "id": "6", "name": "Hard Rock Stadium", "city": "Miami", "capacity": "64,767" },
-      { "id": "7", "name": "Lumen Field", "city": "Seattle", "capacity": "69,000" },
-      { "id": "8", "name": "Levi's Stadium", "city": "San Francisco", "capacity": "68,500" },
-      { "id": "9", "name": "AT&T Stadium", "city": "Dallas", "capacity": "80,000" },
-      { "id": "10", "name": "NRG Stadium", "city": "Houston", "capacity": "72,220" },
-      { "id": "11", "name": "Arrowhead Stadium", "city": "Kansas City", "capacity": "76,416" },
-      { "id": "12", "name": "Gillette Stadium", "city": "Boston", "capacity": "65,878" },
-      { "id": "13", "name": "Lincoln Financial Field", "city": "Philadelphia", "capacity": "67,594" },
-      { "id": "14", "name": "BMO Field", "city": "Toronto", "capacity": "30,000" },
-      { "id": "15", "name": "Estadio BBVA", "city": "Monterrey", "capacity": "51,000" },
-      { "id": "16", "name": "Estadio Akron", "city": "Guadalajara", "capacity": "48,071" }
+      {
+        "id": "1",
+        "name": "Azteca Stadium",
+        "city": "Mexico City",
+        "capacity": "87,523"
+      },
+      {
+        "id": "2",
+        "name": "SoFi Stadium",
+        "city": "Los Angeles",
+        "capacity": "70,240"
+      },
+      {
+        "id": "3",
+        "name": "BC Place",
+        "city": "Vancouver",
+        "capacity": "54,500"
+      },
+      {
+        "id": "4",
+        "name": "MetLife Stadium",
+        "city": "New York/NJ",
+        "capacity": "82,500"
+      },
+      {
+        "id": "5",
+        "name": "Mercedes-Benz Stadium",
+        "city": "Atlanta",
+        "capacity": "71,000"
+      },
+      {
+        "id": "6",
+        "name": "Hard Rock Stadium",
+        "city": "Miami",
+        "capacity": "64,767"
+      },
+      {
+        "id": "7",
+        "name": "Lumen Field",
+        "city": "Seattle",
+        "capacity": "69,000"
+      },
+      {
+        "id": "8",
+        "name": "Levi's Stadium",
+        "city": "San Francisco",
+        "capacity": "68,500"
+      },
+      {
+        "id": "9",
+        "name": "AT&T Stadium",
+        "city": "Dallas",
+        "capacity": "80,000"
+      },
+      {
+        "id": "10",
+        "name": "NRG Stadium",
+        "city": "Houston",
+        "capacity": "72,220"
+      },
+      {
+        "id": "11",
+        "name": "Arrowhead Stadium",
+        "city": "Kansas City",
+        "capacity": "76,416"
+      },
+      {
+        "id": "12",
+        "name": "Gillette Stadium",
+        "city": "Boston",
+        "capacity": "65,878"
+      },
+      {
+        "id": "13",
+        "name": "Lincoln Financial Field",
+        "city": "Philadelphia",
+        "capacity": "67,594"
+      },
+      {
+        "id": "14",
+        "name": "BMO Field",
+        "city": "Toronto",
+        "capacity": "30,000"
+      },
+      {
+        "id": "15",
+        "name": "Estadio BBVA",
+        "city": "Monterrey",
+        "capacity": "51,000"
+      },
+      {
+        "id": "16",
+        "name": "Estadio Akron",
+        "city": "Guadalajara",
+        "capacity": "48,071"
+      }
     ]
   },
-  "timeline": {
+  "journey": {
     "subtitle": "THE JOURNEY",
-    "title": "ROAD TO 2026",
+    "title": "2026 SCHEDULE",
     "milestone1": {
       "id": "01",
-      "date": "2023 - 2025",
-      "title": "QUALIFIERS",
-      "desc": "NATIONS FIGHT FOR THEIR DREAM. ONLY THE STRONGEST EARN THEIR PLACE."
+      "date": "JUNE 11, 2026",
+      "title": "OPENING MATCH",
+      "desc": "MEXICO KICKS OFF THE WORLD CUP AT THE HISTORIC ESTADIO AZTECA."
     },
     "milestone2": {
       "id": "02",
-      "date": "2025",
-      "title": "THE DRAW",
-      "desc": "DESTINY IS WRITTEN. THE WORLD DISCOVERS THE PATH AHEAD."
+      "date": "JUNE 11 - 27",
+      "title": "GROUP STAGE",
+      "desc": "48 NATIONS. 12 GROUPS. THE BATTLE FOR QUALIFICATION BEGINS ACROSS NORTH AMERICA."
     },
     "milestone3": {
       "id": "03",
-      "date": "JUNE 2026",
-      "title": "GROUP STAGE",
-      "desc": "THE TOURNAMENT BEGINS. 32 NATIONS. 8 GROUPS. ONE CHANCE."
+      "date": "JUNE 28 - JULY 3",
+      "title": "ROUND OF 32",
+      "desc": "KNOCKOUT STAGE BEGINS. 32 NATIONS FIGHT TO MOVE FORWARD."
     },
     "milestone4": {
       "id": "04",
-      "date": "JUNE - JULY 2026",
-      "title": "KNOCKOUT STAGE",
-      "desc": "VICTORY OR GO HOME. THE ROAD GETS HARDER. LEGENDS ARE MADE."
+      "date": "JULY 4 - 7",
+      "title": "ROUND OF 16",
+      "desc": "THE TENSION RISES. ONLY THE TOP 16 TEAMS REMAIN IN THE RUNNING."
     },
     "milestone5": {
       "id": "05",
+      "date": "JULY 9 - 11",
+      "title": "QUARTERFINALS",
+      "desc": "GIANT CLASHES IN BOSTON, LOS ANGELES, MIAMI, AND KANSAS CITY."
+    },
+    "milestone6": {
+      "id": "06",
+      "date": "JULY 14 - 15",
+      "title": "SEMIFINALS",
+      "desc": "DALLAS AND ATLANTA DEFINE THE TWO WORLD FINALISTS."
+    },
+    "milestone7": {
+      "id": "07",
       "date": "JULY 19, 2026",
       "title": "THE FINAL",
-      "desc": "ONE MATCH. ONE TROPHY. ETERNAL GLORY."
+      "desc": "THE WORLD STOPS IN NEW YORK / NEW JERSEY TO CROWN THE CHAMPION."
     },
     "footer_scroll": "SCROLL TO FOLLOW THE JOURNEY"
   },
   "footer": {
-    "copyright": "© 2026 WORLD CUP. ALL RIGHTS RESERVED. THE ROAD TO GLORY BEGINS."
+    "copyright": "© 2026 LEGACY. THE ROAD TO GLORY BEGINS."
   },
   "countries": {
     "ar": "Argentina",

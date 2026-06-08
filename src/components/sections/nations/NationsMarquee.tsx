@@ -73,29 +73,29 @@ export default function NationsMarquee() {
 
         {/* Second Row: Names Only (Right to Left) */}
         <div className="flex overflow-hidden group">
-          <div className="flex animate-marquee-reverse shrink-0 gap-12 items-center pr-12">
+          <div className="flex animate-marquee-reverse shrink-0 items-center">
             {nations.map((country, idx) => (
               <div
                 key={`${country.code}-name-${idx}`}
                 className="flex items-center group/item cursor-pointer transition-all duration-400 hover:scale-110"
               >
-                <span className="font-bebas text-[32px] md:text-[46px] tracking-[0.2em] text-white/30 group-hover/item:text-primary transition-colors duration-300 uppercase">
+                <span className="font-bebas text-[32px] md:text-[46px] tracking-[0.2em] text-white/30 group-hover/item:text-primary transition-colors duration-300 uppercase mr-[-0.2em]">
                   {t(country.key)}
                 </span>
-                <span className="mx-6 text-primary/10 select-none">•</span>
+                <span className="px-8 md:px-12 text-primary/10 select-none">•</span>
               </div>
             ))}
           </div>
-          <div className="flex animate-marquee-reverse shrink-0 gap-12 items-center pr-12">
+          <div className="flex animate-marquee-reverse shrink-0 items-center">
             {nations.map((country, idx) => (
               <div
                 key={`${country.code}-name-dup-${idx}`}
                 className="flex items-center group/item cursor-pointer transition-all duration-400 hover:scale-110"
               >
-                <span className="font-bebas text-[32px] md:text-[46px] tracking-[0.2em] text-white/30 group-hover/item:text-primary transition-colors duration-300 uppercase">
+                <span className="font-bebas text-[32px] md:text-[46px] tracking-[0.2em] text-white/30 group-hover/item:text-primary transition-colors duration-300 uppercase mr-[-0.2em]">
                   {t(country.key)}
                 </span>
-                <span className="mx-6 text-primary/10 select-none">•</span>
+                <span className="px-8 md:px-12 text-primary/10 select-none">•</span>
               </div>
             ))}
           </div>
