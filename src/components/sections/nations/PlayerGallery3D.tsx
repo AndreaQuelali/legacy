@@ -342,7 +342,6 @@ function Frame({
 
           <Image
             url={`/images/nations/${item.folder}/flag.png`}
-            alt=""
             transparent
             scale={[frameW, frameH]}
             position={[0, 0, 0.005]}
@@ -352,7 +351,6 @@ function Frame({
           <Image
             ref={imageRef}
             url={`/images/nations/${item.folder}/player.png`}
-            alt=""
             transparent
             scale={[frameW, frameH]}
             position={[0, 0, 0.01]}
