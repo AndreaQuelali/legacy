@@ -4,6 +4,7 @@ import { useState, useRef, useMemo } from 'react'
 import { useTranslations } from 'next-intl'
 import Image from 'next/image'
 import { AnimatePresence, motion } from 'framer-motion'
+import SplitTitle from '@/components/animations/SplitTitle'
 import PlayerGallery3D, { type GalleryItem } from './PlayerGallery3D'
 import NationInfoOverlay from './NationInfoOverlay'
 import { NATIONS, getNationFolder, orderNationsByConfig, type NationData } from '@/data/nations'
@@ -78,9 +79,8 @@ export default function NationsSection() {
 
       {/* 3. 3D GALLERY CANVAS */}
       <div
-        className={`absolute inset-0 z-[10] flex items-center justify-center transition-all duration-700 ${
-          selectedId ? "md:left-[60%] md:w-[40%]" : ""
-        }`}
+        className={`absolute inset-0 z-[10] flex items-center justify-center transition-all duration-700 ${selectedId ? "md:left-[60%] md:w-[40%]" : ""
+          }`}
       >
         <PlayerGallery3D
           items={galleryItems}
@@ -126,7 +126,7 @@ export default function NationsSection() {
             </button>
 
             <div className="flex flex-col gap-3">
-              <span className="font-inter text-[10px] font-bold tracking-[0.4em] text-white/50 uppercase">{t('subtitle')}</span>
+              <span className="hero-subtitle text-[9px] font-bold tracking-[0.4em] text-primary uppercase">{t('subtitle')}</span>
               <h2 className="font-bebas text-5xl leading-none text-white">{selectedNation.name}</h2>
               <p className="font-bebas text-base tracking-wider text-white/60 italic">&ldquo;{selectedNation.motto}&rdquo;</p>
               <p className="font-inter text-sm text-white/40 leading-relaxed">{selectedNation.desc}</p>
@@ -173,16 +173,21 @@ export default function NationsSection() {
 
       {/* 6. SECTION HEADER */}
       {!selectedId && (
-        <div className="absolute top-12 md:top-14 inset-x-0 z-20 text-center pointer-events-none px-4 opacity-80">
-          <div className="flex items-center justify-center gap-3 mb-1">
+        <div className="absolute top-12 md:top-14 inset-x-0 z-20 text-center pointer-events-none px-4">
+          <div className="flex items-center justify-center gap-4 mb-2">
             <div className="h-px w-8 bg-primary/40" />
-            <span className="font-bebas text-xs tracking-[0.4em] text-white/40 uppercase">{t('subtitle')}</span>
+            <span className="hero-subtitle text-[10px] sm:text-[11px] tracking-[0.4em] text-primary">
+              {t('subtitle')}
+            </span>
             <div className="h-px w-8 bg-primary/40" />
           </div>
-          <h2 className="font-bebas text-3xl sm:text-4xl md:text-5xl text-white tracking-widest drop-shadow-lg leading-none">
-            {t('title')}
-          </h2>
-          <p className="font-inter text-xs text-white/25 mt-0.5 tracking-widest hidden sm:block">
+
+          <SplitTitle
+            text={t('title')}
+            className="section-title drop-shadow-lg"
+          />
+
+          <p className="font-inter text-[10px] sm:text-xs text-white/25 mt-2 sm:mt-3 tracking-[0.2em] hidden sm:block uppercase">
             {t('select_hint')}
           </p>
         </div>

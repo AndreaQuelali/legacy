@@ -3,6 +3,7 @@
 import React from 'react'
 import { useTranslations } from 'next-intl'
 import { motion, AnimatePresence } from 'framer-motion'
+import SplitTitle from '@/components/animations/SplitTitle'
 import NationStats from './NationStats'
 
 interface NationData {
@@ -50,12 +51,12 @@ export default function NationInfoOverlay({
           <button
             onClick={onClose}
             aria-label={t('back_gallery')}
-            className="absolute top-6 left-6 sm:top-8 sm:left-10 md:top-10 md:left-14 inline-flex items-center gap-2.5 px-4 py-2.5 border border-primary/60 bg-black/70 backdrop-blur-md rounded-sm group hover:bg-primary/20 hover:border-primary transition-all duration-300 pointer-events-auto z-10"
+            className="absolute top-6 left-6 sm:top-8 sm:left-10 md:top-10 md:left-14 inline-flex items-center gap-3 px-8 py-4 border border-primary/60 bg-black/70 backdrop-blur-md rounded-sm group hover:bg-primary/20 hover:border-primary transition-all duration-300 pointer-events-auto z-10"
           >
-            <span className="font-bebas text-base text-primary leading-none group-hover:-translate-x-0.5 transition-transform">
+            <span className="font-bebas text-lg text-primary leading-none group-hover:-translate-x-1 transition-transform">
               ←
             </span>
-            <span className="font-bebas text-xs tracking-[0.18em] text-primary group-hover:text-white transition-colors">
+            <span className="font-bebas text-sm tracking-[0.2em] text-primary group-hover:text-white transition-colors">
               {t('back_gallery')}
             </span>
           </button>
@@ -63,15 +64,17 @@ export default function NationInfoOverlay({
           <div className="max-w-[500px] w-full pointer-events-auto text-center">
             <div className="flex items-center justify-center gap-4 mb-6">
               <div className="h-[2px] w-12" style={{ backgroundColor: NATION_COLORS[nation.id] || PRIMARY_GOLD }} />
-              <span className="font-inter text-[12px] font-bold tracking-[0.4em] text-white/60 uppercase">
+              <span className="hero-subtitle text-[10px] sm:text-[11px] tracking-[0.4em] text-primary uppercase">
                 {t('subtitle')}
               </span>
               <div className="h-[2px] w-12" style={{ backgroundColor: NATION_COLORS[nation.id] || PRIMARY_GOLD }} />
             </div>
 
-            <h1 className="font-bebas text-[60px] sm:text-[70px] md:text-[80px] lg:text-[100px] leading-[0.85] text-white mb-6 drop-shadow-2xl">
-              {nation.name}
-            </h1>
+            <SplitTitle 
+              text={nation.name}
+              className="section-title mb-6 drop-shadow-2xl"
+              type="chars"
+            />
 
             <p className="font-bebas text-[18px] sm:text-[24px] tracking-[0.15em] text-white/70 mb-8 italic">
               &ldquo;{nation.motto}&rdquo;
