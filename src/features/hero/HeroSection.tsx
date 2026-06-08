@@ -11,8 +11,8 @@ import {
   ScrollIndicator
 } from "."
 import TrophyScene from "@/components/3d/TrophyScene"
-import FlagOverlay from "./FlagOverlay"
-import { useHeroScroll } from "./useHeroScroll"
+import FlagOverlay from "./components/FlagOverlay"
+import { useHeroScroll } from "./hooks/useHeroScroll"
 
 /**
  * HeroSection Component

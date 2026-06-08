@@ -15,7 +15,7 @@ import {
   TARGET_BALL_DIAMETER,
   TOTAL_CARDS,
   cardZAtIndex,
-} from "./galleryConstants"
+} from "../hooks/galleryConstants"
 
 export { CARD_X_POSITIONS }
 

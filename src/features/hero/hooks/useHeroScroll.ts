@@ -3,7 +3,7 @@
 import { useEffect, type RefObject } from "react"
 import gsap from "@/lib/gsap/gsap"
 import { playHeroTimeline } from "@/lib/gsap/timelines/heroTimeline"
-import { dispatchHeroCinematicComplete } from "@/components/sections/nations/heroScrollGate"
+import { dispatchHeroCinematicComplete } from "@/features/nations"
 
 export function useHeroScroll(
   container: RefObject<HTMLElement | null>,

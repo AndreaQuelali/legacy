@@ -16,7 +16,7 @@ import {
   FLOOR_Y,
   FLOOR_Z,
   ROLL_ENTRY_X,
-} from "./galleryConstants"
+} from "../hooks/galleryConstants"
 
 const IDLE_OUTER_BORDER = 0.5
 const IDLE_MAT_BORDER = 0.12

@@ -3,8 +3,8 @@
 import React, { useEffect, useRef, useState, useCallback } from 'react'
 import gsap, { ScrollTrigger, Flip } from '@/lib/gsap/gsap'
 import { useTranslations } from 'next-intl'
-import StadiumHeader from './StadiumHeader'
-import StadiumCard from './StadiumCard'
+import StadiumHeader from './components/StadiumHeader'
+import StadiumCard from './components/StadiumCard'
 
 const STADIUM_DATA = [
   { id: '1', image: '/images/Azteca.jpeg' },

@@ -7,13 +7,13 @@ import { AnimatePresence, motion } from 'framer-motion'
 import { useLenis } from 'lenis/react'
 import gsap, { ScrollTrigger } from '@/lib/gsap/gsap'
 import SplitTitle from '@/components/animations/SplitTitle'
-import PlayerGallery3D, { type GalleryItem } from './PlayerGallery3D'
-import NationInfoOverlay from './NationInfoOverlay'
+import PlayerGallery3D, { type GalleryItem } from './components/PlayerGallery3D'
+import NationInfoOverlay from './components/NationInfoOverlay'
 import { NATIONS, getNationFolder, orderNationsByConfig, type NationData } from '@/data/nations'
 import {
   HERO_CINEMATIC_COMPLETE_EVENT,
   isHeroCinematicComplete,
-} from './heroScrollGate'
+} from './hooks/heroScrollGate'
 
 export default function NationsSection() {
   const t = useTranslations('nations')
