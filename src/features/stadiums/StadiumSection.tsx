@@ -7,22 +7,22 @@ import StadiumHeader from './components/StadiumHeader'
 import StadiumCard from './components/StadiumCard'
 
 const STADIUM_DATA = [
-  { id: '1', image: '/images/Azteca.jpeg' },
-  { id: '2', image: '/images/SoFi.jpg' },
-  { id: '3', image: '/images/BC-Place.jpg' },
-  { id: '4', image: '/images/Metlife.jpg' },
-  { id: '5', image: '/images/Mercedes-Benz.jpg' },
-  { id: '6', image: '/images/Hard-Rock.jpeg' },
-  { id: '7', image: '/images/Lumen.jpg' },
-  { id: '8', image: "/images/Levi's.jpg" },
-  { id: '9', image: '/images/ATT.jpg' },
-  { id: '10', image: '/images/NRG.jpeg' },
-  { id: '11', image: '/images/Arrowhead.jpeg' },
-  { id: '12', image: '/images/Gillette.jpeg' },
-  { id: '13', image: '/images/Lincoln-Financial.jpg' },
-  { id: '14', image: '/images/BMO.jpg' },
-  { id: '15', image: '/images/BBVA.jpg' },
-  { id: '16', image: '/images/Akron.jpg' },
+  { id: '1', image: '/images/stadiums/Azteca.jpeg' },
+  { id: '2', image: '/images/stadiums/SoFi.jpg' },
+  { id: '3', image: '/images/stadiums/BC-Place.jpg' },
+  { id: '4', image: '/images/stadiums/Metlife.jpg' },
+  { id: '5', image: '/images/stadiums/Mercedes-Benz.jpg' },
+  { id: '6', image: '/images/stadiums/Hard-Rock.jpeg' },
+  { id: '7', image: '/images/stadiums/Lumen.jpg' },
+  { id: '8', image: "/images/stadiums/Levi's.jpg" },
+  { id: '9', image: '/images/stadiums/ATT.jpg' },
+  { id: '10', image: '/images/stadiums/NRG.jpeg' },
+  { id: '11', image: '/images/stadiums/Arrowhead.jpeg' },
+  { id: '12', image: '/images/stadiums/Gillette.jpeg' },
+  { id: '13', image: '/images/stadiums/Lincoln-Financial.jpg' },
+  { id: '14', image: '/images/stadiums/BMO.jpg' },
+  { id: '15', image: '/images/stadiums/BBVA.jpg' },
+  { id: '16', image: '/images/stadiums/Akron.jpg' },
 ]
 
 // 8-column, 3-row Bento for each set.
