@@ -6,7 +6,7 @@
     "nations": "NATIONS",
     "players": "PLAYERS",
     "stadiums": "STADIUMS",
-    "road_to": "ROAD",
+    "road_to": "SCHEDULE",
     "about": "ABOUT",
     "explore": "EXPLORE",
     "navigate": "NAVIGATE"
@@ -216,38 +216,50 @@
       }
     ]
   },
-  "timeline": {
+  "journey": {
     "subtitle": "THE JOURNEY",
-    "title": "ROAD TO 2026",
+    "title": "2026 SCHEDULE",
     "milestone1": {
       "id": "01",
-      "date": "2023 - 2025",
-      "title": "QUALIFIERS",
-      "desc": "NATIONS FIGHT FOR THEIR DREAM. ONLY THE STRONGEST EARN THEIR PLACE."
+      "date": "JUNE 11, 2026",
+      "title": "OPENING MATCH",
+      "desc": "MEXICO KICKS OFF THE WORLD CUP AT THE HISTORIC ESTADIO AZTECA."
     },
     "milestone2": {
       "id": "02",
-      "date": "2025",
-      "title": "THE DRAW",
-      "desc": "DESTINY IS WRITTEN. THE WORLD DISCOVERS THE PATH AHEAD."
+      "date": "JUNE 11 - 27",
+      "title": "GROUP STAGE",
+      "desc": "48 NATIONS. 12 GROUPS. THE BATTLE FOR QUALIFICATION BEGINS ACROSS NORTH AMERICA."
     },
     "milestone3": {
       "id": "03",
-      "date": "JUNE 2026",
-      "title": "GROUP STAGE",
-      "desc": "THE TOURNAMENT BEGINS. 32 NATIONS. 8 GROUPS. ONE CHANCE."
+      "date": "JUNE 28 - JULY 3",
+      "title": "ROUND OF 32",
+      "desc": "KNOCKOUT STAGE BEGINS. 32 NATIONS FIGHT TO MOVE FORWARD."
     },
     "milestone4": {
       "id": "04",
-      "date": "JUNE - JULY 2026",
-      "title": "KNOCKOUT STAGE",
-      "desc": "VICTORY OR GO HOME. THE ROAD GETS HARDER. LEGENDS ARE MADE."
+      "date": "JULY 4 - 7",
+      "title": "ROUND OF 16",
+      "desc": "THE TENSION RISES. ONLY THE TOP 16 TEAMS REMAIN IN THE RUNNING."
     },
     "milestone5": {
       "id": "05",
+      "date": "JULY 9 - 11",
+      "title": "QUARTERFINALS",
+      "desc": "GIANT CLASHES IN BOSTON, LOS ANGELES, MIAMI, AND KANSAS CITY."
+    },
+    "milestone6": {
+      "id": "06",
+      "date": "JULY 14 - 15",
+      "title": "SEMIFINALS",
+      "desc": "DALLAS AND ATLANTA DEFINE THE TWO WORLD FINALISTS."
+    },
+    "milestone7": {
+      "id": "07",
       "date": "JULY 19, 2026",
       "title": "THE FINAL",
-      "desc": "ONE MATCH. ONE TROPHY. ETERNAL GLORY."
+      "desc": "THE WORLD STOPS IN NEW YORK / NEW JERSEY TO CROWN THE CHAMPION."
     },
     "footer_scroll": "SCROLL TO FOLLOW THE JOURNEY"
   },

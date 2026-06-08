@@ -13,14 +13,6 @@ interface JourneyCardProps {
   isLast?: boolean
 }
 
-const icons: Record<string, string> = {
-  "01": "public",
-  "02": "auto_awesome_motion",
-  "03": "groups",
-  "04": "account_tree",
-  "05": "trophy"
-}
-
 export default function JourneyCard({ id, date, title, desc, icon, image, isLast }: JourneyCardProps) {
   return (
     <div className={`relative flex flex-col items-center w-[300px] h-[550px] flex-shrink-0 group ${isLast ? 'z-20' : 'z-10'}`}>
@@ -35,7 +27,7 @@ export default function JourneyCard({ id, date, title, desc, icon, image, isLast
       <div className="relative mb-10">
         <div className="w-12 h-12 rounded-full border border-primary/50 bg-[#050505] flex items-center justify-center relative z-10 transition-transform duration-500 group-hover:scale-110 group-hover:border-primary">
             <span className="material-symbols-outlined text-primary text-2xl">
-                {icons[id] || icon}
+                {icon}
             </span>
             {/* Glow effect */}
             <div className="absolute inset-0 rounded-full bg-primary/20 blur-md opacity-0 group-hover:opacity-100 transition-opacity" />
@@ -54,7 +46,7 @@ export default function JourneyCard({ id, date, title, desc, icon, image, isLast
                 alt={title}
                 fill
                 sizes="(max-width: 768px) 100vw, 300px"
-                className={`object-cover ${id === '05' ? '' : 'filter grayscale contrast-125'} transition-all duration-700 group-hover:scale-105 group-hover:grayscale-0`}
+                className={`object-cover ${id === '07' ? '' : 'filter grayscale contrast-125'} transition-all duration-700 group-hover:scale-105 group-hover:grayscale-0`}
             />
         </div>
         

@@ -4,7 +4,7 @@ import React, { useEffect, useRef } from 'react'
 import { useTranslations } from 'next-intl'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import TimelineHeader from './TimelineHeader'
+import JourneyHeader from './JourneyHeader'
 import JourneyCard from './JourneyCard'
 import Image from 'next/image'
 
@@ -19,8 +19,8 @@ interface Milestone {
   image: string
 }
 
-export default function TimelineSection() {
-  const t = useTranslations('timeline')
+export default function JourneySection() {
+  const t = useTranslations('journey')
   const sectionRef = useRef<HTMLElement>(null)
   const containerRef = useRef<HTMLDivElement>(null)
   const horizontalRef = useRef<HTMLDivElement>(null)
@@ -48,7 +48,7 @@ export default function TimelineSection() {
       })
 
       // Background Parallax — vertical only, no horizontal movement
-      gsap.fromTo(".timeline-map", {
+      gsap.fromTo(".journey-map", {
         y: -40,
       }, {
         y: 40,
@@ -71,46 +71,62 @@ export default function TimelineSection() {
       date: t("milestone1.date"),
       title: t("milestone1.title"),
       desc: t("milestone1.desc"),
-      icon: "public",
-      image: "/images/timeline/qualifiers.png"
+      icon: "stadium",
+      image: "/images/journey/01-opening.jpg"
     },
     {
       id: t("milestone2.id"),
       date: t("milestone2.date"),
       title: t("milestone2.title"),
       desc: t("milestone2.desc"),
-      icon: "auto_awesome_motion",
-      image: "/images/timeline/draw.png"
+      icon: "groups",
+      image: "/images/journey/02-groups.jpg"
     },
     {
       id: t("milestone3.id"),
       date: t("milestone3.date"),
       title: t("milestone3.title"),
       desc: t("milestone3.desc"),
-      icon: "groups",
-      image: "/images/timeline/group_stage.png"
+      icon: "account_tree",
+      image: "/images/journey/03-round32.jpg"
     },
     {
       id: t("milestone4.id"),
       date: t("milestone4.date"),
       title: t("milestone4.title"),
       desc: t("milestone4.desc"),
-      icon: "account_tree",
-      image: "/images/timeline/knockout.png"
+      icon: "sports_soccer",
+      image: "/images/journey/04-round16.jpg"
     },
     {
       id: t("milestone5.id"),
       date: t("milestone5.date"),
       title: t("milestone5.title"),
       desc: t("milestone5.desc"),
+      icon: "location_city",
+      image: "/images/journey/05-quarters.jpg"
+    },
+    {
+      id: t("milestone6.id"),
+      date: t("milestone6.date"),
+      title: t("milestone6.title"),
+      desc: t("milestone6.desc"),
+      icon: "star",
+      image: "/images/journey/06-semis.jpg"
+    },
+    {
+      id: t("milestone7.id"),
+      date: t("milestone7.date"),
+      title: t("milestone7.title"),
+      desc: t("milestone7.desc"),
       icon: "trophy",
-      image: "/images/timeline/final.png"
+      image: "/images/journey/07-final.jpg"
     },
   ]
 
   return (
     <section
-      id="timeline"
+      id="journey"
       ref={sectionRef}
       className="relative overflow-hidden bg-[#050505]"
     >
@@ -121,20 +137,20 @@ export default function TimelineSection() {
           alt="North America Map"
           fill
           sizes='150vw'
-          className="object-cover timeline-map scale-125"
+          className="object-cover journey-map scale-125"
         />
         <div className="absolute inset-0 bg-gradient-to-b from-[#050505] via-transparent to-[#050505]" />
       </div>
 
       <div ref={containerRef} className="relative z-10 min-h-screen flex flex-col pt-10 md:pt-20">
         <div className="px-6 py-4 md:py-6">
-          <TimelineHeader />
+          <JourneyHeader />
         </div>
 
-        <div className="flex flex-col items-center overflow-hidden mt-4 md:mt-8">
+        <div className="w-full overflow-hidden mt-4 md:mt-8 flex justify-start">
           <div
             ref={horizontalRef}
-            className="flex gap-20 px-[20vw] md:px-[30vw]"
+            className="flex w-max gap-20 px-[20vw] md:px-[30vw]"
           >
             {/* Visual Timeline Line */}
             <div className="absolute top-[210px] left-0 w-full h-[1px] bg-white/10" />

@@ -6,7 +6,7 @@
     "nations": "NACIONES",
     "players": "JUGADORES",
     "stadiums": "ESTADIOS",
-    "road_to": "CAMINO",
+    "road_to": "CALENDARIO",
     "about": "ACERCA DE",
     "explore": "EXPLORAR",
     "navigate": "NAVEGAR"
@@ -216,38 +216,51 @@
       }
     ]
   },
-  "timeline": {
+
+  "journey": {
     "subtitle": "EL VIAJE",
-    "title": "CAMINO A 2026",
+    "title": "CALENDARIO 2026",
     "milestone1": {
       "id": "01",
-      "date": "2023 - 2025",
-      "title": "ELIMINATORIAS",
-      "desc": "LAS NACIONES LUCHAN POR SU SUEÑO. SOLO LAS MÁS FUERTES LOGRAN SU LUGAR."
+      "date": "11 DE JUNIO, 2026",
+      "title": "PARTIDO INAUGURAL",
+      "desc": "MÉXICO DA INICIO AL MUNDIAL EN EL HISTÓRICO ESTADIO AZTECA."
     },
     "milestone2": {
       "id": "02",
-      "date": "2025",
-      "title": "EL SORTEO",
-      "desc": "EL DESTINO ESTÁ ESCRITO. EL MUNDO DESCUBRE EL CAMINO POR DELANTE."
+      "date": "11 - 27 DE JUNIO",
+      "title": "FASE DE GRUPOS",
+      "desc": "48 NACIONES. 12 GRUPOS. LA BATALLA POR LA CLASIFICACIÓN COMIENZA EN NORTEAMÉRICA."
     },
     "milestone3": {
       "id": "03",
-      "date": "JUNIO 2026",
-      "title": "FASE DE GRUPOS",
-      "desc": "COMIENZA EL TORNEO. 32 NACIONES. 8 GRUPOS. UNA OPORTUNIDAD."
+      "date": "28 JUNIO - 3 JULIO",
+      "title": "DIECISEISAVOS",
+      "desc": "COMIENZA LA ELIMINACIÓN DIRECTA. 32 NACIONES BUSCAN SEGUIR ADELANTE."
     },
     "milestone4": {
       "id": "04",
-      "date": "JUNIO - JULIO 2026",
-      "title": "FASE FINAL",
-      "desc": "VICTORIA O A CASA. EL CAMINO SE VUELVE MÁS DIFÍCIL. SE CREAN LEYENDAS."
+      "date": "4 - 7 DE JULIO",
+      "title": "OCTAVOS DE FINAL",
+      "desc": "LA TENSIÓN AUMENTA. SOLO LOS MEJORES 16 EQUIPOS QUEDAN EN PIE."
     },
     "milestone5": {
       "id": "05",
-      "date": "19 DE JULIO DE 2026",
-      "title": "LA FINAL",
-      "desc": "UN PARTIDO. UN TROFEO. GLORIA ETERNA."
+      "date": "9 - 11 DE JULIO",
+      "title": "CUARTOS DE FINAL",
+      "desc": "DUELOS DE GIGANTES EN BOSTON, LOS ÁNGELES, MIAMI Y KANSAS CITY."
+    },
+    "milestone6": {
+      "id": "06",
+      "date": "14 - 15 DE JULIO",
+      "title": "SEMIFINALES",
+      "desc": "DALLAS Y ATLANTA DEFINEN A LOS DOS FINALISTAS DEL MUNDO."
+    },
+    "milestone7": {
+      "id": "07",
+      "date": "19 DE JULIO, 2026",
+      "title": "LA GRAN FINAL",
+      "desc": "EL MUNDO SE DETIENE EN NUEVA YORK / NUEVA JERSEY PARA CORONAR AL CAMPEÓN."
     },
     "footer_scroll": "DESLIZA PARA SEGUIR EL VIAJE"
   },
