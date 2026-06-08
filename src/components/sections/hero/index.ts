@@ -1,5 +1,7 @@
 export { default as HeroSection } from './HeroSection'
 export { default as HeroBackground } from './HeroBackground'
+export { default as HeroAtmosphere } from './HeroAtmosphere'
+export { default as HeroMarquee } from './HeroMarquee'
 export { default as HeroContent } from './HeroContent'
 export { default as HeroTitle } from './HeroTitle'
 export { default as HeroSubtitle } from './HeroSubtitle'
