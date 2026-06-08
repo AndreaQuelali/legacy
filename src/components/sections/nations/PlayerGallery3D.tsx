@@ -10,11 +10,11 @@ import CameraFlashes from "@/components/3d/CameraFlashes"
 const GOLDEN_RATIO = 1.61803398875
 
 // Idle gallery — linear row with gentle depth
-const IDLE_FRAME_WIDTH = 6.5
+const IDLE_FRAME_WIDTH = 8.2
 const IDLE_FRAME_HEIGHT = IDLE_FRAME_WIDTH * GOLDEN_RATIO
 const IDLE_OUTER_BORDER = 0.5
 const IDLE_MAT_BORDER = 0.12
-const IDLE_SPACING = 8.8   // center-to-center gap (gap = 8.8 - 6.5 = 2.3 units)
+const IDLE_SPACING = 10.2   // center-to-center gap
 
 // Selected detail view — compact carousel in 40% panel
 const SEL_FRAME_WIDTH = 6.5
@@ -65,7 +65,7 @@ export default function PlayerGallery3D({
       <Canvas
         className="w-full h-full"
         dpr={[1, 1.5]}
-        camera={{ fov: isIdle ? 62 : 48, position: isIdle ? [0, 0.6, 30] : [0, 1.2, 11] }}
+        camera={{ fov: isIdle ? 58 : 48, position: isIdle ? [0, 1.0, 27] : [0, 1.2, 11] }}
         gl={{ alpha: true, antialias: true }}
       >
         {isIdle && <color attach="background" args={["#050505"]} />}
@@ -73,7 +73,7 @@ export default function PlayerGallery3D({
         <Environment preset="city" />
         <CameraFlashes active={isIdle} />
 
-        <group position={[0, isIdle ? 1.1 : 0.5, 0]}>
+        <group position={[0, isIdle ? 1.55 : 0.5, 0]}>
           <Frames
             items={items}
             selectedId={selectedId}
@@ -81,22 +81,24 @@ export default function PlayerGallery3D({
             onSelect={handleSelect}
           />
 
-          <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -frameHeight / 2 - (isIdle ? 0.35 : 1), 0]}>
-            <planeGeometry args={[200, 200]} />
-            <MeshReflectorMaterial
-              blur={[500, 180]}
-              resolution={1024}
-              mixBlur={1}
-              mixStrength={isIdle ? 28 : 30}
-              roughness={0.85}
-              depthScale={0.7}
-              minDepthThreshold={0.55}
-              maxDepthThreshold={0.95}
-              color="#070707"
-              metalness={0.5}
-              mirror={isIdle ? 0.75 : 0.75}
-            />
-          </mesh>
+          {isIdle && (
+            <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -frameHeight / 2 - 0.12, 0]}>
+              <planeGeometry args={[80, 80]} />
+              <MeshReflectorMaterial
+                blur={[900, 320]}
+                resolution={1024}
+                mixBlur={1}
+                mixStrength={7}
+                roughness={0.95}
+                depthScale={0.22}
+                minDepthThreshold={0.68}
+                maxDepthThreshold={0.74}
+                color="#050505"
+                metalness={0.3}
+                mirror={0.35}
+              />
+            </mesh>
+          )}
         </group>
 
         <CameraRig selectedId={selectedId} />
@@ -344,8 +346,8 @@ function CameraRig({ selectedId }: { selectedId: string | null }) {
       easing.damp3(state.camera.position, [0, 0.5, 11], 0.4, dt)
       easing.damp3(lookAtRef.current, [0, 0.5, 0], 0.4, dt)
     } else {
-      easing.damp3(state.camera.position, [0, 0.8, 30], 0.4, dt)
-      easing.damp3(lookAtRef.current, [0, 0.6, 0], 0.4, dt)
+      easing.damp3(state.camera.position, [0, 1.0, 27], 0.4, dt)
+      easing.damp3(lookAtRef.current, [0, 0.85, 0], 0.4, dt)
     }
     state.camera.lookAt(lookAtRef.current)
   })

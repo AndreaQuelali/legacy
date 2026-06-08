@@ -186,8 +186,8 @@ export default function NationsSection() {
 
       {/* 6. SECTION HEADER */}
       {!selectedId && (
-        <div className="absolute top-14 md:top-16 inset-x-0 z-20 text-center pointer-events-none px-4 opacity-80">
-          <div className="flex items-center justify-center gap-4 mb-1.5">
+        <div className="absolute top-12 md:top-14 inset-x-0 z-20 text-center pointer-events-none px-4 opacity-80">
+          <div className="flex items-center justify-center gap-3 mb-1">
             <div className="h-px w-8 bg-primary/40" />
             <span className="font-bebas text-xs tracking-[0.4em] text-white/40 uppercase">{t('subtitle')}</span>
             <div className="h-px w-8 bg-primary/40" />
@@ -195,7 +195,7 @@ export default function NationsSection() {
           <h2 className="font-bebas text-3xl sm:text-4xl md:text-5xl text-white tracking-widest drop-shadow-lg leading-none">
             {t('title')}
           </h2>
-          <p className="font-inter text-xs text-white/25 mt-1 tracking-widest hidden sm:block">
+          <p className="font-inter text-xs text-white/25 mt-0.5 tracking-widest hidden sm:block">
             {t('select_hint')}
           </p>
         </div>
