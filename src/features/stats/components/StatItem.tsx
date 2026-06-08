@@ -1,41 +1,13 @@
 "use client"
 
-import React, { useEffect, useRef } from 'react'
-import gsap from '@/lib/gsap/gsap'
+import React, { useRef } from 'react'
+import { useCountUp } from '@/lib/gsap/useCountUp'
+import type { StatData } from '../hooks/useStatsData'
 
-interface StatItemProps {
-  icon: string
-  value: string
-  label: string
-}
-
-export default function StatItem({ icon, value, label }: StatItemProps) {
+export default function StatItem({ icon, value, label }: StatData) {
   const numberRef = useRef<HTMLDivElement>(null)
-  
-  useEffect(() => {
-    if (!numberRef.current) return
-    
-    // Parse target value from string (removing any non-digit chars if any)
-    const targetValue = parseInt(value.replace(/[^0-9]/g, ''))
-    if (isNaN(targetValue)) return
 
-    const numberElement = numberRef.current
-    const proxy = { val: 0 }
-
-    gsap.to(proxy, {
-      val: targetValue,
-      duration: 2,
-      ease: "power2.out",
-      scrollTrigger: {
-        trigger: numberElement,
-        start: "top 90%",
-        once: true
-      },
-      onUpdate: () => {
-        numberElement.innerText = Math.floor(proxy.val).toString()
-      }
-    })
-  }, [value])
+  useCountUp(numberRef, value, { trigger: 'scroll', duration: 2 })
 
   return (
     <div className="flex items-center gap-5">
@@ -43,7 +15,7 @@ export default function StatItem({ icon, value, label }: StatItemProps) {
         {icon}
       </span>
       <div>
-        <div 
+        <div
           ref={numberRef}
           className="countdown-number text-[40px] sm:text-[52px]"
         >

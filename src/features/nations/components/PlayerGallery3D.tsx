@@ -17,6 +17,8 @@ import {
   FLOOR_Z,
   ROLL_ENTRY_X,
 } from "../hooks/galleryConstants"
+import { getNationImage } from "../assets/nationImages"
+import type { NationFolder } from "../data/nations"
 
 const IDLE_OUTER_BORDER = 0.5
 const IDLE_MAT_BORDER = 0.12
@@ -50,7 +52,7 @@ interface PlayerData {
   id: string
   name: string
   player: string
-  folder: string
+  folder: NationFolder
 }
 
 export type GalleryItem = PlayerData
@@ -341,7 +343,7 @@ function Frame({
           <meshBasicMaterial ref={bgRef} color="#000" transparent opacity={1} />
 
           <Image
-            url={`/images/nations/${item.folder}/flag.png`}
+            url={getNationImage(item.folder, 'flag')}
             transparent
             scale={[frameW, frameH]}
             position={[0, 0, 0.005]}
@@ -350,7 +352,7 @@ function Frame({
 
           <Image
             ref={imageRef}
-            url={`/images/nations/${item.folder}/player.png`}
+            url={getNationImage(item.folder, 'player')}
             transparent
             scale={[frameW, frameH]}
             position={[0, 0, 0.01]}

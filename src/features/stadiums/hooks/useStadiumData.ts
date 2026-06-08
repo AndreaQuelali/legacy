@@ -1,43 +1,34 @@
 "use client"
 
+import { useMemo } from 'react'
 import { useTranslations } from 'next-intl'
+import { STADIUMS, type StadiumItem } from '../data/stadiums'
 
-export interface StadiumItem {
+interface StadiumListEntry {
   id: string
   name: string
   city: string
   capacity: string
-  image: string
 }
-
-const STADIUM_IMAGES = [
-  '/images/stadiums/Azteca.jpeg',
-  '/images/stadiums/SoFi.jpg',
-  '/images/stadiums/BC-Place.jpg',
-  '/images/stadiums/Metlife.jpg',
-  '/images/stadiums/Mercedes-Benz.jpg',
-  '/images/stadiums/Hard-Rock.jpeg',
-  '/images/stadiums/Lumen.jpg',
-  "/images/stadiums/Levi's.jpg",
-  '/images/stadiums/ATT.jpg',
-  '/images/stadiums/NRG.jpeg',
-  '/images/stadiums/Arrowhead.jpeg',
-  '/images/stadiums/Gillette.jpeg',
-  '/images/stadiums/Lincoln-Financial.jpg',
-  '/images/stadiums/BMO.jpg',
-  '/images/stadiums/BBVA.jpg',
-  '/images/stadiums/Akron.jpg',
-]
 
 export function useStadiumData(): StadiumItem[] {
   const t = useTranslations('stadiums')
-  const stadiumList = t.raw('list') as Array<{ id: string; name: string; city: string; capacity: string }>
+  const stadiumList = t.raw('list') as StadiumListEntry[]
 
-  return STADIUM_IMAGES.map((image, i) => ({
-    id: String(i + 1),
-    image,
-    name: stadiumList[i]?.name || '',
-    city: stadiumList[i]?.city || '',
-    capacity: stadiumList[i]?.capacity || '',
-  }))
+  return useMemo(() => {
+    const listById = new Map(stadiumList.map((entry) => [entry.id, entry]))
+
+    return STADIUMS.map((stadium) => {
+      const entry = listById.get(stadium.id)
+      return {
+        id: stadium.id,
+        image: stadium.image,
+        bentoA: stadium.bentoA,
+        bentoB: stadium.bentoB,
+        name: entry?.name ?? '',
+        city: entry?.city ?? '',
+        capacity: entry?.capacity ?? '',
+      }
+    })
+  }, [stadiumList])
 }

@@ -1,8 +1,8 @@
 "use client"
 
-import { useEffect, useRef } from 'react'
+import { useRef } from 'react'
 import { useTranslations } from 'next-intl'
-import gsap from '@/lib/gsap/gsap'
+import { useCountUp } from '@/lib/gsap/useCountUp'
 
 interface NationStatsProps {
   founded: string
@@ -16,41 +16,8 @@ export default function NationStats({ founded, titles, stadium, isActive }: Nati
   const foundedRef = useRef<HTMLSpanElement>(null)
   const titlesRef = useRef<HTMLSpanElement>(null)
 
-  useEffect(() => {
-    if (!isActive) return
-
-    const stats = {
-      founded: 0,
-      titles: 0
-    }
-
-    const ctx = gsap.context(() => {
-      gsap.to(stats, {
-        founded: parseInt(founded),
-        duration: 1.5,
-        ease: "power2.out",
-        onUpdate: () => {
-          if (foundedRef.current) {
-            foundedRef.current.textContent = Math.floor(stats.founded).toString()
-          }
-        }
-      })
-
-      gsap.to(stats, {
-        titles: parseInt(titles),
-        duration: 1.5,
-        ease: "power2.out",
-        delay: 0.2,
-        onUpdate: () => {
-          if (titlesRef.current) {
-            titlesRef.current.textContent = Math.floor(stats.titles).toString()
-          }
-        }
-      })
-    })
-
-    return () => ctx.revert()
-  }, [isActive, founded, titles])
+  useCountUp(foundedRef, founded, { trigger: 'manual', isActive, duration: 1.5 })
+  useCountUp(titlesRef, titles, { trigger: 'manual', isActive, duration: 1.5, delay: 0.2 })
 
   return (
     <div className="flex gap-8 sm:gap-12">
@@ -58,8 +25,8 @@ export default function NationStats({ founded, titles, stadium, isActive }: Nati
         <span className="font-inter text-[10px] font-bold tracking-[0.25em] text-white/40 uppercase mb-1">
           {t('stat_founded')}
         </span>
-        <span 
-          ref={foundedRef} 
+        <span
+          ref={foundedRef}
           className="font-bebas text-[40px] sm:text-[52px] leading-none text-white"
         >
           0
@@ -72,8 +39,8 @@ export default function NationStats({ founded, titles, stadium, isActive }: Nati
         <span className="font-inter text-[10px] font-bold tracking-[0.25em] text-white/40 uppercase mb-1">
           {t('stat_titles')}
         </span>
-        <span 
-          ref={titlesRef} 
+        <span
+          ref={titlesRef}
           className="font-bebas text-[40px] sm:text-[52px] leading-none text-white"
         >
           0

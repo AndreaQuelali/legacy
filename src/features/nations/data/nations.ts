@@ -10,7 +10,7 @@ export const NATIONS = [
 export type NationId = (typeof NATIONS)[number]["id"]
 export type NationFolder = (typeof NATIONS)[number]["folder"]
 
-export function getNationFolder(id: string): string | undefined {
+export function getNationFolder(id: string): NationFolder | undefined {
   return NATIONS.find((n) => n.id === id)?.folder
 }
 

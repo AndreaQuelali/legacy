@@ -1,21 +1,10 @@
 "use client"
 
-import React from 'react'
 import { useTranslations } from 'next-intl'
 import { motion, AnimatePresence } from 'framer-motion'
 import SplitTitle from '@/components/animations/SplitTitle'
-import NationStats from './NationStats'
-
-interface NationData {
-  id: string
-  name: string
-  player: string
-  motto: string
-  desc: string
-  founded: string
-  titles: string
-  stadium: string
-}
+import type { NationData } from '../data/nations'
+import NationDetailContent from './NationDetailContent'
 
 const NATION_COLORS: Record<string, string> = {
   "01": "#dc2626",
@@ -28,19 +17,19 @@ const NATION_COLORS: Record<string, string> = {
 
 const PRIMARY_GOLD = "#e9c176"
 
-export default function NationInfoOverlay({ 
-  nation, 
-  onClose 
-}: { 
-  nation: NationData | null,
-  onClose: () => void 
+export default function NationInfoOverlay({
+  nation,
+  onClose,
+}: {
+  nation: NationData | null
+  onClose: () => void
 }) {
   const t = useTranslations('nations')
 
   return (
     <AnimatePresence mode="wait">
       {nation && (
-        <motion.div 
+        <motion.div
           key={`overlay-${nation.id}`}
           initial={{ opacity: 0, x: -50 }}
           animate={{ opacity: 1, x: 0 }}
@@ -70,28 +59,13 @@ export default function NationInfoOverlay({
               <div className="h-[2px] w-12" style={{ backgroundColor: NATION_COLORS[nation.id] || PRIMARY_GOLD }} />
             </div>
 
-            <SplitTitle 
+            <SplitTitle
               text={nation.name}
               className="section-title mb-6 drop-shadow-2xl"
               type="chars"
             />
 
-            <p className="font-bebas text-[18px] sm:text-[24px] tracking-[0.15em] text-white/70 mb-8 italic">
-              &ldquo;{nation.motto}&rdquo;
-            </p>
-
-            <p className="font-inter text-[14px] sm:text-[16px] text-white/50 leading-relaxed max-w-[400px] mx-auto mb-12">
-              {nation.desc}
-            </p>
-
-            <div className="flex justify-center">
-              <NationStats 
-                founded={nation.founded} 
-                titles={nation.titles} 
-                stadium={nation.stadium} 
-                isActive={true}
-              />
-            </div>
+            <NationDetailContent nation={nation} layout="desktop" statsActive />
           </div>
         </motion.div>
       )}

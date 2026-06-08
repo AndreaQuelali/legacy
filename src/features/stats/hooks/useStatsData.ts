@@ -1,6 +1,9 @@
 "use client"
 
+import { useMemo } from 'react'
 import { useTranslations } from 'next-intl'
+import { STADIUM_COUNT } from '@/features/stadiums/data/stadiums'
+import { STAT_CONFIG } from '../data/stats'
 
 export interface StatData {
   icon: string
@@ -10,10 +13,14 @@ export interface StatData {
 
 export function useStatsData(): StatData[] {
   const t = useTranslations('stats')
-  return [
-    { icon: "public", value: "32", label: t("nations") },
-    { icon: "groups", value: "736", label: t("players") },
-    { icon: "stadium", value: "16", label: t("host_cities") },
-    { icon: "emoji_events", value: "1", label: t("champion") },
-  ]
+
+  return useMemo(
+    () =>
+      STAT_CONFIG.map((stat) => ({
+        icon: stat.icon,
+        value: 'valueKey' in stat ? String(STADIUM_COUNT) : stat.value,
+        label: t('valueKey' in stat ? stat.valueKey : stat.labelKey),
+      })),
+    [t]
+  )
 }
