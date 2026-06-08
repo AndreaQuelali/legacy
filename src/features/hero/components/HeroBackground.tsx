@@ -2,6 +2,7 @@
 
 import React from 'react'
 import Image from 'next/image'
+import heroImg from '../assets/images/hero.png'
 
 interface HeroBackgroundProps {
   children?: React.ReactNode
@@ -12,7 +13,7 @@ export default function HeroBackground({ children }: HeroBackgroundProps) {
     <div className="absolute inset-0 z-0 bg-[#0d0d0d] overflow-hidden">
       {/* Base Image Background */}
       <Image 
-        src="/hero.png" 
+        src={heroImg} 
         alt="Hero Background" 
         fill
         className="object-cover opacity-60 mix-blend-luminosity"

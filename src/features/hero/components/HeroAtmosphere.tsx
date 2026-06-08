@@ -1,5 +1,7 @@
 "use client"
 
+import heroImg from '../assets/images/hero.png'
+
 export default function HeroAtmosphere() {
   return (
     <div className="trophy-atmosphere-layer absolute inset-0 z-[1] pointer-events-none opacity-0">
@@ -7,7 +9,7 @@ export default function HeroAtmosphere() {
       <div
         className="absolute inset-0"
         style={{
-          backgroundImage: "url('/hero.png')",
+          backgroundImage: `url(${heroImg.src})`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           filter: 'blur(40px) brightness(0.18)',
