@@ -19,8 +19,8 @@ const IDLE_SPACING = 8.8   // center-to-center gap (gap = 8.8 - 6.5 = 2.3 units)
 // Selected detail view — compact carousel in 40% panel
 const SEL_FRAME_WIDTH = 6.5
 const SEL_FRAME_HEIGHT = SEL_FRAME_WIDTH * GOLDEN_RATIO
-const SEL_OUTER_BORDER = 0.4
-const SEL_MAT_BORDER = 0.1
+const SEL_OUTER_BORDER = 0.55   // thicker so gold border is clearly visible
+const SEL_MAT_BORDER = 0.12
 
 interface PlayerData {
   id: string
@@ -73,7 +73,7 @@ export default function PlayerGallery3D({
         <Environment preset="city" />
         <CameraFlashes active={isIdle} />
 
-        <group position={[0, isIdle ? 0.4 : 0.5, 0]}>
+        <group position={[0, isIdle ? 1.1 : 0.5, 0]}>
           <Frames
             items={items}
             selectedId={selectedId}
@@ -81,20 +81,20 @@ export default function PlayerGallery3D({
             onSelect={handleSelect}
           />
 
-          <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -frameHeight / 2 - (isIdle ? 1.2 : 1), 0]}>
+          <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -frameHeight / 2 - (isIdle ? 0.35 : 1), 0]}>
             <planeGeometry args={[200, 200]} />
             <MeshReflectorMaterial
-              blur={[400, 100]}
+              blur={[500, 180]}
               resolution={1024}
               mixBlur={1}
-              mixStrength={isIdle ? 50 : 30}
-              roughness={0.8}
-              depthScale={1.4}
-              minDepthThreshold={0.35}
-              maxDepthThreshold={1.3}
+              mixStrength={isIdle ? 28 : 30}
+              roughness={0.85}
+              depthScale={0.7}
+              minDepthThreshold={0.55}
+              maxDepthThreshold={0.95}
               color="#070707"
-              metalness={0.6}
-              mirror={isIdle ? 0.9 : 0.75}
+              metalness={0.5}
+              mirror={isIdle ? 0.75 : 0.75}
             />
           </mesh>
         </group>
@@ -168,6 +168,9 @@ function Frame({
   const scaleRef = useRef<THREE.Group>(null)
   const [hovered, hover] = useState(false)
   useCursor(hovered)
+
+  const goldColor = useRef(new THREE.Color("#eab308"))
+  const blackColor = useRef(new THREE.Color("#0a0a0a"))
 
   const frameW = hasSelection ? SEL_FRAME_WIDTH : IDLE_FRAME_WIDTH
   const frameH = hasSelection ? SEL_FRAME_HEIGHT : IDLE_FRAME_HEIGHT
@@ -247,6 +250,12 @@ function Frame({
     easing.damp(outerBorderRef.current, "opacity", targetOpacity, 0.25, dt)
     easing.damp(matBorderRef.current, "opacity", targetOpacity, 0.25, dt)
 
+    // Animate border color: gold when selected, black otherwise
+    outerBorderRef.current.color.lerp(
+      isSelected ? goldColor.current : blackColor.current,
+      Math.min(dt * 5, 1)
+    )
+
     groupRef.current.visible = targetOpacity > 0.01
   })
 
@@ -297,52 +306,28 @@ function Frame({
             position={[0, 0, 0.01]}
           />
 
-          {hasSelection && (
+          {hovered && !isSelected && (
             <mesh position={[0, 0, 0.012]}>
-              <planeGeometry args={[outerW + 0.06, outerH + 0.06]} />
-              <meshBasicMaterial
-                transparent
-                color={isSelected ? "#eab308" : hovered ? "#ffffff" : "#000000"}
-                opacity={isSelected ? 0.85 : hovered ? 0.3 : 0}
-              />
-            </mesh>
-          )}
-
-          {!hasSelection && hovered && (
-            <mesh position={[0, 0, 0.012]}>
-              <planeGeometry args={[outerW + 0.06, outerH + 0.06]} />
-              <meshBasicMaterial transparent color="#ffffff" opacity={0.25} />
+              <planeGeometry args={[frameW, frameH]} />
+              <meshBasicMaterial transparent color="#ffffff" opacity={0.08} />
             </mesh>
           )}
         </mesh>
 
         {!hasSelection && (
-          <>
-            <Text
-              anchorX="center"
-              anchorY="bottom"
-              position={[0, frameH / 2 + outerBorder + 0.3, 0.02]}
-              fontSize={0.55}
-              font="/fonts/BebasNeue-Regular.ttf"
-              color="white"
-              fillOpacity={0.7}
-              letterSpacing={0.06}
-            >
-              {item.id}
-            </Text>
-            <Text
-              maxWidth={frameW + 1}
-              anchorX="center"
-              anchorY="top"
-              position={[0, -frameH / 2 - outerBorder - 0.45, 0.02]}
-              fontSize={0.5}
-              font="/fonts/BebasNeue-Regular.ttf"
-              color="white"
-              fillOpacity={0.5}
-            >
-              {item.name}
-            </Text>
-          </>
+          <Text
+            maxWidth={frameW + 2}
+            anchorX="center"
+            anchorY="bottom"
+            position={[0, frameH / 2 + outerBorder + 0.25, 0.02]}
+            fontSize={0.48}
+            font="/fonts/BebasNeue-Regular.ttf"
+            color="white"
+            fillOpacity={0.65}
+            letterSpacing={0.04}
+          >
+            {item.name.toUpperCase()}
+          </Text>
         )}
       </group>
     </group>
@@ -354,11 +339,13 @@ function CameraRig({ selectedId }: { selectedId: string | null }) {
 
   useFrame((state, dt) => {
     if (selectedId) {
-      easing.damp3(state.camera.position, [0, 1.2, 11], 0.4, dt)
+      // Camera directly in front of selected frame (targetX=0, targetY=0.5)
+      // Same X and Y as lookAt so the frame faces perfectly straight
+      easing.damp3(state.camera.position, [0, 0.5, 11], 0.4, dt)
       easing.damp3(lookAtRef.current, [0, 0.5, 0], 0.4, dt)
     } else {
-      easing.damp3(state.camera.position, [0, 0.6, 30], 0.4, dt)
-      easing.damp3(lookAtRef.current, [0, 0.2, 0], 0.4, dt)
+      easing.damp3(state.camera.position, [0, 0.8, 30], 0.4, dt)
+      easing.damp3(lookAtRef.current, [0, 0.6, 0], 0.4, dt)
     }
     state.camera.lookAt(lookAtRef.current)
   })
