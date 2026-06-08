@@ -7,7 +7,7 @@ import StadiumHeader from './StadiumHeader'
 import StadiumCard from './StadiumCard'
 
 const STADIUM_DATA = [
-  { id: '1', image: '/images/Azteca.jpg' },
+  { id: '1', image: '/images/Azteca.jpeg' },
   { id: '2', image: '/images/SoFi.jpg' },
   { id: '3', image: '/images/BC-Place.jpg' },
   { id: '4', image: '/images/Metlife.jpg' },
