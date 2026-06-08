@@ -12,7 +12,6 @@ export default function NationsSection() {
   const t = useTranslations('nations')
   const sectionRef = useRef<HTMLElement>(null)
   const [selectedId, setSelectedId] = useState<string | null>(null)
-  const [overlaySide, setOverlaySide] = useState<'left' | 'right'>('left')
 
   const nationsRaw = t.raw('nations_list') as NationData[]
   const nations = useMemo(() => orderNationsByConfig(nationsRaw), [nationsRaw])
@@ -35,15 +34,11 @@ export default function NationsSection() {
 
   const handlePrev = () => {
     if (selectedIndex <= 0) return
-    const prev = nations[selectedIndex - 1]
-    setSelectedId(prev.id)
-    setOverlaySide(selectedIndex - 1 < nations.length / 2 ? 'left' : 'right')
+    setSelectedId(nations[selectedIndex - 1].id)
   }
   const handleNext = () => {
     if (selectedIndex >= nations.length - 1) return
-    const next = nations[selectedIndex + 1]
-    setSelectedId(next.id)
-    setOverlaySide(selectedIndex + 1 < nations.length / 2 ? 'left' : 'right')
+    setSelectedId(nations[selectedIndex + 1].id)
   }
 
   return (
@@ -84,20 +79,13 @@ export default function NationsSection() {
       {/* 3. 3D GALLERY CANVAS */}
       <div
         className={`absolute inset-0 z-[10] flex items-center justify-center transition-all duration-700 ${
-          selectedId
-            ? overlaySide === "left"
-              ? "md:left-[60%] md:w-[40%]"
-              : "md:left-0 md:w-[40%]"
-            : ""
+          selectedId ? "md:left-[60%] md:w-[40%]" : ""
         }`}
       >
         <PlayerGallery3D
           items={galleryItems}
           selectedId={selectedId}
-          onSelect={(id, side) => {
-            setSelectedId(id)
-            setOverlaySide(side)
-          }}
+          onSelect={(id) => setSelectedId(id)}
         />
       </div>
 
@@ -105,7 +93,6 @@ export default function NationsSection() {
       <div className="hidden md:block">
         <NationInfoOverlay
           nation={selectedNation}
-          side={overlaySide}
           onClose={() => setSelectedId(null)}
         />
       </div>
@@ -201,13 +188,6 @@ export default function NationsSection() {
         </div>
       )}
 
-      {/* 7. BOTTOM INDICATOR */}
-      {!selectedId && (
-        <div className="absolute bottom-8 inset-x-0 flex flex-col items-center gap-2 z-20 pointer-events-none opacity-30">
-          <span className="font-inter text-[8px] font-bold tracking-[0.5em] text-white/40 uppercase">{t('explore_glory')}</span>
-          <div className="h-6 w-px bg-gradient-to-b from-white/20 to-transparent" />
-        </div>
-      )}
     </section>
   )
 }

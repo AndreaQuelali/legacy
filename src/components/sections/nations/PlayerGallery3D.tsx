@@ -19,8 +19,11 @@ const IDLE_SPACING = 10.2   // center-to-center gap
 // Selected detail view — compact carousel in 40% panel
 const SEL_FRAME_WIDTH = 6.5
 const SEL_FRAME_HEIGHT = SEL_FRAME_WIDTH * GOLDEN_RATIO
-const SEL_OUTER_BORDER = 0.55   // thicker so gold border is clearly visible
-const SEL_MAT_BORDER = 0.12
+const SEL_OUTER_BORDER = 0.28
+const SEL_MAT_BORDER = 0.1
+
+/** Primary gold from globals.css (--color-primary) */
+const PRIMARY_GOLD = "#e9c176"
 
 interface PlayerData {
   id: string
@@ -34,11 +37,7 @@ export type GalleryItem = PlayerData
 interface PlayerGallery3DProps {
   items: GalleryItem[]
   selectedId: string | null
-  onSelect: (id: string | null, side: "left" | "right") => void
-}
-
-function getSide(index: number, total: number): "left" | "right" {
-  return index < total / 2 ? "left" : "right"
+  onSelect: (id: string | null) => void
 }
 
 export default function PlayerGallery3D({
@@ -50,12 +49,7 @@ export default function PlayerGallery3D({
   const isIdle = selectedId === null
 
   const handleSelect = (id: string | null) => {
-    if (id) {
-      const idx = items.findIndex((p) => p.id === id)
-      onSelect(id, getSide(idx, items.length))
-    } else {
-      onSelect(null, "left")
-    }
+    onSelect(id)
   }
 
   const frameHeight = isIdle ? IDLE_FRAME_HEIGHT : SEL_FRAME_HEIGHT
@@ -82,20 +76,20 @@ export default function PlayerGallery3D({
           />
 
           {isIdle && (
-            <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -frameHeight / 2 - 0.12, 0]}>
-              <planeGeometry args={[80, 80]} />
+            <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -frameHeight / 2 - 0.1, 0]}>
+              <planeGeometry args={[70, 70]} />
               <MeshReflectorMaterial
-                blur={[900, 320]}
+                blur={[700, 280]}
                 resolution={1024}
                 mixBlur={1}
-                mixStrength={7}
-                roughness={0.95}
-                depthScale={0.22}
-                minDepthThreshold={0.68}
+                mixStrength={11}
+                roughness={0.88}
+                depthScale={0.35}
+                minDepthThreshold={0.66}
                 maxDepthThreshold={0.74}
-                color="#050505"
-                metalness={0.3}
-                mirror={0.35}
+                color="#060606"
+                metalness={0.4}
+                mirror={0.38}
               />
             </mesh>
           )}
@@ -171,7 +165,7 @@ function Frame({
   const [hovered, hover] = useState(false)
   useCursor(hovered)
 
-  const goldColor = useRef(new THREE.Color("#eab308"))
+  const goldColor = useRef(new THREE.Color(PRIMARY_GOLD))
   const blackColor = useRef(new THREE.Color("#0a0a0a"))
 
   const frameW = hasSelection ? SEL_FRAME_WIDTH : IDLE_FRAME_WIDTH
