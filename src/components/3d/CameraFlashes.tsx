@@ -59,19 +59,24 @@ export default function CameraFlashes({
       }
     } else if (flashPhase.current === "on") {
       phaseTimer.current += delta
-      lightRef.current.intensity = Math.min(160 * (phaseTimer.current / 0.06), 160)
-      if (phaseTimer.current >= 0.06) {
+      const peak = 450
+      lightRef.current.intensity = Math.min(peak * (phaseTimer.current / 0.04), peak)
+      if (phaseTimer.current >= 0.04) {
         flashPhase.current = "off"
         phaseTimer.current = 0
       }
     } else if (flashPhase.current === "off") {
       phaseTimer.current += delta
-      lightRef.current.intensity = Math.max(160 * (1 - phaseTimer.current / 0.14), 0)
-      if (phaseTimer.current >= 0.14) {
+      const peak = 450
+      lightRef.current.intensity = Math.max(peak * (1 - phaseTimer.current / 0.1), 0)
+      if (phaseTimer.current >= 0.1) {
         lightRef.current.intensity = 0
         flashPhase.current = "idle"
         timerRef.current = 0
-        nextFlash.current = Math.random() * 2.5 + 0.4
+        
+        // "Paparazzi" burst logic: 45% chance of a quick follow-up flash
+        const isBurst = Math.random() < 0.45
+        nextFlash.current = isBurst ? Math.random() * 0.12 + 0.04 : Math.random() * 2.0 + 0.3
       }
     }
   })

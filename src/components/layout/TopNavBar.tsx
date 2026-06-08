@@ -15,6 +15,7 @@ export default function TopNavBar() {
 
   const [activeSection, setActiveSection] = useState('hero');
   const [isOpen, setIsOpen] = useState(false);
+  const navRef = useRef<HTMLElement | null>(null)
   const scrollTriggers = useRef<globalThis.ScrollTrigger[]>([]);
 
   // Lock body scroll when drawer is open
@@ -26,6 +27,23 @@ export default function TopNavBar() {
     }
     return () => { document.body.style.overflow = '' }
   }, [isOpen])
+
+  // Expose navbar height for sections pinned under the fixed header.
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+    const el = navRef.current
+    if (!el) return
+
+    const setNavHeight = () => {
+      const height = el.getBoundingClientRect().height
+      document.documentElement.style.setProperty('--nav-h', `${height}px`)
+    }
+
+    setNavHeight()
+    const ro = new ResizeObserver(() => setNavHeight())
+    ro.observe(el)
+    return () => ro.disconnect()
+  }, [])
 
   useEffect(() => {
     const sections = ['hero', 'nations', 'stadiums', 'journey'];
@@ -93,7 +111,7 @@ export default function TopNavBar() {
 
   return (
     <>
-      <nav className="anim-navbar fixed top-0 w-full z-[100] backdrop-blur-md bg-black/30 border-b border-white/10 opacity-0">
+      <nav ref={navRef} className="anim-navbar fixed top-0 w-full z-[100] backdrop-blur-md bg-black/30 border-b border-white/10 opacity-0">
         <div className="flex items-center justify-between px-6 lg:px-10 py-4 max-w-[1440px] mx-auto">
           {/* Logo — mobile: single line 'LEGACY', desktop: two lines */}
           <Link href="/" className="font-bebas leading-none text-white hover:opacity-80 transition-opacity">

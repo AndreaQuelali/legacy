@@ -1,29 +1,50 @@
 "use client"
 
 import * as THREE from "three"
-import { useRef, useState } from "react"
+import { useRef, Suspense, useState } from "react"
 import { Canvas, useFrame } from "@react-three/fiber"
 import { useCursor, MeshReflectorMaterial, Image, Text, Environment } from "@react-three/drei"
 import { easing } from "maath"
 import CameraFlashes from "@/components/3d/CameraFlashes"
+import BallIntro from "./BallIntro"
+import {
+  GOLDEN_RATIO,
+  IDLE_FRAME_WIDTH,
+  IDLE_FRAME_HEIGHT,
+  IDLE_SPACING,
+  BALL_RADIUS,
+  FLOOR_Y,
+  FLOOR_Z,
+  ROLL_ENTRY_X,
+} from "./galleryConstants"
 
-const GOLDEN_RATIO = 1.61803398875
-
-// Idle gallery — linear row with gentle depth
-const IDLE_FRAME_WIDTH = 8.2
-const IDLE_FRAME_HEIGHT = IDLE_FRAME_WIDTH * GOLDEN_RATIO
 const IDLE_OUTER_BORDER = 0.5
 const IDLE_MAT_BORDER = 0.12
-const IDLE_SPACING = 10.2   // center-to-center gap
 
 // Selected detail view — compact carousel in 40% panel
-const SEL_FRAME_WIDTH = 6.5
+const SEL_FRAME_WIDTH = 7.5
 const SEL_FRAME_HEIGHT = SEL_FRAME_WIDTH * GOLDEN_RATIO
 const SEL_OUTER_BORDER = 0.28
 const SEL_MAT_BORDER = 0.1
 
 /** Primary gold from globals.css (--color-primary) */
 const PRIMARY_GOLD = "#e9c176"
+
+/** Visible placeholder while the ball GLB loads — on floor at roll entry */
+function BallIntroPlaceholder() {
+  return (
+    <mesh position={[ROLL_ENTRY_X, FLOOR_Y, FLOOR_Z]}>
+      <sphereGeometry args={[BALL_RADIUS, 20, 20]} />
+      <meshStandardMaterial
+        color={PRIMARY_GOLD}
+        emissive={PRIMARY_GOLD}
+        emissiveIntensity={0.35}
+        roughness={0.4}
+        metalness={0.2}
+      />
+    </mesh>
+  )
+}
 
 interface PlayerData {
   id: string
@@ -38,12 +59,22 @@ interface PlayerGallery3DProps {
   items: GalleryItem[]
   selectedId: string | null
   onSelect: (id: string | null) => void
+  /** Index of the card the ball is currently hovering over, or null */
+  ballHoveredIndex?: number | null
+  /** Whether to show the intro ball animation */
+  showBallIntro?: boolean
+  onBallCardEnter?: (index: number) => void
+  onBallComplete?: () => void
 }
 
 export default function PlayerGallery3D({
   items,
   selectedId,
   onSelect,
+  ballHoveredIndex = null,
+  showBallIntro = false,
+  onBallCardEnter,
+  onBallComplete,
 }: PlayerGallery3DProps) {
   const selectedIndex = selectedId ? items.findIndex((p) => p.id === selectedId) : -1
   const isIdle = selectedId === null
@@ -59,39 +90,52 @@ export default function PlayerGallery3D({
       <Canvas
         className="w-full h-full"
         dpr={[1, 1.5]}
-        camera={{ fov: isIdle ? 58 : 48, position: isIdle ? [0, 1.0, 27] : [0, 1.2, 11] }}
+        camera={{ fov: isIdle ? 58 : 48, position: isIdle ? [0, 1.0, 30] : [0, 1.2, 12] }}
         gl={{ alpha: true, antialias: true }}
       >
-        {isIdle && <color attach="background" args={["#050505"]} />}
-        <fog attach="fog" args={["#050505", isIdle ? 35 : 10, isIdle ? 70 : 35]} />
+        <fog attach="fog" args={["#050505", isIdle ? 35 : 10, isIdle ? 80 : 35]} />
         <Environment preset="city" />
-        <CameraFlashes active={isIdle} />
+        <CameraFlashes active={isIdle && !showBallIntro} />
 
-        <group position={[0, isIdle ? 1.55 : 0.5, 0]}>
+        <group position={[0, isIdle ? 1.0 : 0.5, 0]}>
           <Frames
             items={items}
             selectedId={selectedId}
             selectedIndex={selectedIndex}
             onSelect={handleSelect}
+            ballHoveredIndex={ballHoveredIndex}
           />
 
           {isIdle && (
             <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -frameHeight / 2 - 0.1, 0]}>
-              <planeGeometry args={[70, 70]} />
+              {/* Massive floor reflector with "Liquid Mirror" properties */}
+              <planeGeometry args={[85, 22]} />
               <MeshReflectorMaterial
-                blur={[700, 280]}
+                blur={[300, 100]}
                 resolution={1024}
                 mixBlur={1}
-                mixStrength={11}
-                roughness={0.88}
-                depthScale={0.35}
+                mixStrength={35}
+                roughness={0.6}
+                depthScale={0.4}
                 minDepthThreshold={0.66}
                 maxDepthThreshold={0.74}
-                color="#060606"
-                metalness={0.4}
-                mirror={0.38}
+                color="#050505"
+                metalness={0.5}
+                mirror={0.9}
               />
             </mesh>
+          )}
+
+          {/* Ball intro animation inside Suspense so useGLTF can suspend safely */}
+          {showBallIntro && onBallCardEnter && onBallComplete && (
+            <Suspense fallback={<BallIntroPlaceholder />}>
+              <BallIntro
+                key="ball-intro"
+                onCardEnter={onBallCardEnter}
+                onComplete={onBallComplete}
+                startDelay={0}
+              />
+            </Suspense>
           )}
         </group>
 
@@ -106,11 +150,13 @@ function Frames({
   selectedId,
   selectedIndex,
   onSelect,
+  ballHoveredIndex,
 }: {
   items: PlayerData[]
   selectedId: string | null
   selectedIndex: number
   onSelect: (id: string | null) => void
+  ballHoveredIndex?: number | null
 }) {
   return (
     <group>
@@ -129,6 +175,7 @@ function Frames({
             isSelected={isSelected}
             isAdjacent={isAdjacent}
             hasSelection={hasSelection}
+            isBallHovered={ballHoveredIndex === i}
             onSelect={() => onSelect(isSelected ? null : item.id)}
           />
         )
@@ -145,6 +192,7 @@ function Frame({
   isSelected,
   isAdjacent,
   hasSelection,
+  isBallHovered,
   onSelect,
 }: {
   item: PlayerData
@@ -154,6 +202,7 @@ function Frame({
   isSelected: boolean
   isAdjacent: boolean
   hasSelection: boolean
+  isBallHovered: boolean
   onSelect: () => void
 }) {
   const imageRef = useRef<THREE.Mesh>(null)
@@ -167,6 +216,9 @@ function Frame({
 
   const goldColor = useRef(new THREE.Color(PRIMARY_GOLD))
   const blackColor = useRef(new THREE.Color("#0a0a0a"))
+
+  // Treat ball-hover the same as pointer hover for visuals
+  const isEffectivelyHovered = hovered || isBallHovered
 
   const frameW = hasSelection ? SEL_FRAME_WIDTH : IDLE_FRAME_WIDTH
   const frameH = hasSelection ? SEL_FRAME_HEIGHT : IDLE_FRAME_HEIGHT
@@ -188,7 +240,7 @@ function Frame({
     let targetZ = 0
     let targetRotationY = 0
     let targetScale = 1
-    const targetY = hasSelection ? 0.5 : 0
+    const targetY = hasSelection ? 0 : 0
 
     if (!hasSelection) {
       // Linear layout: equal spacing, gentle Z-depth curve, mild inward rotation
@@ -206,16 +258,18 @@ function Frame({
         targetX = 0
         targetZ = 0
         targetRotationY = 0
+        targetScale = 1.08
       } else if (isAdjacent) {
-        targetX = diff * 2.2
-        targetZ = -2
-        targetRotationY = diff * -0.2
+        targetX = diff * 3.2
+        targetZ = -1.5
+        targetRotationY = diff * -0.35
+        targetScale = 0.85
       } else {
-        targetX = diff * 6
-        targetZ = -10
+        targetX = diff * 7
+        targetZ = -12
         targetRotationY = 0
+        targetScale = 0.82
       }
-      targetScale = 0.92
     }
 
     easing.damp3(groupRef.current.position, [targetX, targetY, targetZ], 0.35, dt)
@@ -237,19 +291,19 @@ function Frame({
       targetOpacity = distFromCenter > 2.5 ? 0.55 : 1
     }
 
-    const targetZoom = isSelected ? 1 : hovered ? 1.05 : 1
+    const targetZoom = isSelected ? 1.12 : isEffectivelyHovered ? 1.05 : 1
 
     const mat = imageRef.current.material as THREE.Material
-    easing.damp(mat, "zoom", targetZoom, 0.2, dt)
+    easing.damp(mat, "zoom", targetZoom, 0.25, dt)
     easing.damp(mat, "opacity", targetOpacity, 0.25, dt)
     easing.damp(bgRef.current, "opacity", targetOpacity, 0.25, dt)
     easing.damp(outerBorderRef.current, "opacity", targetOpacity, 0.25, dt)
     easing.damp(matBorderRef.current, "opacity", targetOpacity, 0.25, dt)
 
-    // Animate border color: gold when selected, black otherwise
+    // Animate border: gold when selected OR ball-hovered, black otherwise
     outerBorderRef.current.color.lerp(
-      isSelected ? goldColor.current : blackColor.current,
-      Math.min(dt * 5, 1)
+      isSelected || isBallHovered ? goldColor.current : blackColor.current,
+      Math.min(dt * 8, 1)
     )
 
     groupRef.current.visible = targetOpacity > 0.01
@@ -288,6 +342,7 @@ function Frame({
 
           <Image
             url={`/images/nations/${item.folder}/flag.png`}
+            alt=""
             transparent
             scale={[frameW, frameH]}
             position={[0, 0, 0.005]}
@@ -297,12 +352,13 @@ function Frame({
           <Image
             ref={imageRef}
             url={`/images/nations/${item.folder}/player.png`}
+            alt=""
             transparent
             scale={[frameW, frameH]}
             position={[0, 0, 0.01]}
           />
 
-          {hovered && !isSelected && (
+          {(isEffectivelyHovered || isBallHovered) && !isSelected && (
             <mesh position={[0, 0, 0.012]}>
               <planeGeometry args={[frameW, frameH]} />
               <meshBasicMaterial transparent color="#ffffff" opacity={0.08} />
@@ -315,8 +371,8 @@ function Frame({
             maxWidth={frameW + 2}
             anchorX="center"
             anchorY="bottom"
-            position={[0, frameH / 2 + outerBorder + 0.25, 0.02]}
-            fontSize={0.48}
+            position={[0, frameH / 2 + outerBorder + 0.45, 0.02]}
+            fontSize={0.96}
             font="/fonts/BebasNeue-Regular.ttf"
             color="white"
             fillOpacity={0.65}
@@ -335,12 +391,12 @@ function CameraRig({ selectedId }: { selectedId: string | null }) {
 
   useFrame((state, dt) => {
     if (selectedId) {
-      // Camera directly in front of selected frame (targetX=0, targetY=0.5)
+      // Camera directly in front of selected frame (targetX=0, targetY=0)
       // Same X and Y as lookAt so the frame faces perfectly straight
-      easing.damp3(state.camera.position, [0, 0.5, 11], 0.4, dt)
-      easing.damp3(lookAtRef.current, [0, 0.5, 0], 0.4, dt)
+      easing.damp3(state.camera.position, [0, 0, 13], 0.5, dt)
+      easing.damp3(lookAtRef.current, [0, 0, 0], 0.5, dt)
     } else {
-      easing.damp3(state.camera.position, [0, 1.0, 27], 0.4, dt)
+      easing.damp3(state.camera.position, [0, 1.0, 30], 0.4, dt)
       easing.damp3(lookAtRef.current, [0, 0.85, 0], 0.4, dt)
     }
     state.camera.lookAt(lookAtRef.current)
