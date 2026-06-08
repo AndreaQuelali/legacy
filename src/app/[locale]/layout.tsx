@@ -26,6 +26,10 @@ const inter = localFont({
 export const metadata: Metadata = {
   title: "LEGACY | World Cup 2026",
   description: "A cinematic football experience inspired by the 2026 World Cup.",
+  icons: {
+    icon: "/logo.png",
+    apple: "/logo.png",
+  },
 };
 
 export default async function RootLayout({
