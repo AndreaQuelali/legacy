@@ -2,11 +2,11 @@
 
 import TopNavBar from "@/components/layout/TopNavBar"
 import Footer from "@/components/layout/Footer"
-import { HeroSection } from "@/components/sections/hero"
-import { StatsBar } from "@/components/sections/stats"
-import { NationsSection, NationsMarquee } from "@/components/sections/nations"
-import { StadiumSection } from "@/components/sections/stadiums"
-import { JourneySection } from "@/components/sections/journey"
+import { HeroSection } from "@/features/hero"
+import { StatsBar } from "@/features/stats"
+import { NationsSection, NationsMarquee } from "@/features/nations"
+import { StadiumSection } from "@/features/stadiums"
+import { JourneySection } from "@/features/journey"
 
 export default function Home() {
   return (
