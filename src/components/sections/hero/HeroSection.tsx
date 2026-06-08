@@ -13,6 +13,7 @@ import {
 } from "."
 import TrophyScene from "@/components/3d/TrophyScene"
 import FlagOverlay from "./FlagOverlay"
+import { dispatchHeroCinematicComplete } from "@/components/sections/nations/heroScrollGate"
 
 export default function HeroSection() {
   const t = useTranslations("hero")
@@ -31,10 +32,11 @@ export default function HeroSection() {
           id: 'hero-main-scroll',
           trigger: container.current,
           start: 'top top',
-          end: '+=6000',
+          end: '+=6500',
           scrub: 1,
           pin: true,
           anticipatePin: 1,
+          onLeave: () => dispatchHeroCinematicComplete(),
         }
       })
 
@@ -100,6 +102,14 @@ export default function HeroSection() {
         { x: xEnd, y: '-50%', ease: 'none', duration: 1.5 },
         4.8
       )
+
+      // Hold marquee fully visible, then fade before handoff to Nations
+      scrollTl.to('.hero-cinematic-marquee', { opacity: 1, duration: 0.5 }, 6.3)
+      scrollTl.to('.hero-cinematic-marquee', {
+        opacity: 0,
+        duration: 0.4,
+        ease: 'power2.in',
+      }, 6.8)
 
       // 5. Transition handled by master timeline in page.tsx (horizontal slide)
 

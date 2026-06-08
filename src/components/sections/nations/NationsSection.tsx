@@ -1,25 +1,50 @@
 "use client"
 
-import { useState, useRef, useMemo, useEffect, useCallback } from 'react'
+import { useState, useRef, useMemo, useEffect, useCallback, useLayoutEffect } from 'react'
 import { useTranslations } from 'next-intl'
 import Image from 'next/image'
 import { AnimatePresence, motion } from 'framer-motion'
 import { useLenis } from 'lenis/react'
+import gsap, { ScrollTrigger } from '@/lib/gsap/gsap'
 import SplitTitle from '@/components/animations/SplitTitle'
 import PlayerGallery3D, { type GalleryItem } from './PlayerGallery3D'
 import NationInfoOverlay from './NationInfoOverlay'
 import { NATIONS, getNationFolder, orderNationsByConfig, type NationData } from '@/data/nations'
+import {
+  HERO_CINEMATIC_COMPLETE_EVENT,
+  isHeroCinematicComplete,
+} from './heroScrollGate'
 
 export default function NationsSection() {
   const t = useTranslations('nations')
   const lenis = useLenis()
   const sectionRef = useRef<HTMLElement>(null)
+  const pinTriggerRef = useRef<ScrollTrigger | null>(null)
+  const ballIntroCompleteRef = useRef(false)
   const [selectedId, setSelectedId] = useState<string | null>(null)
   const [ballIntroComplete, setBallIntroComplete] = useState(false)
   const [ballHoveredIndex, setBallHoveredIndex] = useState<number | null>(null)
   const [sectionInView, setSectionInView] = useState(false)
+  const [heroCinematicDone, setHeroCinematicDone] = useState(false)
 
-  const showBallIntro = sectionInView && !ballIntroComplete && !selectedId
+  useEffect(() => {
+    ballIntroCompleteRef.current = ballIntroComplete
+  }, [ballIntroComplete])
+
+  // Nations must wait until the hero marquee ("CADA NACIÓN LLEGA…") finishes
+  useEffect(() => {
+    const markHeroDone = () => setHeroCinematicDone(true)
+
+    if (isHeroCinematicComplete()) {
+      markHeroDone()
+    }
+
+    window.addEventListener(HERO_CINEMATIC_COMPLETE_EVENT, markHeroDone)
+    return () => window.removeEventListener(HERO_CINEMATIC_COMPLETE_EVENT, markHeroDone)
+  }, [])
+
+  const showBallIntro =
+    heroCinematicDone && sectionInView && !ballIntroComplete && !selectedId
   const shouldLockScroll = showBallIntro
 
   const handleBallCardEnter = useCallback((index: number) => {
@@ -30,32 +55,42 @@ export default function NationsSection() {
   const handleBallComplete = useCallback(() => {
     setBallHoveredIndex(null)
     setBallIntroComplete(true)
+    pinTriggerRef.current?.kill()
+    pinTriggerRef.current = null
+    ScrollTrigger.refresh()
   }, [])
 
-  // Start intro only when the section is actually visible in the viewport
-  useEffect(() => {
-    const el = sectionRef.current
-    if (!el) return
+  // Pin section only after hero cinematic sequence completes
+  useLayoutEffect(() => {
+    if (ballIntroComplete || !heroCinematicDone) return
 
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting && entry.intersectionRatio >= 0.5) {
-          setSectionInView(true)
-        }
-      },
-      { threshold: [0.5] }
-    )
+    const ctx = gsap.context(() => {
+      pinTriggerRef.current = ScrollTrigger.create({
+        trigger: sectionRef.current,
+        start: 'top top',
+        end: '+=100%',
+        pin: true,
+        anticipatePin: 1,
+        pinSpacing: true,
+        id: 'nations-ball-pin',
+        onEnter: () => {
+          if (!ballIntroCompleteRef.current) setSectionInView(true)
+        },
+      })
 
-    observer.observe(el)
-    return () => observer.disconnect()
-  }, [])
+      if (pinTriggerRef.current.isActive) {
+        setSectionInView(true)
+      }
+    }, sectionRef)
 
-  // Lock scroll only while the ball intro is playing inside the visible section
+    return () => ctx.revert()
+  }, [ballIntroComplete, heroCinematicDone])
+
+  // Lock scroll while ball intro plays inside pinned section
   useEffect(() => {
     if (!lenis) return
     if (shouldLockScroll) {
       lenis.stop()
-      lenis.scrollTo('#nations', { immediate: true })
     } else {
       lenis.start()
     }
@@ -64,13 +99,13 @@ export default function NationsSection() {
     }
   }, [lenis, shouldLockScroll])
 
-  // Safety net: unlock scroll if the intro never completes (GLB hang, network, etc.)
+  // Safety net: unlock if intro never completes (~11s animation + buffer)
   useEffect(() => {
     if (!showBallIntro) return
 
     const timeout = setTimeout(() => {
       handleBallComplete()
-    }, 12000)
+    }, 18000)
 
     return () => clearTimeout(timeout)
   }, [showBallIntro, handleBallComplete])
@@ -107,7 +142,9 @@ export default function NationsSection() {
     <section
       id="nations"
       ref={sectionRef}
-      className="relative h-screen w-full bg-[#050505] overflow-hidden"
+      className={`relative h-screen w-full bg-[#050505] overflow-hidden ${
+        heroCinematicDone ? '' : 'invisible pointer-events-none'
+      }`}
     >
       {/* 1. DYNAMIC BACKGROUND LAYER */}
       <AnimatePresence>

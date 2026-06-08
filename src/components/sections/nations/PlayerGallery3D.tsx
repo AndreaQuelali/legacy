@@ -7,15 +7,19 @@ import { useCursor, MeshReflectorMaterial, Image, Text, Environment } from "@rea
 import { easing } from "maath"
 import CameraFlashes from "@/components/3d/CameraFlashes"
 import BallIntro from "./BallIntro"
+import {
+  GOLDEN_RATIO,
+  IDLE_FRAME_WIDTH,
+  IDLE_FRAME_HEIGHT,
+  IDLE_SPACING,
+  BALL_RADIUS,
+  FLOOR_Y,
+  FLOOR_Z,
+  ROLL_ENTRY_X,
+} from "./galleryConstants"
 
-const GOLDEN_RATIO = 1.61803398875
-
-// Idle gallery — linear row with gentle depth
-const IDLE_FRAME_WIDTH = 8.2
-const IDLE_FRAME_HEIGHT = IDLE_FRAME_WIDTH * GOLDEN_RATIO
 const IDLE_OUTER_BORDER = 0.5
 const IDLE_MAT_BORDER = 0.12
-const IDLE_SPACING = 10.2   // center-to-center gap
 
 // Selected detail view — compact carousel in 40% panel
 const SEL_FRAME_WIDTH = 6.5
@@ -26,14 +30,11 @@ const SEL_MAT_BORDER = 0.1
 /** Primary gold from globals.css (--color-primary) */
 const PRIMARY_GOLD = "#e9c176"
 
-// First card X minus entry offset — matches BallIntro segment 0 start
-const CARD_X_PLACEHOLDER_X = -25.5 - 18
-
-/** Visible placeholder while the ball GLB loads inside Suspense */
+/** Visible placeholder while the ball GLB loads — on floor at roll entry */
 function BallIntroPlaceholder() {
   return (
-    <mesh position={[CARD_X_PLACEHOLDER_X, 6, 3.5]}>
-      <sphereGeometry args={[1, 20, 20]} />
+    <mesh position={[ROLL_ENTRY_X, FLOOR_Y, FLOOR_Z]}>
+      <sphereGeometry args={[BALL_RADIUS, 20, 20]} />
       <meshStandardMaterial
         color={PRIMARY_GOLD}
         emissive={PRIMARY_GOLD}

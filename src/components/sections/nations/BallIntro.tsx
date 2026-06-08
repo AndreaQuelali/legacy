@@ -4,26 +4,266 @@ import { useRef, useMemo } from "react"
 import { useFrame } from "@react-three/fiber"
 import { useGLTF } from "@react-three/drei"
 import * as THREE from "three"
+import {
+  BALL_RADIUS,
+  CARD_X_POSITIONS,
+  FLOOR_Y,
+  FLOOR_Z,
+  ROLL_ENTRY_X,
+  ROLL_EXIT_X,
+  TARGET_BALL_DIAMETER,
+  TOTAL_CARDS,
+  cardZAtIndex,
+} from "./galleryConstants"
 
-// These must match PlayerGallery3D: normalizedPos * (total-1) * IDLE_SPACING
-const TOTAL_CARDS = 6
-const IDLE_SPACING = 10.2
-export const CARD_X_POSITIONS: number[] = Array.from({ length: TOTAL_CARDS }, (_, i) => {
-  const normalizedPos = i / (TOTAL_CARDS - 1) - 0.5
-  return normalizedPos * (TOTAL_CARDS - 1) * IDLE_SPACING
-})
+export { CARD_X_POSITIONS }
 
-// Ball dimensions (in group-local space; group is at world Y=1.55)
-// Aligned with idle frame tops (frameH/2 ≈ 6.6) and in front of cards (Z≈0…-2.5)
-const BALL_Y_BASE = 6.0
-const BOUNCE_PEAK = 2.5
-const BALL_Z = 3.5
-const TARGET_BALL_DIAMETER = 2.0
+// ─── Easing helpers ───────────────────────────────────────────────────────────
+
+type EaseFn = (t: number) => number
+
+const easeSmoothstep: EaseFn = (t) => t * t * (3 - 2 * t)
+const easePower2Out: EaseFn = (t) => 1 - (1 - t) * (1 - t)
+const easePower2In: EaseFn = (t) => t * t
+const easePower3InOut: EaseFn = (t) =>
+  t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2
+const easePower4In: EaseFn = (t) => t * t * t * t
+const easeSineInOut: EaseFn = (t) => -(Math.cos(Math.PI * t) - 1) / 2
+
+// ─── Timeline segment types ─────────────────────────────────────────────────
+
+type SpinMode = "roll" | "tumble" | "fastY"
+
+interface RollSegment {
+  kind: "roll"
+  fromX: number
+  toX: number
+  duration: number
+  y: number
+  z: number
+  ease: EaseFn
+}
+
+interface BounceSegment {
+  kind: "bounce"
+  fromX: number
+  toX: number
+  fromY: number
+  toY: number
+  peakY: number
+  duration: number
+  zBase: number
+  zSurge: number
+  easeX: EaseFn
+  easeUp: EaseFn
+  easeDown: EaseFn
+  spinMode: SpinMode
+  spinSpeed: number
+  cardIndex: number
+  cardTriggerStart: number
+  cardTriggerEnd: number
+}
+
+type IntroSegment = RollSegment | BounceSegment
+
+function buildTimeline(): IntroSegment[] {
+  const bounces: Omit<
+    BounceSegment,
+    "kind" | "fromX" | "toX" | "fromY" | "toY"
+  >[] = [
+    // España — hop bajo desde el piso
+    {
+      peakY: 3.5,
+      duration: 0.55,
+      zBase: FLOOR_Z + 0.4,
+      zSurge: 0.9,
+      easeX: easePower2Out,
+      easeUp: easePower2Out,
+      easeDown: easePower2In,
+      spinMode: "fastY",
+      spinSpeed: 5.5,
+      cardIndex: 0,
+      cardTriggerStart: 0.55,
+      cardTriggerEnd: 0.92,
+    },
+    // Francia — arco alto y lento
+    {
+      peakY: 10.5,
+      duration: 1.05,
+      zBase: FLOOR_Z + 0.8,
+      zSurge: 1.9,
+      easeX: easeSineInOut,
+      easeUp: easePower2Out,
+      easeDown: easePower2Out,
+      spinMode: "tumble",
+      spinSpeed: 2.8,
+      cardIndex: 1,
+      cardTriggerStart: 0.48,
+      cardTriggerEnd: 0.88,
+    },
+    // Argentina — rebote rápido y bajo
+    {
+      peakY: 4.2,
+      duration: 0.42,
+      zBase: FLOOR_Z + 0.3,
+      zSurge: 0.55,
+      easeX: easePower4In,
+      easeUp: easePower2Out,
+      easeDown: easePower4In,
+      spinMode: "fastY",
+      spinSpeed: 7.5,
+      cardIndex: 2,
+      cardTriggerStart: 0.6,
+      cardTriggerEnd: 0.9,
+    },
+    // Portugal — arco medio con hang
+    {
+      peakY: 7.8,
+      duration: 0.88,
+      zBase: FLOOR_Z + 0.6,
+      zSurge: 1.3,
+      easeX: easePower3InOut,
+      easeUp: easeSineInOut,
+      easeDown: easePower2Out,
+      spinMode: "tumble",
+      spinSpeed: 3.2,
+      cardIndex: 3,
+      cardTriggerStart: 0.52,
+      cardTriggerEnd: 0.9,
+    },
+    // Brasil — clímax, el más alto
+    {
+      peakY: 11.5,
+      duration: 1.12,
+      zBase: FLOOR_Z + 1.0,
+      zSurge: 2.2,
+      easeX: easeSineInOut,
+      easeUp: easePower2Out,
+      easeDown: easeSineInOut,
+      spinMode: "tumble",
+      spinSpeed: 4.2,
+      cardIndex: 4,
+      cardTriggerStart: 0.5,
+      cardTriggerEnd: 0.86,
+    },
+    // Alemania — caída rápida al piso
+    {
+      peakY: 5.5,
+      duration: 0.48,
+      zBase: FLOOR_Z + 0.35,
+      zSurge: 0.7,
+      easeX: easePower2In,
+      easeUp: easePower2Out,
+      easeDown: easePower4In,
+      spinMode: "fastY",
+      spinSpeed: 6.8,
+      cardIndex: 5,
+      cardTriggerStart: 0.58,
+      cardTriggerEnd: 0.92,
+    },
+  ]
+
+  const segments: IntroSegment[] = [
+    {
+      kind: "roll",
+      fromX: ROLL_ENTRY_X,
+      toX: CARD_X_POSITIONS[0],
+      duration: 2.2,
+      y: FLOOR_Y,
+      z: FLOOR_Z,
+      ease: easeSmoothstep,
+    },
+  ]
+
+  for (let i = 0; i < TOTAL_CARDS - 1; i++) {
+    const b = bounces[i]
+    segments.push({
+      kind: "bounce",
+      fromX: CARD_X_POSITIONS[i],
+      toX: CARD_X_POSITIONS[i + 1],
+      fromY: FLOOR_Y,
+      toY: FLOOR_Y,
+      ...b,
+    })
+  }
+
+  // Last card highlight — short bounce on spot before exit
+  const last = bounces[5]
+  segments.push({
+    kind: "bounce",
+    fromX: CARD_X_POSITIONS[5],
+    toX: CARD_X_POSITIONS[5] + 4,
+    fromY: FLOOR_Y,
+    toY: FLOOR_Y,
+    ...last,
+  })
+
+  segments.push({
+    kind: "roll",
+    fromX: CARD_X_POSITIONS[5] + 4,
+    toX: ROLL_EXIT_X,
+    duration: 1.6,
+    y: FLOOR_Y,
+    z: FLOOR_Z,
+    ease: easePower2Out,
+  })
+
+  return segments
+}
+
+const TIMELINE = buildTimeline()
+const TOTAL_DURATION = TIMELINE.reduce((sum, s) => sum + s.duration, 0)
+
+function zAtX(x: number): number {
+  if (x <= CARD_X_POSITIONS[0]) return cardZAtIndex(0)
+  if (x >= CARD_X_POSITIONS[TOTAL_CARDS - 1]) return cardZAtIndex(TOTAL_CARDS - 1)
+  for (let i = 0; i < TOTAL_CARDS - 1; i++) {
+    if (x >= CARD_X_POSITIONS[i] && x <= CARD_X_POSITIONS[i + 1]) {
+      const t =
+        (x - CARD_X_POSITIONS[i]) /
+        (CARD_X_POSITIONS[i + 1] - CARD_X_POSITIONS[i])
+      return cardZAtIndex(i) * (1 - t) + cardZAtIndex(i + 1) * t
+    }
+  }
+  return 0
+}
+
+function bounceHeight(
+  segT: number,
+  fromY: number,
+  toY: number,
+  peakY: number,
+  easeUp: EaseFn,
+  easeDown: EaseFn
+): number {
+  if (segT <= 0.5) {
+    return fromY + (peakY - fromY) * easeUp(segT * 2)
+  }
+  return peakY + (toY - peakY) * easeDown((segT - 0.5) * 2)
+}
+
+function getSegmentState(t: number): {
+  segment: IntroSegment
+  segT: number
+  index: number
+} {
+  let acc = 0
+  for (let i = 0; i < TIMELINE.length; i++) {
+    const seg = TIMELINE[i]
+    if (t < acc + seg.duration) {
+      return { segment: seg, segT: (t - acc) / seg.duration, index: i }
+    }
+    acc += seg.duration
+  }
+  const last = TIMELINE[TIMELINE.length - 1]
+  return { segment: last, segT: 1, index: TIMELINE.length - 1 }
+}
+
+// ─── Model prep ─────────────────────────────────────────────────────────────
 
 interface BallIntroProps {
   onCardEnter: (index: number) => void
   onComplete: () => void
-  segmentDuration?: number
   startDelay?: number
 }
 
@@ -50,15 +290,10 @@ function prepareBallModel(scene: THREE.Group): THREE.Group {
   return cloned
 }
 
-/**
- * Renders inside the PlayerGallery3D Canvas.
- * Must be wrapped in <Suspense> by the parent because useGLTF suspends.
- */
 export default function BallIntro({
   onCardEnter,
   onComplete,
-  segmentDuration = 0.8,
-  startDelay = 1.0,
+  startDelay = 0.4,
 }: BallIntroProps) {
   const { scene } = useGLTF("/models/balon_futbol_paises.glb")
   const ballModel = useMemo(() => prepareBallModel(scene), [scene])
@@ -68,6 +303,7 @@ export default function BallIntro({
   const lastCardIndex = useRef(-1)
   const finished = useRef(false)
   const firstFrame = useRef(true)
+  const prevX = useRef(0)
 
   useFrame((_, dt) => {
     if (finished.current || !groupRef.current) return
@@ -75,10 +311,10 @@ export default function BallIntro({
     if (firstFrame.current) {
       firstFrame.current = false
       elapsed.current = 0
+      prevX.current = ROLL_ENTRY_X
     }
 
     elapsed.current += dt
-
     const t = elapsed.current - startDelay
 
     if (t < 0) {
@@ -88,10 +324,7 @@ export default function BallIntro({
 
     groupRef.current.visible = true
 
-    const totalSegments = TOTAL_CARDS + 1
-    const totalDuration = totalSegments * segmentDuration
-
-    if (t >= totalDuration) {
+    if (t >= TOTAL_DURATION) {
       if (!finished.current) {
         finished.current = true
         groupRef.current.visible = false
@@ -100,53 +333,59 @@ export default function BallIntro({
       return
     }
 
-    const segment = Math.floor(t / segmentDuration)
-    const segT = (t % segmentDuration) / segmentDuration
+    const { segment, segT } = getSegmentState(t)
+    let x: number
+    let y: number
+    let z: number
 
-    const eased = segT < 0.5
-      ? 2 * segT * segT
-      : 1 - Math.pow(-2 * segT + 2, 2) / 2
+    if (segment.kind === "roll") {
+      const eased = segment.ease(segT)
+      x = segment.fromX + (segment.toX - segment.fromX) * eased
+      y = segment.y
+      z = segment.z
 
-    let fromX: number
-    let toX: number
-    if (segment === 0) {
-      fromX = CARD_X_POSITIONS[0] - 18
-      toX = CARD_X_POSITIONS[0]
-    } else if (segment < TOTAL_CARDS) {
-      fromX = CARD_X_POSITIONS[segment - 1]
-      toX = CARD_X_POSITIONS[segment]
+      const deltaX = x - prevX.current
+      groupRef.current.rotation.x -= deltaX / BALL_RADIUS
+      groupRef.current.rotation.y = 0
+      groupRef.current.rotation.z = 0
     } else {
-      fromX = CARD_X_POSITIONS[TOTAL_CARDS - 1]
-      toX = CARD_X_POSITIONS[TOTAL_CARDS - 1] + 24
+      const easedX = segment.easeX(segT)
+      x = segment.fromX + (segment.toX - segment.fromX) * easedX
+      y = bounceHeight(segT, segment.fromY, segment.toY, segment.peakY, segment.easeUp, segment.easeDown)
+
+      z =
+        segment.zBase +
+        zAtX(x) * 0.2 +
+        Math.sin(segT * Math.PI) * segment.zSurge
+
+      const flight = Math.sin(segT * Math.PI)
+      const spin = segment.spinSpeed * (0.6 + flight * 0.8)
+
+      if (segment.spinMode === "roll") {
+        const deltaX = x - prevX.current
+        groupRef.current.rotation.x -= deltaX / BALL_RADIUS
+      } else if (segment.spinMode === "fastY") {
+        groupRef.current.rotation.y += dt * spin
+        groupRef.current.rotation.x += dt * spin * 0.15
+      } else {
+        groupRef.current.rotation.y += dt * spin
+        groupRef.current.rotation.z += dt * spin * 0.4
+        groupRef.current.rotation.x += dt * spin * 0.08
+      }
+
+      if (
+        segment.cardIndex !== lastCardIndex.current &&
+        segT >= segment.cardTriggerStart &&
+        segT <= segment.cardTriggerEnd
+      ) {
+        lastCardIndex.current = segment.cardIndex
+        onCardEnter(segment.cardIndex)
+      }
     }
-    const x = fromX + (toX - fromX) * eased
 
-    const arcHeight = segment < TOTAL_CARDS ? BOUNCE_PEAK : BOUNCE_PEAK * 2
-    const y = BALL_Y_BASE + arcHeight * Math.sin(segT * Math.PI)
-
-    const z = BALL_Z - Math.sin(segT * Math.PI) * 1.2
-
+    prevX.current = x
     groupRef.current.position.set(x, y, z)
-
-    const flight = Math.sin(segT * Math.PI)
-    const stretch = 1 + 0.18 * flight
-    const squash = 1 - 0.1 * flight
-    groupRef.current.scale.set(squash, stretch, squash)
-
-    const spinSpeed = 3.5 + flight * 2.5
-    groupRef.current.rotation.y += dt * spinSpeed
-    groupRef.current.rotation.z += dt * spinSpeed * 0.35
-
-    const cardIndex = segment < TOTAL_CARDS ? segment : -1
-    if (
-      cardIndex >= 0 &&
-      cardIndex !== lastCardIndex.current &&
-      segT > 0.35 &&
-      segT < 0.85
-    ) {
-      lastCardIndex.current = cardIndex
-      onCardEnter(cardIndex)
-    }
+    groupRef.current.scale.set(1, 1, 1)
   })
 
   return (
