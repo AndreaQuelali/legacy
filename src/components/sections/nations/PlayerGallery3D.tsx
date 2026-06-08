@@ -22,7 +22,7 @@ const IDLE_OUTER_BORDER = 0.5
 const IDLE_MAT_BORDER = 0.12
 
 // Selected detail view — compact carousel in 40% panel
-const SEL_FRAME_WIDTH = 6.5
+const SEL_FRAME_WIDTH = 7.5
 const SEL_FRAME_HEIGHT = SEL_FRAME_WIDTH * GOLDEN_RATIO
 const SEL_OUTER_BORDER = 0.28
 const SEL_MAT_BORDER = 0.1
@@ -90,10 +90,9 @@ export default function PlayerGallery3D({
       <Canvas
         className="w-full h-full"
         dpr={[1, 1.5]}
-        camera={{ fov: isIdle ? 58 : 48, position: isIdle ? [0, 1.0, 27] : [0, 1.2, 11] }}
+        camera={{ fov: isIdle ? 58 : 48, position: isIdle ? [0, 1.0, 27] : [0, 1.2, 12] }}
         gl={{ alpha: true, antialias: true }}
       >
-        {isIdle && <color attach="background" args={["#050505"]} />}
         <fog attach="fog" args={["#050505", isIdle ? 35 : 10, isIdle ? 70 : 35]} />
         <Environment preset="city" />
         <CameraFlashes active={isIdle && !showBallIntro} />
@@ -109,19 +108,20 @@ export default function PlayerGallery3D({
 
           {isIdle && (
             <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -frameHeight / 2 - 0.1, 0]}>
-              <planeGeometry args={[70, 70]} />
+              {/* Small, subtle floor reflector under the frames (avoid "platform" look). */}
+              <planeGeometry args={[48, 12]} />
               <MeshReflectorMaterial
-                blur={[700, 280]}
+                blur={[520, 220]}
                 resolution={1024}
                 mixBlur={1}
-                mixStrength={11}
-                roughness={0.88}
-                depthScale={0.35}
+                mixStrength={6}
+                roughness={0.94}
+                depthScale={0.25}
                 minDepthThreshold={0.66}
                 maxDepthThreshold={0.74}
-                color="#060606"
-                metalness={0.4}
-                mirror={0.38}
+                color="#050505"
+                metalness={0.2}
+                mirror={0.24}
               />
             </mesh>
           )}
@@ -133,6 +133,7 @@ export default function PlayerGallery3D({
                 key="ball-intro"
                 onCardEnter={onBallCardEnter}
                 onComplete={onBallComplete}
+                startDelay={0}
               />
             </Suspense>
           )}
@@ -239,7 +240,7 @@ function Frame({
     let targetZ = 0
     let targetRotationY = 0
     let targetScale = 1
-    const targetY = hasSelection ? 0.5 : 0
+    const targetY = hasSelection ? 0 : 0
 
     if (!hasSelection) {
       // Linear layout: equal spacing, gentle Z-depth curve, mild inward rotation
@@ -339,6 +340,7 @@ function Frame({
 
           <Image
             url={`/images/nations/${item.folder}/flag.png`}
+            alt=""
             transparent
             scale={[frameW, frameH]}
             position={[0, 0, 0.005]}
@@ -348,6 +350,7 @@ function Frame({
           <Image
             ref={imageRef}
             url={`/images/nations/${item.folder}/player.png`}
+            alt=""
             transparent
             scale={[frameW, frameH]}
             position={[0, 0, 0.01]}
@@ -386,10 +389,10 @@ function CameraRig({ selectedId }: { selectedId: string | null }) {
 
   useFrame((state, dt) => {
     if (selectedId) {
-      // Camera directly in front of selected frame (targetX=0, targetY=0.5)
+      // Camera directly in front of selected frame (targetX=0, targetY=0)
       // Same X and Y as lookAt so the frame faces perfectly straight
-      easing.damp3(state.camera.position, [0, 0.5, 11], 0.4, dt)
-      easing.damp3(lookAtRef.current, [0, 0.5, 0], 0.4, dt)
+      easing.damp3(state.camera.position, [0, 0, 13], 0.4, dt)
+      easing.damp3(lookAtRef.current, [0, 0, 0], 0.4, dt)
     } else {
       easing.damp3(state.camera.position, [0, 1.0, 27], 0.4, dt)
       easing.damp3(lookAtRef.current, [0, 0.85, 0], 0.4, dt)

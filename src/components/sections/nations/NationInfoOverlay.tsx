@@ -51,7 +51,7 @@ export default function NationInfoOverlay({
           <button
             onClick={onClose}
             aria-label={t('back_gallery')}
-            className="absolute top-6 left-6 sm:top-8 sm:left-10 md:top-10 md:left-14 inline-flex items-center gap-3 px-8 py-4 border border-primary/60 bg-black/70 backdrop-blur-md rounded-sm group hover:bg-primary/20 hover:border-primary transition-all duration-300 pointer-events-auto z-10"
+            className="absolute top-8 left-4 sm:top-12 sm:left-8 md:top-14 md:left-10 inline-flex items-center gap-3 px-8 py-4 border border-primary/60 bg-black/70 backdrop-blur-md rounded-sm group hover:bg-primary/20 hover:border-primary transition-all duration-300 pointer-events-auto z-10"
           >
             <span className="font-bebas text-lg text-primary leading-none group-hover:-translate-x-1 transition-transform">
               ←

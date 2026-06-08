@@ -7,6 +7,8 @@ export const TOTAL_CARDS = 6
 
 export const TARGET_BALL_DIAMETER = 2.0
 export const BALL_RADIUS = TARGET_BALL_DIAMETER / 2
+// Keeps the intro-ball inside the visible camera frustum.
+export const BALL_PEAK_MAX = 3.2
 export const FLOOR_Y = -IDLE_FRAME_HEIGHT / 2 - 0.1 + BALL_RADIUS
 export const FLOOR_Z = 2.5
 

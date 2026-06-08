@@ -145,7 +145,7 @@ export default function StadiumSection() {
         pin: true,
         scrub: 1,
         onUpdate: (self) => {
-          const wantsB = (self as any).progress > 0.5
+          const wantsB = self.progress > 0.5
           if (wantsB !== showBRef.current) {
             triggerFlip(wantsB)
           }

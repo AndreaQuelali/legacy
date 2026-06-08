@@ -9,6 +9,7 @@ import {
   CARD_X_POSITIONS,
   FLOOR_Y,
   FLOOR_Z,
+  BALL_PEAK_MAX,
   ROLL_ENTRY_X,
   ROLL_EXIT_X,
   TARGET_BALL_DIAMETER,
@@ -73,7 +74,7 @@ function buildTimeline(): IntroSegment[] {
   >[] = [
     // España — hop bajo desde el piso
     {
-      peakY: 3.5,
+      peakY: Math.min(3.5, BALL_PEAK_MAX),
       duration: 0.55,
       zBase: FLOOR_Z + 0.4,
       zSurge: 0.9,
@@ -88,7 +89,7 @@ function buildTimeline(): IntroSegment[] {
     },
     // Francia — arco alto y lento
     {
-      peakY: 10.5,
+      peakY: Math.min(10.5, BALL_PEAK_MAX),
       duration: 1.05,
       zBase: FLOOR_Z + 0.8,
       zSurge: 1.9,
@@ -103,7 +104,7 @@ function buildTimeline(): IntroSegment[] {
     },
     // Argentina — rebote rápido y bajo
     {
-      peakY: 4.2,
+      peakY: Math.min(4.2, BALL_PEAK_MAX),
       duration: 0.42,
       zBase: FLOOR_Z + 0.3,
       zSurge: 0.55,
@@ -118,7 +119,7 @@ function buildTimeline(): IntroSegment[] {
     },
     // Portugal — arco medio con hang
     {
-      peakY: 7.8,
+      peakY: Math.min(7.8, BALL_PEAK_MAX),
       duration: 0.88,
       zBase: FLOOR_Z + 0.6,
       zSurge: 1.3,
@@ -133,7 +134,7 @@ function buildTimeline(): IntroSegment[] {
     },
     // Brasil — clímax, el más alto
     {
-      peakY: 11.5,
+      peakY: Math.min(11.5, BALL_PEAK_MAX),
       duration: 1.12,
       zBase: FLOOR_Z + 1.0,
       zSurge: 2.2,
@@ -148,7 +149,7 @@ function buildTimeline(): IntroSegment[] {
     },
     // Alemania — caída rápida al piso
     {
-      peakY: 5.5,
+      peakY: Math.min(5.5, BALL_PEAK_MAX),
       duration: 0.48,
       zBase: FLOOR_Z + 0.35,
       zSurge: 0.7,
@@ -293,7 +294,7 @@ function prepareBallModel(scene: THREE.Group): THREE.Group {
 export default function BallIntro({
   onCardEnter,
   onComplete,
-  startDelay = 0.4,
+  startDelay = 0,
 }: BallIntroProps) {
   const { scene } = useGLTF("/models/balon_futbol_paises.glb")
   const ballModel = useMemo(() => prepareBallModel(scene), [scene])
