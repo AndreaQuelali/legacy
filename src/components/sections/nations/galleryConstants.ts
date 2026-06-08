@@ -1,8 +1,8 @@
 export const GOLDEN_RATIO = 1.61803398875
 
-export const IDLE_FRAME_WIDTH = 8.2
+export const IDLE_FRAME_WIDTH = 13.0
 export const IDLE_FRAME_HEIGHT = IDLE_FRAME_WIDTH * GOLDEN_RATIO
-export const IDLE_SPACING = 10.2
+export const IDLE_SPACING = 16.2
 export const TOTAL_CARDS = 6
 
 export const TARGET_BALL_DIAMETER = 2.0

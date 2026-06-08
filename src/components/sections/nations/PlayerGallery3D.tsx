@@ -90,14 +90,14 @@ export default function PlayerGallery3D({
       <Canvas
         className="w-full h-full"
         dpr={[1, 1.5]}
-        camera={{ fov: isIdle ? 58 : 48, position: isIdle ? [0, 1.0, 27] : [0, 1.2, 12] }}
+        camera={{ fov: isIdle ? 58 : 48, position: isIdle ? [0, 1.0, 30] : [0, 1.2, 12] }}
         gl={{ alpha: true, antialias: true }}
       >
-        <fog attach="fog" args={["#050505", isIdle ? 35 : 10, isIdle ? 70 : 35]} />
+        <fog attach="fog" args={["#050505", isIdle ? 35 : 10, isIdle ? 80 : 35]} />
         <Environment preset="city" />
         <CameraFlashes active={isIdle && !showBallIntro} />
 
-        <group position={[0, isIdle ? 1.55 : 0.5, 0]}>
+        <group position={[0, isIdle ? 1.0 : 0.5, 0]}>
           <Frames
             items={items}
             selectedId={selectedId}
@@ -108,20 +108,20 @@ export default function PlayerGallery3D({
 
           {isIdle && (
             <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -frameHeight / 2 - 0.1, 0]}>
-              {/* Small, subtle floor reflector under the frames (avoid "platform" look). */}
-              <planeGeometry args={[48, 12]} />
+              {/* Massive floor reflector with "Liquid Mirror" properties */}
+              <planeGeometry args={[85, 22]} />
               <MeshReflectorMaterial
-                blur={[520, 220]}
+                blur={[300, 100]}
                 resolution={1024}
                 mixBlur={1}
-                mixStrength={6}
-                roughness={0.94}
-                depthScale={0.25}
+                mixStrength={35}
+                roughness={0.6}
+                depthScale={0.4}
                 minDepthThreshold={0.66}
                 maxDepthThreshold={0.74}
                 color="#050505"
-                metalness={0.2}
-                mirror={0.24}
+                metalness={0.5}
+                mirror={0.9}
               />
             </mesh>
           )}
@@ -258,16 +258,18 @@ function Frame({
         targetX = 0
         targetZ = 0
         targetRotationY = 0
+        targetScale = 1.08
       } else if (isAdjacent) {
-        targetX = diff * 2.2
-        targetZ = -2
-        targetRotationY = diff * -0.2
+        targetX = diff * 3.2
+        targetZ = -1.5
+        targetRotationY = diff * -0.35
+        targetScale = 0.85
       } else {
-        targetX = diff * 6
-        targetZ = -10
+        targetX = diff * 7
+        targetZ = -12
         targetRotationY = 0
+        targetScale = 0.82
       }
-      targetScale = 0.92
     }
 
     easing.damp3(groupRef.current.position, [targetX, targetY, targetZ], 0.35, dt)
@@ -289,10 +291,10 @@ function Frame({
       targetOpacity = distFromCenter > 2.5 ? 0.55 : 1
     }
 
-    const targetZoom = isSelected ? 1 : isEffectivelyHovered ? 1.05 : 1
+    const targetZoom = isSelected ? 1.12 : isEffectivelyHovered ? 1.05 : 1
 
     const mat = imageRef.current.material as THREE.Material
-    easing.damp(mat, "zoom", targetZoom, 0.2, dt)
+    easing.damp(mat, "zoom", targetZoom, 0.25, dt)
     easing.damp(mat, "opacity", targetOpacity, 0.25, dt)
     easing.damp(bgRef.current, "opacity", targetOpacity, 0.25, dt)
     easing.damp(outerBorderRef.current, "opacity", targetOpacity, 0.25, dt)
@@ -301,7 +303,7 @@ function Frame({
     // Animate border: gold when selected OR ball-hovered, black otherwise
     outerBorderRef.current.color.lerp(
       isSelected || isBallHovered ? goldColor.current : blackColor.current,
-      Math.min(dt * 5, 1)
+      Math.min(dt * 8, 1)
     )
 
     groupRef.current.visible = targetOpacity > 0.01
@@ -391,10 +393,10 @@ function CameraRig({ selectedId }: { selectedId: string | null }) {
     if (selectedId) {
       // Camera directly in front of selected frame (targetX=0, targetY=0)
       // Same X and Y as lookAt so the frame faces perfectly straight
-      easing.damp3(state.camera.position, [0, 0, 13], 0.4, dt)
-      easing.damp3(lookAtRef.current, [0, 0, 0], 0.4, dt)
+      easing.damp3(state.camera.position, [0, 0, 13], 0.5, dt)
+      easing.damp3(lookAtRef.current, [0, 0, 0], 0.5, dt)
     } else {
-      easing.damp3(state.camera.position, [0, 1.0, 27], 0.4, dt)
+      easing.damp3(state.camera.position, [0, 1.0, 30], 0.4, dt)
       easing.damp3(lookAtRef.current, [0, 0.85, 0], 0.4, dt)
     }
     state.camera.lookAt(lookAtRef.current)
