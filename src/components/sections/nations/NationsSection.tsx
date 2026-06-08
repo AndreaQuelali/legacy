@@ -82,7 +82,15 @@ export default function NationsSection() {
       <div className="absolute inset-0 z-[1] bg-[radial-gradient(circle_at_50%_50%,_rgba(234,179,8,0.025)_0%,_transparent_70%)] pointer-events-none" />
 
       {/* 3. 3D GALLERY CANVAS */}
-      <div className="relative z-[10] h-full w-full">
+      <div
+        className={`absolute inset-0 z-[10] flex items-center justify-center transition-all duration-700 ${
+          selectedId
+            ? overlaySide === "left"
+              ? "md:left-[60%] md:w-[40%]"
+              : "md:left-0 md:w-[40%]"
+            : ""
+        }`}
+      >
         <PlayerGallery3D
           items={galleryItems}
           selectedId={selectedId}
@@ -178,13 +186,13 @@ export default function NationsSection() {
 
       {/* 6. SECTION HEADER */}
       {!selectedId && (
-        <div className="absolute top-16 md:top-20 inset-x-0 z-20 text-center pointer-events-none px-4">
-          <div className="flex items-center justify-center gap-4 mb-3">
+        <div className="absolute top-14 md:top-16 inset-x-0 z-20 text-center pointer-events-none px-4 opacity-80">
+          <div className="flex items-center justify-center gap-4 mb-2">
             <div className="h-px w-8 bg-primary/40" />
             <span className="font-bebas text-xs tracking-[0.4em] text-white/40 uppercase">{t('subtitle')}</span>
             <div className="h-px w-8 bg-primary/40" />
           </div>
-          <h2 className="font-bebas text-3xl sm:text-5xl md:text-6xl text-white tracking-widest drop-shadow-lg">
+          <h2 className="font-bebas text-3xl sm:text-4xl md:text-5xl text-white tracking-widest drop-shadow-lg">
             {t('title')}
           </h2>
           <p className="font-inter text-xs text-white/25 mt-2 tracking-widest hidden sm:block">

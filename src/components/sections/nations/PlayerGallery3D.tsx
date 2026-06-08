@@ -1,14 +1,26 @@
 "use client"
 
 import * as THREE from "three"
-import { useRef, useState, useMemo } from "react"
-import { useTranslations } from "next-intl"
+import { useRef, useState } from "react"
 import { Canvas, useFrame } from "@react-three/fiber"
 import { useCursor, MeshReflectorMaterial, Image, Text, Environment } from "@react-three/drei"
 import { easing } from "maath"
-import { NATIONS } from "@/data/nations"
+import CameraFlashes from "@/components/3d/CameraFlashes"
 
 const GOLDEN_RATIO = 1.61803398875
+
+// Idle gallery — linear row with gentle depth
+const IDLE_FRAME_WIDTH = 6.5
+const IDLE_FRAME_HEIGHT = IDLE_FRAME_WIDTH * GOLDEN_RATIO
+const IDLE_OUTER_BORDER = 0.5
+const IDLE_MAT_BORDER = 0.12
+const IDLE_SPACING = 8.8   // center-to-center gap (gap = 8.8 - 6.5 = 2.3 units)
+
+// Selected detail view — compact carousel in 40% panel
+const SEL_FRAME_WIDTH = 6.5
+const SEL_FRAME_HEIGHT = SEL_FRAME_WIDTH * GOLDEN_RATIO
+const SEL_OUTER_BORDER = 0.4
+const SEL_MAT_BORDER = 0.1
 
 interface PlayerData {
   id: string
@@ -19,94 +31,97 @@ interface PlayerData {
 
 export type GalleryItem = PlayerData
 
-function getSide(index: number, total: number): 'left' | 'right' {
-  return index < total / 2 ? 'left' : 'right'
+interface PlayerGallery3DProps {
+  items: GalleryItem[]
+  selectedId: string | null
+  onSelect: (id: string | null, side: "left" | "right") => void
 }
 
-export default function PlayerGallery3D({ onSelect }: { onSelect: (id: string | null, side: 'left' | 'right') => void }) {
-  const t = useTranslations('nations')
-  const nationsList = t.raw('nations_list') as Array<{ id: string; name: string; player: string }>
+function getSide(index: number, total: number): "left" | "right" {
+  return index < total / 2 ? "left" : "right"
+}
 
-  const players = useMemo<PlayerData[]>(() => {
-    return NATIONS.map(({ id, folder }) => {
-      const nation = nationsList.find((n) => n.id === id)
-      return {
-        id,
-        folder,
-        name: nation?.name ?? folder.toUpperCase(),
-        player: nation?.player ?? '',
-      }
-    })
-  }, [nationsList])
-
-  const [selected, setSelected] = useState<string | null>(null)
+export default function PlayerGallery3D({
+  items,
+  selectedId,
+  onSelect,
+}: PlayerGallery3DProps) {
+  const selectedIndex = selectedId ? items.findIndex((p) => p.id === selectedId) : -1
+  const isIdle = selectedId === null
 
   const handleSelect = (id: string | null) => {
-    setSelected(id)
     if (id) {
-      const idx = players.findIndex(p => p.id === id)
-      onSelect(id, getSide(idx, players.length))
+      const idx = items.findIndex((p) => p.id === id)
+      onSelect(id, getSide(idx, items.length))
     } else {
-      onSelect(null, 'left')
+      onSelect(null, "left")
     }
   }
 
-  const selectedIndex = selected ? players.findIndex(p => p.id === selected) : -1
+  const frameHeight = isIdle ? IDLE_FRAME_HEIGHT : SEL_FRAME_HEIGHT
 
   return (
-    <div className="w-full h-full">
+    <div className="w-full h-full flex items-center justify-center">
       <Canvas
+        className="w-full h-full"
         dpr={[1, 1.5]}
-        camera={{ fov: 60, position: [0, 3, 22] }}
+        camera={{ fov: isIdle ? 62 : 48, position: isIdle ? [0, 0.6, 30] : [0, 1.2, 11] }}
         gl={{ alpha: true, antialias: true }}
       >
-        <fog attach="fog" args={["#050505", 6, 28]} />
+        {isIdle && <color attach="background" args={["#050505"]} />}
+        <fog attach="fog" args={["#050505", isIdle ? 35 : 10, isIdle ? 70 : 35]} />
         <Environment preset="city" />
+        <CameraFlashes active={isIdle} />
 
-        <group position={[0, -0.5, 0]}>
+        <group position={[0, isIdle ? 0.4 : 0.5, 0]}>
           <Frames
-            items={players}
-            selected={selected}
+            items={items}
+            selectedId={selectedId}
             selectedIndex={selectedIndex}
             onSelect={handleSelect}
           />
 
-          <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -6.6, 0]}>
+          <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -frameHeight / 2 - (isIdle ? 1.2 : 1), 0]}>
             <planeGeometry args={[200, 200]} />
             <MeshReflectorMaterial
-              blur={[300, 100]}
+              blur={[400, 100]}
               resolution={1024}
               mixBlur={1}
-              mixStrength={30}
-              roughness={1}
-              depthScale={1.2}
-              minDepthThreshold={0.4}
-              maxDepthThreshold={1.4}
-              color="#101010"
-              metalness={0.5}
-              mirror={1}
+              mixStrength={isIdle ? 50 : 30}
+              roughness={0.8}
+              depthScale={1.4}
+              minDepthThreshold={0.35}
+              maxDepthThreshold={1.3}
+              color="#070707"
+              metalness={0.6}
+              mirror={isIdle ? 0.9 : 0.75}
             />
           </mesh>
         </group>
 
-        <CameraRig selected={selected} selectedIndex={selectedIndex} total={players.length} />
+        <CameraRig selectedId={selectedId} />
       </Canvas>
     </div>
   )
 }
 
-function Frames({ items, selected, selectedIndex, onSelect }: {
+function Frames({
+  items,
+  selectedId,
+  selectedIndex,
+  onSelect,
+}: {
   items: PlayerData[]
-  selected: string | null
+  selectedId: string | null
   selectedIndex: number
   onSelect: (id: string | null) => void
 }) {
   return (
     <group>
       {items.map((item, i) => {
-        const isSelected = selected === item.id
+        const isSelected = selectedId === item.id
         const isAdjacent = selectedIndex >= 0 && Math.abs(i - selectedIndex) === 1
-        const hasSelection = selected !== null
+        const hasSelection = selectedId !== null
 
         return (
           <Frame
@@ -126,7 +141,16 @@ function Frames({ items, selected, selectedIndex, onSelect }: {
   )
 }
 
-function Frame({ item, index, total, selectedIndex, isSelected, isAdjacent, hasSelection, onSelect }: {
+function Frame({
+  item,
+  index,
+  total,
+  selectedIndex,
+  isSelected,
+  isAdjacent,
+  hasSelection,
+  onSelect,
+}: {
   item: PlayerData
   index: number
   total: number
@@ -138,150 +162,205 @@ function Frame({ item, index, total, selectedIndex, isSelected, isAdjacent, hasS
 }) {
   const imageRef = useRef<THREE.Mesh>(null)
   const bgRef = useRef<THREE.MeshBasicMaterial>(null)
-  const borderRef = useRef<THREE.MeshBasicMaterial>(null)
+  const outerBorderRef = useRef<THREE.MeshBasicMaterial>(null)
+  const matBorderRef = useRef<THREE.MeshBasicMaterial>(null)
   const groupRef = useRef<THREE.Group>(null)
+  const scaleRef = useRef<THREE.Group>(null)
   const [hovered, hover] = useState(false)
   useCursor(hovered)
 
-  const side = useMemo(() => getSide(selectedIndex, total), [selectedIndex, total])
+  const frameW = hasSelection ? SEL_FRAME_WIDTH : IDLE_FRAME_WIDTH
+  const frameH = hasSelection ? SEL_FRAME_HEIGHT : IDLE_FRAME_HEIGHT
+  const outerBorder = hasSelection ? SEL_OUTER_BORDER : IDLE_OUTER_BORDER
+  const matBorder = hasSelection ? SEL_MAT_BORDER : IDLE_MAT_BORDER
 
   useFrame((_, dt) => {
-    if (!imageRef.current || !bgRef.current || !borderRef.current || !groupRef.current) return
+    if (
+      !imageRef.current ||
+      !bgRef.current ||
+      !outerBorderRef.current ||
+      !matBorderRef.current ||
+      !groupRef.current ||
+      !scaleRef.current
+    )
+      return
 
     let targetX = 0
     let targetZ = 0
     let targetRotationY = 0
+    let targetScale = 1
+    const targetY = hasSelection ? 0.5 : 0
 
     if (!hasSelection) {
-      // Circular Gallery View (Initial State) - Larger radius for larger frames
-      const arcAngle = ((index / (total - 1)) - 0.5) * Math.PI * 0.8
-      const radius = 11
-      targetX = Math.sin(arcAngle) * radius
-      targetZ = Math.cos(arcAngle) * radius - radius
-      targetRotationY = -arcAngle
+      // Linear layout: equal spacing, gentle Z-depth curve, mild inward rotation
+      const normalizedPos = index / (total - 1) - 0.5   // -0.5 to +0.5
+      const absNorm = Math.abs(normalizedPos) * 2         // 0 at center, 1 at edges
+      targetX = normalizedPos * (total - 1) * IDLE_SPACING
+      targetZ = -(absNorm * absNorm) * 2.5               // 0 at center, -2.5 at edges
+      targetRotationY = -normalizedPos * 0.38             // max ±0.19 rad ≈ ±11°
+
+      targetScale = 1
     } else {
-      // Carousel View (Selected State)
       const diff = index - selectedIndex
 
-      // Dynamic shift: Left side players (0,1,2) go to RIGHT (3.5), Right side players (3,4,5) go to LEFT (-3.5)
-      const offsetDirection = side === 'left' ? 3.5 : -3.5
-
       if (isSelected) {
-        targetX = offsetDirection
+        targetX = 0
         targetZ = 0
         targetRotationY = 0
       } else if (isAdjacent) {
-        // Peeking behind from left or right - Adjusted offset for larger size
-        targetX = offsetDirection + (diff * 3.8)
-        targetZ = -2.5
+        targetX = diff * 2.2
+        targetZ = -2
         targetRotationY = diff * -0.2
       } else {
-        // Far away frames
-        targetX = offsetDirection + (diff * 8)
+        targetX = diff * 6
         targetZ = -10
         targetRotationY = 0
       }
+      targetScale = 0.92
     }
 
-    easing.damp3(groupRef.current.position, [targetX, 1, targetZ], 0.35, dt)
+    easing.damp3(groupRef.current.position, [targetX, targetY, targetZ], 0.35, dt)
     easing.damp(groupRef.current.rotation, "y", targetRotationY, 0.35, dt)
+    easing.damp3(
+      scaleRef.current.scale,
+      [targetScale, targetScale, targetScale],
+      0.35,
+      dt
+    )
 
-    let targetOpacity = 0.75
+    let targetOpacity = 1
     if (isSelected) targetOpacity = 1
     else if (hasSelection && isAdjacent) targetOpacity = 0.45
     else if (hasSelection) targetOpacity = 0
-    else targetOpacity = hovered ? 1 : 0.75
+    else {
+      const centerIndex = (total - 1) / 2
+      const distFromCenter = Math.abs(index - centerIndex)
+      targetOpacity = distFromCenter > 2.5 ? 0.55 : 1
+    }
 
-    const targetZoom = isSelected ? 1 : hovered ? 1.08 : 1
+    const targetZoom = isSelected ? 1 : hovered ? 1.05 : 1
 
-    // Update material properties directly on refs
-    const mat = imageRef.current.material as THREE.Material // Image material is special, we cast to any for dampen
+    const mat = imageRef.current.material as THREE.Material
     easing.damp(mat, "zoom", targetZoom, 0.2, dt)
     easing.damp(mat, "opacity", targetOpacity, 0.25, dt)
-    easing.damp(bgRef.current, "opacity", targetOpacity * 0.45, 0.25, dt)
-    easing.damp(borderRef.current, "opacity", targetOpacity, 0.25, dt)
+    easing.damp(bgRef.current, "opacity", targetOpacity, 0.25, dt)
+    easing.damp(outerBorderRef.current, "opacity", targetOpacity, 0.25, dt)
+    easing.damp(matBorderRef.current, "opacity", targetOpacity, 0.25, dt)
 
     groupRef.current.visible = targetOpacity > 0.01
   })
 
+  const outerW = frameW + outerBorder * 2
+  const outerH = frameH + outerBorder * 2
+  const matW = frameW + matBorder * 2
+  const matH = frameH + matBorder * 2
+
   return (
     <group ref={groupRef}>
-      <mesh
-        name={item.id}
-        onPointerOver={() => hover(true)}
-        onPointerOut={() => hover(false)}
-        onClick={(e) => {
-          e.stopPropagation()
-          if (hasSelection && !isSelected && !isAdjacent) return
-          onSelect()
-        }}
-      >
-        <planeGeometry args={[9, 9 * GOLDEN_RATIO]} />
-        <meshBasicMaterial ref={bgRef} color="#000" transparent opacity={0.5} />
-
-        {/* Brand/Flag Background inside the frame */}
-        <Image alt=""
-          url={`/images/nations/${item.folder}/flag.png`}
-          transparent
-          scale={[9, 9 * GOLDEN_RATIO]}
-          position={[0, 0, 0.005]}
-          opacity={0.3}
-        />
-
-        <Image alt=""
-          ref={imageRef}
-          url={`/images/nations/${item.folder}/player.png`}
-          transparent
-          scale={[9, 9 * GOLDEN_RATIO]}
-          position={[0, 0, 0.01]}
-        />
-
-        <mesh position={[0, 0, -0.01]}>
-          <planeGeometry args={[9.3, 9.3 * GOLDEN_RATIO]} />
-          <meshBasicMaterial
-            ref={borderRef}
-            transparent
-            color={isSelected ? "#eab308" : hovered ? "#ffffff" : "#282828"}
-          />
-        </mesh>
-      </mesh>
-
-      {!hasSelection && (
-        <Text
-          maxWidth={8}
-          anchorX="center"
-          anchorY="top"
-          position={[0, -7.6, 0]}
-          fontSize={0.6}
-          font="/fonts/BebasNeue-Regular.ttf"
-          color="white"
-          fillOpacity={0.7}
+      <group ref={scaleRef}>
+        <mesh
+          name={item.id}
+          onPointerOver={() => hover(true)}
+          onPointerOut={() => hover(false)}
+          onClick={(e) => {
+            e.stopPropagation()
+            if (hasSelection && !isSelected && !isAdjacent) return
+            onSelect()
+          }}
         >
-          {item.name}
-        </Text>
-      )}
+          <mesh position={[0, 0, -0.025]}>
+            <planeGeometry args={[outerW, outerH]} />
+            <meshBasicMaterial ref={outerBorderRef} color="#0a0a0a" transparent />
+          </mesh>
+
+          <mesh position={[0, 0, -0.018]}>
+            <planeGeometry args={[matW, matH]} />
+            <meshBasicMaterial ref={matBorderRef} color="#f5f5f5" transparent />
+          </mesh>
+
+          <planeGeometry args={[frameW, frameH]} />
+          <meshBasicMaterial ref={bgRef} color="#000" transparent opacity={1} />
+
+          <Image
+            url={`/images/nations/${item.folder}/flag.png`}
+            transparent
+            scale={[frameW, frameH]}
+            position={[0, 0, 0.005]}
+            opacity={0.35}
+          />
+
+          <Image
+            ref={imageRef}
+            url={`/images/nations/${item.folder}/player.png`}
+            transparent
+            scale={[frameW, frameH]}
+            position={[0, 0, 0.01]}
+          />
+
+          {hasSelection && (
+            <mesh position={[0, 0, 0.012]}>
+              <planeGeometry args={[outerW + 0.06, outerH + 0.06]} />
+              <meshBasicMaterial
+                transparent
+                color={isSelected ? "#eab308" : hovered ? "#ffffff" : "#000000"}
+                opacity={isSelected ? 0.85 : hovered ? 0.3 : 0}
+              />
+            </mesh>
+          )}
+
+          {!hasSelection && hovered && (
+            <mesh position={[0, 0, 0.012]}>
+              <planeGeometry args={[outerW + 0.06, outerH + 0.06]} />
+              <meshBasicMaterial transparent color="#ffffff" opacity={0.25} />
+            </mesh>
+          )}
+        </mesh>
+
+        {!hasSelection && (
+          <>
+            <Text
+              anchorX="center"
+              anchorY="bottom"
+              position={[0, frameH / 2 + outerBorder + 0.3, 0.02]}
+              fontSize={0.55}
+              font="/fonts/BebasNeue-Regular.ttf"
+              color="white"
+              fillOpacity={0.7}
+              letterSpacing={0.06}
+            >
+              {item.id}
+            </Text>
+            <Text
+              maxWidth={frameW + 1}
+              anchorX="center"
+              anchorY="top"
+              position={[0, -frameH / 2 - outerBorder - 0.45, 0.02]}
+              fontSize={0.5}
+              font="/fonts/BebasNeue-Regular.ttf"
+              color="white"
+              fillOpacity={0.5}
+            >
+              {item.name}
+            </Text>
+          </>
+        )}
+      </group>
     </group>
   )
 }
 
-function CameraRig({ selected, selectedIndex, total }: { selected: string | null, selectedIndex: number, total: number }) {
-  const lookAtRef = useRef(new THREE.Vector3(0, 2, 0))
+function CameraRig({ selectedId }: { selectedId: string | null }) {
+  const lookAtRef = useRef(new THREE.Vector3(0, 0, 0))
 
   useFrame((state, dt) => {
-    if (selected) {
-      const side = getSide(selectedIndex, total)
-      // To keep the selected frame perfectly straight ("de frente recto"), 
-      // we offset the camera position as well, avoiding perspective rotation.
-      const lookX = side === 'left' ? -0.8 : 0.8
-      
-      easing.damp3(state.camera.position, [lookX, 2.5, 16], 0.4, dt)
-      easing.damp3(lookAtRef.current, [lookX, 2, 0], 0.4, dt)
-      state.camera.lookAt(lookAtRef.current)
+    if (selectedId) {
+      easing.damp3(state.camera.position, [0, 1.2, 11], 0.4, dt)
+      easing.damp3(lookAtRef.current, [0, 0.5, 0], 0.4, dt)
     } else {
-      easing.damp3(state.camera.position, [0, 3, 22], 0.4, dt)
-      easing.damp3(lookAtRef.current, [0, 2, 0], 0.4, dt)
-      state.camera.lookAt(lookAtRef.current)
+      easing.damp3(state.camera.position, [0, 0.6, 30], 0.4, dt)
+      easing.damp3(lookAtRef.current, [0, 0.2, 0], 0.4, dt)
     }
+    state.camera.lookAt(lookAtRef.current)
   })
 
   return null
