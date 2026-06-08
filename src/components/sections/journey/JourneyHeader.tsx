@@ -3,8 +3,8 @@
 import { useTranslations } from 'next-intl'
 import SplitTitle from '@/components/animations/SplitTitle'
 
-export default function TimelineHeader() {
-  const t = useTranslations('timeline')
+export default function JourneyHeader() {
+  const t = useTranslations('journey')
 
   return (
     <div className="text-center">

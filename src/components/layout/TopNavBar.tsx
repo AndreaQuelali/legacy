@@ -28,7 +28,7 @@ export default function TopNavBar() {
   }, [isOpen])
 
   useEffect(() => {
-    const sections = ['hero', 'nations', 'stadiums', 'timeline'];
+    const sections = ['hero', 'nations', 'stadiums', 'journey'];
 
     const cleanup = () => {
       scrollTriggers.current.forEach(st => st.kill());
@@ -88,7 +88,7 @@ export default function TopNavBar() {
     { id: 'hero', label: t('home'), href: '#hero' },
     { id: 'nations', label: t('nations'), href: '#nations' },
     { id: 'stadiums', label: t('stadiums'), href: '#stadiums' },
-    { id: 'timeline', label: t('road_to'), href: '#timeline' },
+    { id: 'journey', label: t('road_to'), href: '#journey' },
   ];
 
   return (

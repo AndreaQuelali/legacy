@@ -6,7 +6,7 @@ import { HeroSection } from "@/components/sections/hero"
 import { StatsBar } from "@/components/sections/stats"
 import { NationsSection, NationsMarquee } from "@/components/sections/nations"
 import { StadiumSection } from "@/components/sections/stadiums"
-import { TimelineSection } from "@/components/sections/timeline"
+import { JourneySection } from "@/components/sections/journey"
 
 export default function Home() {
   return (
@@ -18,7 +18,7 @@ export default function Home() {
 
       <StadiumSection />
       <StatsBar />
-      <TimelineSection />
+      <JourneySection />
       <NationsMarquee />
       <Footer />
     </div>
