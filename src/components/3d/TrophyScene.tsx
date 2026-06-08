@@ -6,6 +6,7 @@ import { Environment, useGLTF } from '@react-three/drei'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import * as THREE from 'three'
 import gsap from '@/lib/gsap/gsap'
+import CameraFlashes from '@/components/3d/CameraFlashes'
 
 // ─── Circular particle alphaMap (generated once at module level) ──────────────
 function createCircleTexture(): THREE.CanvasTexture {
@@ -49,8 +50,6 @@ const PARTICLE_VELOCITIES = (() => {
   }
   return arr
 })()
-const INITIAL_FLASH_DELAY = Math.random() * 1.5 + 0.5
-
 // ─── Gold Dust Particles (circular via alphaMap) ─────────────────────────────
 function Particles() {
   const pointsRef   = useRef<THREE.Points>(null)
@@ -122,71 +121,6 @@ function Particles() {
         alphaTest={0.05}
       />
     </points>
-  )
-}
-
-// ─── Camera Flash Lights ──────────────────────────────────────────────────────
-function CameraFlashes() {
-  const lightRef   = useRef<THREE.PointLight>(null)
-  const timerRef   = useRef(0)
-  const nextFlash  = useRef(INITIAL_FLASH_DELAY)
-  const flashPhase = useRef<'idle' | 'on' | 'off'>('idle')
-  const phaseTimer  = useRef(0)
-
-  useFrame((_, delta) => {
-    if (!lightRef.current) return
-    const st = ScrollTrigger.getById('hero-main-scroll')
-    if (!st) return
-    const p = st.progress
-
-    if (p < 0.44 || p > 0.72) {
-      lightRef.current.intensity = 0
-      flashPhase.current = 'idle'
-      return
-    }
-
-    timerRef.current += delta
-
-    if (flashPhase.current === 'idle') {
-      if (timerRef.current >= nextFlash.current) {
-        const angle = Math.random() * Math.PI * 2
-        const dist  = 4 + Math.random() * 2
-        lightRef.current.position.set(
-          Math.cos(angle) * dist,
-          1 + Math.random() * 3,
-          Math.sin(angle) * dist
-        )
-        lightRef.current.intensity = 0
-        flashPhase.current = 'on'
-        phaseTimer.current = 0
-      }
-    } else if (flashPhase.current === 'on') {
-      phaseTimer.current += delta
-      lightRef.current.intensity = Math.min(160 * (phaseTimer.current / 0.06), 160)
-      if (phaseTimer.current >= 0.06) {
-        flashPhase.current = 'off'
-        phaseTimer.current = 0
-      }
-    } else if (flashPhase.current === 'off') {
-      phaseTimer.current += delta
-      lightRef.current.intensity = Math.max(160 * (1 - phaseTimer.current / 0.14), 0)
-      if (phaseTimer.current >= 0.14) {
-        lightRef.current.intensity = 0
-        flashPhase.current = 'idle'
-        timerRef.current  = 0
-        nextFlash.current = Math.random() * 2.5 + 0.4
-      }
-    }
-  })
-
-  return (
-    <pointLight
-      ref={lightRef}
-      color="#ffffff"
-      intensity={0}
-      distance={18}
-      decay={2}
-    />
   )
 }
 
@@ -319,7 +253,7 @@ export default function TrophyScene() {
           <Environment preset="night" />
           <Trophy />
           <Particles />
-          <CameraFlashes />
+          <CameraFlashes scrollTriggerId="hero-main-scroll" scrollRange={[0.44, 0.72]} />
         </Suspense>
       </Canvas>
     </div>

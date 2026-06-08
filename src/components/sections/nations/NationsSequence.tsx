@@ -66,14 +66,14 @@ export default function NationsSequence() {
 
         {/* Phase 2: Nations Grid (Now Horizontal) */}
         <div className="flex h-full items-center gap-0">
-          {nations.map((nation) => (
+          {nations.map((nation, index) => (
             <div key={nation.id} className="w-screen h-full flex-shrink-0 relative overflow-hidden flex items-center justify-center">
               {/* 
                   Reusing NationCard but forcing it to be always active 
                   since we are scrolling them horizontally into viewport 
                */}
               <div className="w-[90vw] h-[80vh] relative">
-                <NationCard nation={nation} isActive={true} />
+                <NationCard nation={nation} isActive={true} index={index} />
               </div>
             </div>
           ))}

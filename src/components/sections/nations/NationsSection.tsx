@@ -1,145 +1,193 @@
 "use client"
 
-import { useState, useEffect, useRef } from 'react'
+import { useState, useRef, useMemo } from 'react'
 import { useTranslations } from 'next-intl'
-import gsap from '@/lib/gsap/gsap'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import NationCard from './NationCard'
+import Image from 'next/image'
+import { AnimatePresence, motion } from 'framer-motion'
+import PlayerGallery3D, { type GalleryItem } from './PlayerGallery3D'
+import NationInfoOverlay from './NationInfoOverlay'
+import { NATIONS, getNationFolder, orderNationsByConfig, type NationData } from '@/data/nations'
 
 export default function NationsSection() {
   const t = useTranslations('nations')
   const sectionRef = useRef<HTMLElement>(null)
-  const [activeIndex, setActiveIndex] = useState(0)
+  const [selectedId, setSelectedId] = useState<string | null>(null)
 
-  const nations = t.raw('nations_list') as Array<{
-    id: string
-    name: string
-    player: string
-    motto: string
-    desc: string
-    founded: string
-    titles: string
-    stadium: string
-  }>
+  const nationsRaw = t.raw('nations_list') as NationData[]
+  const nations = useMemo(() => orderNationsByConfig(nationsRaw), [nationsRaw])
 
-  const activeIndexRef = useRef(0)
-
-  useEffect(() => {
-    const totalNations = nations.length
-    
-    const ctx = gsap.context(() => {
-      ScrollTrigger.create({
-        trigger: sectionRef.current,
-        start: "top top",
-        end: "+=5000",
-        scrub: true,
-        pin: true,
-        anticipatePin: 1,
-        id: "nations-internal",
-        onUpdate: (self) => {
-          const progress = self.progress
-          // We use totalNations + 0.2 to give the last nation more screen time
-          const newIndex = Math.min(
-            Math.floor(progress * (totalNations + 0.2)),
-            totalNations - 1
-          )
-          if (newIndex !== activeIndexRef.current) {
-            activeIndexRef.current = newIndex
-            setActiveIndex(newIndex)
-          }
-        },
-      })
+  const galleryItems = useMemo<GalleryItem[]>(() => {
+    return NATIONS.map(({ id, folder }) => {
+      const nation = nations.find((n) => n.id === id)
+      return {
+        id,
+        folder,
+        name: nation?.name ?? id,
+        player: nation?.player ?? '',
+      }
     })
+  }, [nations])
 
-    return () => ctx.revert()
-  }, [nations.length])
+  const selectedNation = nations.find(n => n.id === selectedId) || null
+  const selectedIndex = nations.findIndex(n => n.id === selectedId)
+  const folder = selectedId ? getNationFolder(selectedId) : null
+
+  const handlePrev = () => {
+    if (selectedIndex <= 0) return
+    setSelectedId(nations[selectedIndex - 1].id)
+  }
+  const handleNext = () => {
+    if (selectedIndex >= nations.length - 1) return
+    setSelectedId(nations[selectedIndex + 1].id)
+  }
 
   return (
-    <section 
-      id="nations" 
-      ref={sectionRef} 
+    <section
+      id="nations"
+      ref={sectionRef}
       className="relative h-screen w-full bg-[#050505] overflow-hidden"
     >
-      {/* Background Atmosphere (Static across all cards for coherence) */}
-      <div className="absolute inset-0 z-0 bg-[radial-gradient(circle_at_20%_30%,_rgba(255,255,255,0.03)_0%,_transparent_50%)]" />
+      {/* 1. DYNAMIC BACKGROUND LAYER */}
+      <AnimatePresence>
+        {selectedId && folder && selectedNation && (
+          <motion.div
+            key={selectedId + '-bg'}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.9 }}
+            className="absolute inset-0 z-0 pointer-events-none"
+          >
+            <div className="absolute inset-0">
+              <Image
+                src={`/images/nations/${folder}/bg.png`}
+                alt={selectedNation.name}
+                fill
+                className="object-cover opacity-35"
+                priority
+              />
+              <div className="absolute inset-0 bg-black/65" />
+            </div>
+            <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/40 to-black/60" />
+          </motion.div>
+        )}
+      </AnimatePresence>
 
-      {/* Nation Chapters */}
-      <div className="relative h-full w-full">
-        {nations.map((nation, i) => (
-          <NationCard 
-            key={nation.id} 
-            nation={nation} 
-            isActive={i === activeIndex} 
-            index={i}
-          />
-        ))}
+      {/* 2. ATMOSPHERIC GLOW */}
+      <div className="absolute inset-0 z-[1] bg-[radial-gradient(circle_at_50%_50%,_rgba(234,179,8,0.025)_0%,_transparent_70%)] pointer-events-none" />
+
+      {/* 3. 3D GALLERY CANVAS */}
+      <div
+        className={`absolute inset-0 z-[10] flex items-center justify-center transition-all duration-700 ${
+          selectedId ? "md:left-[60%] md:w-[40%]" : ""
+        }`}
+      >
+        <PlayerGallery3D
+          items={galleryItems}
+          selectedId={selectedId}
+          onSelect={(id) => setSelectedId(id)}
+        />
       </div>
 
-      {/* SIDE INDICATOR (PROGRESS BAR) */}
-      <div className="absolute left-6 sm:left-10 md:left-12 top-1/2 -translate-y-1/2 z-30 hidden sm:flex flex-col items-center gap-6">
-        <div className="w-[1px] h-32 bg-white/10 relative overflow-hidden">
-          <div 
-            className="absolute top-0 left-0 w-full bg-primary transition-all duration-500 ease-out"
-            style={{ height: `${((activeIndex + 1) / nations.length) * 100}%` }}
-          />
-        </div>
-        
-        <div className="flex flex-col gap-4">
-          {nations.map((nation, i) => (
+      {/* 4. HTML DETAILS OVERLAY (desktop) */}
+      <div className="hidden md:block">
+        <NationInfoOverlay
+          nation={selectedNation}
+          onClose={() => setSelectedId(null)}
+        />
+      </div>
+
+      {/* 5. MOBILE DETAILS SHEET */}
+      <AnimatePresence>
+        {selectedNation && (
+          <motion.div
+            initial={{ y: '100%', opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            exit={{ y: '100%', opacity: 0 }}
+            transition={{ duration: 0.5, ease: [0.32, 0.72, 0, 1] }}
+            drag="y"
+            dragConstraints={{ top: 0, bottom: 0 }}
+            dragElastic={{ top: 0, bottom: 0.4 }}
+            onDragEnd={(_, info) => {
+              if (info.offset.y > 80 || info.velocity.y > 400) {
+                setSelectedId(null)
+              }
+            }}
+            className="md:hidden absolute bottom-0 inset-x-0 z-[50] bg-black/90 backdrop-blur-xl border-t border-white/10 rounded-t-3xl px-6 pt-8 pb-[max(2rem,env(safe-area-inset-bottom))] max-h-[55vh] overflow-y-auto"
+          >
+            <div className="w-10 h-1 bg-white/20 rounded-full mx-auto mb-6" />
+
             <button
-              key={nation.id}
-              onClick={() => {
-                if (!sectionRef.current) return
-                // Calculate absolute scroll position: offsetTop + (i / 5.2 * 5000)
-                const scrollToPos = sectionRef.current.offsetTop + (i / (nations.length + 0.2)) * 5000 + 1; 
-                window.scrollTo({
-                  top: scrollToPos,
-                  behavior: 'smooth'
-                })
-              }}
-              className="group relative flex items-center"
+              onClick={() => setSelectedId(null)}
+              aria-label={t('close')}
+              className="absolute top-5 right-6 text-white/40 hover:text-white transition-colors font-bebas text-sm tracking-widest"
             >
-               <span className={`font-bebas text-[14px] tracking-widest transition-all duration-500 ${i === activeIndex ? 'text-primary scale-110' : 'text-white/20 group-hover:text-white/40'}`}>
-                {nation.id}
-              </span>
-              {i === activeIndex && (
-                <div className="absolute -left-4 w-2 h-2 rounded-full bg-primary animate-pulse" />
-              )}
+              ✕ {t('close')}
             </button>
-          ))}
-        </div>
-      </div>
 
-      {/* BOTTOM TRANSITION INDICATOR */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-30 flex flex-col items-center gap-2 pointer-events-none opacity-50">
-        <span className="font-inter text-[9px] font-bold tracking-[0.4em] text-white/40 uppercase">
-          {t('scroll_discover')}
-        </span>
-        <div className="h-12 w-[1px] bg-gradient-to-b from-white/20 to-transparent relative overflow-hidden">
-          <div className="absolute top-0 left-0 w-full h-1/2 bg-primary animate-scroll-hint" />
-        </div>
-      </div>
+            <div className="flex flex-col gap-3">
+              <span className="font-inter text-[10px] font-bold tracking-[0.4em] text-white/50 uppercase">{t('subtitle')}</span>
+              <h2 className="font-bebas text-5xl leading-none text-white">{selectedNation.name}</h2>
+              <p className="font-bebas text-base tracking-wider text-white/60 italic">&ldquo;{selectedNation.motto}&rdquo;</p>
+              <p className="font-inter text-sm text-white/40 leading-relaxed">{selectedNation.desc}</p>
 
-      {/* STYLES FOR ANIMATIONS */}
-      <style jsx global>{`
-        @keyframes scroll-hint {
-          0% { transform: translateY(-100%); }
-          100% { transform: translateY(200%); }
-        }
-        .animate-scroll-hint {
-          animation: scroll-hint 2s infinite ease-in-out;
-        }
-        .ease-expo {
-          transition-timing-function: cubic-bezier(0.19, 1, 0.22, 1);
-        }
-        @keyframes float-slow {
-          0%, 100% { transform: translate(0, 0); }
-          50% { transform: translate(-1%, 2%); }
-        }
-        .animate-float-slow {
-          animation: float-slow 15s infinite ease-in-out;
-        }
-      `}</style>
+              <div className="flex gap-6 mt-2 pt-4 border-t border-white/10">
+                <div>
+                  <div className="font-inter text-[9px] font-bold tracking-[0.3em] text-white/30 uppercase mb-1">{t('stat_founded')}</div>
+                  <div className="font-bebas text-2xl text-white">{selectedNation.founded}</div>
+                </div>
+                <div className="w-px bg-white/10" />
+                <div>
+                  <div className="font-inter text-[9px] font-bold tracking-[0.3em] text-white/30 uppercase mb-1">{t('stat_titles')}</div>
+                  <div className="font-bebas text-2xl text-white">{selectedNation.titles}</div>
+                </div>
+                <div className="w-px bg-white/10" />
+                <div>
+                  <div className="font-inter text-[9px] font-bold tracking-[0.3em] text-white/30 uppercase mb-1">{t('stat_stadium')}</div>
+                  <div className="font-bebas text-lg text-white leading-tight">{selectedNation.stadium}</div>
+                </div>
+              </div>
+
+              <div className="flex justify-between mt-4">
+                <button
+                  onClick={handlePrev}
+                  disabled={selectedIndex <= 0}
+                  aria-label={t('prev_nation')}
+                  className="flex items-center gap-2 font-bebas text-sm tracking-widest text-white/40 hover:text-primary disabled:opacity-20 transition-colors"
+                >
+                  ← {selectedIndex > 0 ? nations[selectedIndex - 1].name : ''}
+                </button>
+                <button
+                  onClick={handleNext}
+                  disabled={selectedIndex >= nations.length - 1}
+                  aria-label={t('next_nation')}
+                  className="flex items-center gap-2 font-bebas text-sm tracking-widest text-white/40 hover:text-primary disabled:opacity-20 transition-colors"
+                >
+                  {selectedIndex < nations.length - 1 ? nations[selectedIndex + 1].name : ''} →
+                </button>
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* 6. SECTION HEADER */}
+      {!selectedId && (
+        <div className="absolute top-12 md:top-14 inset-x-0 z-20 text-center pointer-events-none px-4 opacity-80">
+          <div className="flex items-center justify-center gap-3 mb-1">
+            <div className="h-px w-8 bg-primary/40" />
+            <span className="font-bebas text-xs tracking-[0.4em] text-white/40 uppercase">{t('subtitle')}</span>
+            <div className="h-px w-8 bg-primary/40" />
+          </div>
+          <h2 className="font-bebas text-3xl sm:text-4xl md:text-5xl text-white tracking-widest drop-shadow-lg leading-none">
+            {t('title')}
+          </h2>
+          <p className="font-inter text-xs text-white/25 mt-0.5 tracking-widest hidden sm:block">
+            {t('select_hint')}
+          </p>
+        </div>
+      )}
+
     </section>
   )
 }
