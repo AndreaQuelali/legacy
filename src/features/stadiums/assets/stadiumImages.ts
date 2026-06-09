@@ -1,21 +1,21 @@
 import type { StaticImageData } from 'next/image'
 
-import aztecaImg from './images/Azteca.jpeg'
-import soFiImg from './images/SoFi.jpg'
-import bcPlaceImg from './images/BC-Place.jpg'
-import metlifeImg from './images/Metlife.jpg'
-import mercedesBenzImg from './images/Mercedes-Benz.jpg'
-import hardRockImg from './images/Hard-Rock.jpeg'
-import lumenImg from './images/Lumen.jpg'
-import levisImg from "./images/Levi's.jpg"
-import attImg from './images/ATT.jpg'
-import nrgImg from './images/NRG.jpeg'
-import arrowheadImg from './images/Arrowhead.jpeg'
-import gilletteImg from './images/Gillette.jpeg'
-import lincolnFinancialImg from './images/Lincoln-Financial.jpg'
-import bmoImg from './images/BMO.jpg'
-import bbvaImg from './images/BBVA.jpg'
-import akronImg from './images/Akron.jpg'
+import aztecaImg from './images/Azteca.webp'
+import soFiImg from './images/SoFi.webp'
+import bcPlaceImg from './images/BC-Place.webp'
+import metlifeImg from './images/Metlife.webp'
+import mercedesBenzImg from './images/Mercedes-Benz.webp'
+import hardRockImg from './images/Hard-Rock.webp'
+import lumenImg from './images/Lumen.webp'
+import levisImg from "./images/Levi's.webp"
+import attImg from './images/ATT.webp'
+import nrgImg from './images/NRG.webp'
+import arrowheadImg from './images/Arrowhead.webp'
+import gilletteImg from './images/Gillette.webp'
+import lincolnFinancialImg from './images/Lincoln-Financial.webp'
+import bmoImg from './images/BMO.webp'
+import bbvaImg from './images/BBVA.webp'
+import akronImg from './images/Akron.webp'
 
 export const STADIUM_IMAGE_MAP = {
   '1': aztecaImg,
