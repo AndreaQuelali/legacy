@@ -49,11 +49,11 @@ export default function NationStats({ founded, titles, stadium, isActive }: Nati
 
       <div className="w-[1px] bg-white/10 self-stretch my-2" />
 
-      <div className="flex flex-col items-start px-2">
+      <div className="flex flex-col items-center px-2">
         <span className="font-inter text-[10px] font-bold tracking-[0.25em] text-white/40 uppercase mb-1">
           {t('stat_stadium')}
         </span>
-        <span className="font-bebas text-[20px] sm:text-[24px] leading-tight text-white/90 max-w-[120px]">
+        <span className="font-bebas text-[40px] sm:text-[52px] leading-none text-white text-center">
           {stadium}
         </span>
       </div>

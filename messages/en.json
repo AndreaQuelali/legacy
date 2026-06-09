@@ -37,10 +37,10 @@
     "subtitle": "32 NATIONS. 32 STORIES.",
     "title": "REPRESENT YOUR COUNTRY",
     "view_team": "VIEW TEAM",
-    "stat_founded": "FOUNDED",
-    "stat_titles": "TITLES",
+    "stat_founded": "WORLD CUPS PLAYED",
+    "stat_titles": "WORLD CUPS WON",
     "stat_colors": "COLORS",
-    "stat_stadium": "STADIUM",
+    "stat_stadium": "FIFA RANKING",
     "next_nation": "NEXT NATION",
     "prev_nation": "PREVIOUS NATION",
     "scroll_discover": "SCROLL TO DISCOVER",
@@ -56,9 +56,9 @@
         "player": "PEDRI",
         "motto": "TECHNIQUE. PASSION. MASTERY.",
         "desc": "La Roja revolutionized modern football with tiki-taka. Champions of everything with a golden generation that continues to shine today.",
-        "founded": "1909",
+        "founded": "17",
         "titles": "1",
-        "stadium": "BERNABÉU STADIUM"
+        "stadium": "#2"
       },
       {
         "id": "02",
@@ -66,9 +66,9 @@
         "player": "KYLIAN MBAPPÉ",
         "motto": "LIBERTY. UNITY. GLORY.",
         "desc": "Dual world champions who blend elite athleticism with tactical precision. Les Bleus represent a new generation of dominance.",
-        "founded": "1919",
+        "founded": "17",
         "titles": "2",
-        "stadium": "STADE DE FRANCE"
+        "stadium": "#1"
       },
       {
         "id": "03",
@@ -76,9 +76,9 @@
         "player": "LIONEL MESSI",
         "motto": "PASSION. PRIDE. GLORY.",
         "desc": "Three-time world champions. The blue and white carry decades of football passion, technical brilliance and an unwavering will to win.",
-        "founded": "1893",
+        "founded": "19",
         "titles": "3",
-        "stadium": "MONUMENTAL"
+        "stadium": "#3"
       },
       {
         "id": "04",
@@ -86,9 +86,9 @@
         "player": "C. RONALDO",
         "motto": "HEART. HISTORY. TRIUMPH.",
         "desc": "Built on raw talent and collective spirit. Portugal channels the soul of a seafaring nation into every match they play.",
-        "founded": "1914",
-        "titles": "1",
-        "stadium": "ESTÁDIO DA LUZ"
+        "founded": "9",
+        "titles": "0",
+        "stadium": "#5"
       },
       {
         "id": "05",
@@ -96,9 +96,9 @@
         "player": "NEYMAR JR",
         "motto": "JOY. SKILL. DESTINY.",
         "desc": "Five-time champions and the most decorated nation in World Cup history. The Seleção plays football like no one else on earth.",
-        "founded": "1914",
+        "founded": "23",
         "titles": "5",
-        "stadium": "MARACANÃ"
+        "stadium": "#6"
       },
       {
         "id": "06",
@@ -106,9 +106,9 @@
         "player": "JAMAL MUSIALA",
         "motto": "POWER. PRECISION. AMBITION.",
         "desc": "Four-time world champions. The Nationalmannschaft blends perfect football engineering with an unwavering winning mentality.",
-        "founded": "1900",
+        "founded": "21",
         "titles": "4",
-        "stadium": "ALLIANZ ARENA"
+        "stadium": "#10"
       }
     ]
   },

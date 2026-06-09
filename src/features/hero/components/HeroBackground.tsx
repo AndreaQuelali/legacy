@@ -2,7 +2,7 @@
 
 import React from 'react'
 import Image from 'next/image'
-import heroImg from '../assets/images/hero.png'
+import heroImg from '../assets/images/hero.webp'
 
 interface HeroBackgroundProps {
   children?: React.ReactNode

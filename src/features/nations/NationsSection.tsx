@@ -36,9 +36,8 @@ export default function NationsSection() {
     <section
       id="nations"
       ref={sectionRef}
-      className={`relative h-[100dvh] w-full bg-[#050505] overflow-hidden ${
-        heroCinematicDone ? '' : 'invisible pointer-events-none'
-      }`}
+      className={`relative h-[90dvh] w-full bg-[#050505] overflow-hidden ${heroCinematicDone ? '' : 'invisible pointer-events-none'
+        }`}
     >
       <AnimatePresence>
         {selectedId && folder && selectedNation && (
@@ -55,7 +54,7 @@ export default function NationsSection() {
                 src={getNationImageData(folder, 'bg')}
                 alt={selectedNation.name}
                 fill
-                className="object-cover opacity-35"
+                className="object-cover opacity-50"
                 priority
               />
               <div className="absolute inset-0 bg-black/65" />
@@ -81,6 +80,7 @@ export default function NationsSection() {
             <SplitTitle
               text={t('title')}
               className="section-title drop-shadow-lg"
+              type="words"
             />
 
             <p className="font-inter text-[10px] sm:text-xs text-white/25 mt-2 sm:mt-3 tracking-[0.2em] hidden sm:block uppercase">
@@ -90,9 +90,8 @@ export default function NationsSection() {
         )}
 
         <div
-          className={`relative flex-1 min-h-0 z-[10] flex items-center justify-center transition-all duration-700 ${
-            selectedId ? 'md:ml-auto md:w-[40%] md:flex-none' : 'w-full'
-          }`}
+          className={`relative flex-1 min-h-0 z-[10] flex items-center justify-center transition-all duration-700 ${selectedId ? 'md:ml-auto md:w-[40%] md:flex-none' : 'w-full'
+            }`}
         >
           <PlayerGallery3D
             items={galleryItems}
