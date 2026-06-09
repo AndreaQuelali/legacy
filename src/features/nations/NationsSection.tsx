@@ -36,7 +36,7 @@ export default function NationsSection() {
     <section
       id="nations"
       ref={sectionRef}
-      className={`relative h-[100dvh] w-full bg-[#050505] overflow-hidden ${heroCinematicDone ? '' : 'invisible pointer-events-none'
+      className={`relative h-[90dvh] w-full bg-[#050505] overflow-hidden ${heroCinematicDone ? '' : 'invisible pointer-events-none'
         }`}
     >
       <AnimatePresence>
