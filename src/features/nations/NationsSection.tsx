@@ -80,6 +80,7 @@ export default function NationsSection() {
             <SplitTitle
               text={t('title')}
               className="section-title drop-shadow-lg"
+              type="words"
             />
 
             <p className="font-inter text-[10px] sm:text-xs text-white/25 mt-2 sm:mt-3 tracking-[0.2em] hidden sm:block uppercase">
