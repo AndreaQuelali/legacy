@@ -347,7 +347,7 @@ function Frame({
             transparent
             scale={[frameW, frameH]}
             position={[0, 0, 0.005]}
-            opacity={0.35}
+            opacity={0.15}
           />
 
           <Image

@@ -35,33 +35,47 @@ export function useCountUp(
     const element = ref.current
     if (!element) return
 
+    const applyStaticValue = () => {
+      element.textContent = value
+    }
+
     const targetValue = parseInt(value.replace(/[^0-9]/g, ''), 10)
-    if (isNaN(targetValue)) return
+    if (isNaN(targetValue)) {
+      applyStaticValue()
+      return
+    }
 
     const proxy = { val: 0 }
+    let ctx: gsap.Context | null = null
 
-    const ctx = gsap.context(() => {
-      const tweenConfig: gsap.TweenVars = {
-        val: targetValue,
-        duration,
-        ease: 'power2.out',
-        delay,
-        onUpdate: () => {
-          element.textContent = Math.floor(proxy.val).toString()
-        },
-      }
-
-      if (options.trigger === 'scroll') {
-        tweenConfig.scrollTrigger = {
-          trigger: element,
-          start: scrollStart,
-          once: true,
+    try {
+      ctx = gsap.context(() => {
+        const tweenConfig: gsap.TweenVars = {
+          val: targetValue,
+          duration,
+          ease: 'power2.out',
+          delay,
+          onUpdate: () => {
+            element.textContent = Math.floor(proxy.val).toString()
+          },
         }
-      }
 
-      gsap.to(proxy, tweenConfig)
-    })
+        if (options.trigger === 'scroll') {
+          tweenConfig.scrollTrigger = {
+            trigger: element,
+            start: scrollStart,
+            once: true,
+          }
+        }
 
-    return () => ctx.revert()
+        gsap.to(proxy, tweenConfig)
+      })
+    } catch (error) {
+      console.error('CountUp animation failed, using static fallback:', error)
+      applyStaticValue()
+      return
+    }
+
+    return () => ctx?.revert()
   }, [isActive, value, duration, delay, scrollStart, options.trigger, ref])
 }

@@ -1,6 +1,6 @@
 "use client"
 
-import heroImg from '../assets/images/hero.png'
+import heroImg from '../assets/images/hero.webp'
 
 export default function HeroAtmosphere() {
   return (
