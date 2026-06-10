@@ -52,6 +52,7 @@ export default async function RootLayout({
       </head>
       <body
         className="antialiased"
+        suppressHydrationWarning
       >
         <ThemeProvider
           attribute="class"
