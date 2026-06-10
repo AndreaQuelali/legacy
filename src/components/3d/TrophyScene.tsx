@@ -52,11 +52,10 @@ const PARTICLE_VELOCITIES = (() => {
   return arr
 })()
 // ─── Gold Dust Particles (circular via alphaMap) ─────────────────────────────
-function Particles({ isMobile }: { isMobile: boolean }) {
+function Particles() {
   const pointsRef   = useRef<THREE.Points>(null)
   const materialRef = useRef<THREE.PointsMaterial>(null)
   const posRef      = useRef(PARTICLE_POSITIONS.slice())
-  const stRef       = useRef<globalThis.ScrollTrigger | null>(null)
   // alphaMap is created once on first render (client-only)
   const textureRef  = useRef<THREE.CanvasTexture | null>(null)
 
@@ -74,9 +73,9 @@ function Particles({ isMobile }: { isMobile: boolean }) {
 
   useFrame(() => {
     if (!pointsRef.current || !materialRef.current) return
-    stRef.current = stRef.current || ScrollTrigger.getById('hero-main-scroll') || null
-    if (!stRef.current) return
-    const p = stRef.current.progress
+    const st = ScrollTrigger.getById('hero-main-scroll')
+    if (!st) return
+    const p = st.progress
 
     // Fade in at 0.4, hold through the marquee phase, then fade out at the very end
     let opacity = 0
@@ -91,8 +90,7 @@ function Particles({ isMobile }: { isMobile: boolean }) {
       const arr  = posRef.current
       const geo  = pointsRef.current.geometry as THREE.BufferGeometry
       const attr = geo.attributes.position as THREE.BufferAttribute
-      const activeCount = isMobile ? 80 : PARTICLE_COUNT
-      for (let i = 0; i < activeCount; i++) {
+      for (let i = 0; i < PARTICLE_COUNT; i++) {
         arr[i * 3]     += PARTICLE_VELOCITIES[i * 3]
         arr[i * 3 + 1] += PARTICLE_VELOCITIES[i * 3 + 1]
         arr[i * 3 + 2] += PARTICLE_VELOCITIES[i * 3 + 2]
@@ -101,8 +99,6 @@ function Particles({ isMobile }: { isMobile: boolean }) {
         }
       }
       attr.array.set(arr)
-      // Hide geometry that isn't drawn on mobile
-      geo.setDrawRange(0, activeCount)
       attr.needsUpdate = true
     }
   })
@@ -135,13 +131,12 @@ function Trophy() {
   const groupRef       = useRef<THREE.Group>(null)
   const spotLightRef   = useRef<THREE.SpotLight>(null)
   const ambientLightRef = useRef<THREE.AmbientLight>(null)
-  const stRef          = useRef<globalThis.ScrollTrigger | null>(null)
 
   useFrame(() => {
     if (!groupRef.current) return
-    stRef.current = stRef.current || ScrollTrigger.getById('hero-main-scroll') || null
-    if (!stRef.current) return
-    const p = stRef.current.progress
+    const st = ScrollTrigger.getById('hero-main-scroll')
+    if (!st) return
+    const p = st.progress
 
     // ── Phase boundaries ──────────────────────────────────────────────────────
     // 0.00 → 0.40  reveal (GSAP handles position/opacity)
@@ -260,7 +255,7 @@ export default function TrophyScene() {
         <Suspense fallback={null}>
           <Environment preset="night" />
           <Trophy />
-          <Particles isMobile={isMobile} />
+          <Particles />
           <CameraFlashes scrollTriggerId="hero-main-scroll" scrollRange={[0.44, 0.72]} />
         </Suspense>
       </Canvas>
