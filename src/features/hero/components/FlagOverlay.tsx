@@ -64,10 +64,13 @@ export default function FlagOverlay() {
 
   useEffect(() => {
     let rafId: number
+    let cachedSt: ScrollTrigger | null | undefined = null
 
     const tick = () => {
-      const st = ScrollTrigger.getById("hero-main-scroll")
-      const p = st?.progress ?? 0
+      if (!cachedSt) {
+        cachedSt = ScrollTrigger.getById("hero-main-scroll")
+      }
+      const p = cachedSt?.progress ?? 0
 
       flagsData.forEach((flag, i) => {
         const el = refs.current[i]
