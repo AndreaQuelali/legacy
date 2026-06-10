@@ -7,6 +7,7 @@ import { useCursor, MeshReflectorMaterial, Image, Text, Environment } from "@rea
 import { easing } from "maath"
 import CameraFlashes from "@/components/3d/CameraFlashes"
 import BallIntro from "./BallIntro"
+import { useIsMobile } from "@/hooks/useIsMobile"
 import {
   GOLDEN_RATIO,
   IDLE_FRAME_WIDTH,
@@ -86,14 +87,15 @@ export default function PlayerGallery3D({
   }
 
   const frameHeight = isIdle ? IDLE_FRAME_HEIGHT : SEL_FRAME_HEIGHT
+  const isMobile = useIsMobile()
 
   return (
     <div className="w-full h-full flex items-center justify-center">
       <Canvas
         className="w-full h-full"
-        dpr={[1, 1.5]}
+        dpr={isMobile ? 1 : [1, 1.5]}
         camera={{ fov: isIdle ? 58 : 48, position: isIdle ? [0, 1.0, 30] : [0, 1.2, 12] }}
-        gl={{ alpha: true, antialias: true }}
+        gl={{ alpha: true, antialias: !isMobile }}
       >
         <fog attach="fog" args={["#050505", isIdle ? 35 : 10, isIdle ? 80 : 35]} />
         <Environment preset="city" />
@@ -113,8 +115,8 @@ export default function PlayerGallery3D({
               {/* Massive floor reflector with "Liquid Mirror" properties */}
               <planeGeometry args={[85, 22]} />
               <MeshReflectorMaterial
-                blur={[300, 100]}
-                resolution={1024}
+                blur={isMobile ? [50, 50] : [300, 100]}
+                resolution={isMobile ? 256 : 1024}
                 mixBlur={1}
                 mixStrength={35}
                 roughness={0.6}
@@ -342,6 +344,7 @@ function Frame({
           <planeGeometry args={[frameW, frameH]} />
           <meshBasicMaterial ref={bgRef} color="#000" transparent opacity={1} />
 
+          {/* eslint-disable-next-line jsx-a11y/alt-text */}
           <Image
             url={getNationImage(item.folder, 'flag')}
             transparent
@@ -350,6 +353,7 @@ function Frame({
             opacity={0.15}
           />
 
+          {/* eslint-disable-next-line jsx-a11y/alt-text */}
           <Image
             ref={imageRef}
             url={getNationImage(item.folder, 'player')}

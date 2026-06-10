@@ -59,7 +59,7 @@ export default function Countdown() {
       <div className="flex gap-6 sm:gap-8 md:gap-10">
         {stats.map(({ value, label }) => (
           <div key={label} className="anim-countdown flex flex-col opacity-0">
-            <span className="countdown-number tabular-nums">{value}</span>
+            <span className="countdown-number tabular-nums" suppressHydrationWarning>{value}</span>
             <span className="countdown-label">{label}</span>
           </div>
         ))}

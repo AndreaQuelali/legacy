@@ -4,6 +4,7 @@ import { Canvas, useFrame } from "@react-three/fiber"
 import { OrbitControls, Float, PerspectiveCamera, Environment } from "@react-three/drei"
 import { useRef } from "react"
 import * as THREE from "three"
+import { useIsMobile } from "@/hooks/useIsMobile"
 
 function TrophyPlaceholder() {
   const meshRef = useRef<THREE.Mesh>(null)
@@ -31,9 +32,11 @@ function TrophyPlaceholder() {
 }
 
 export default function Scene() {
+  const isMobile = useIsMobile()
+
   return (
     <div className="absolute inset-0 z-0">
-      <Canvas shadows>
+      <Canvas shadows dpr={isMobile ? 1 : [1, 1.5]}>
         <PerspectiveCamera makeDefault position={[0, 0, 5]} />
         <Environment preset="city" />
         <ambientLight intensity={0.5} />
