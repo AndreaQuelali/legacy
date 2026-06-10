@@ -7,6 +7,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import * as THREE from 'three'
 import gsap from '@/lib/gsap/gsap'
 import CameraFlashes from '@/components/3d/CameraFlashes'
+import { useIsMobile } from '@/hooks/useIsMobile'
 
 // ─── Circular particle alphaMap (generated once at module level) ──────────────
 function createCircleTexture(): THREE.CanvasTexture {
@@ -246,9 +247,11 @@ function Trophy() {
 
 // ─── Scene Root ───────────────────────────────────────────────────────────────
 export default function TrophyScene() {
+  const isMobile = useIsMobile()
+
   return (
     <div className="absolute inset-0 pointer-events-none z-0">
-      <Canvas camera={{ position: [0, 0, 5], fov: 45 }}>
+      <Canvas camera={{ position: [0, 0, 5], fov: 45 }} dpr={isMobile ? 1 : [1, 1.5]}>
         <Suspense fallback={null}>
           <Environment preset="night" />
           <Trophy />
