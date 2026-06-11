@@ -6,7 +6,7 @@ export const playHeroTimeline = () => {
   })
 
   // Prevent FOUC by making sure items start hidden
-  gsap.set('.anim-navbar, .anim-subtitle, .anim-title-1, .anim-title-2, .anim-desc, .anim-cta, .anim-countdown, .anim-scroll-indicator', {
+  gsap.set('.anim-navbar, .anim-subtitle, .anim-title-1, .anim-title-2, .anim-desc, .anim-cta, .anim-countdown, .anim-location, .anim-scroll-indicator', {
     opacity: 0
   })
 
@@ -47,7 +47,7 @@ export const playHeroTimeline = () => {
     { y: 0, opacity: 1, duration: 1, stagger: 0.15 },
     "-=0.6"
   )
-  .fromTo('.anim-countdown',
+  .fromTo(['.anim-countdown', '.anim-location'],
     { y: 15, opacity: 0 },
     { y: 0, opacity: 1, duration: 0.8, stagger: 0.1 },
     "-=0.6"

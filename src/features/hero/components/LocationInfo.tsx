@@ -1,13 +1,12 @@
 "use client"
 
-import React from 'react'
 import { useTranslations } from 'next-intl'
 
 export default function LocationInfo() {
   const t = useTranslations("hero")
-  
+
   return (
-    <div className="text-right hidden md:block">
+    <div className="anim-location text-right hidden md:block opacity-0">
       <p className="cinematic-label mb-2 opacity-60">
         {t("location_label")}
       </p>
