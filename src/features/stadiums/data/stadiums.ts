@@ -44,6 +44,13 @@ export const STADIUMS = [
 
 export type StadiumConfig = (typeof STADIUMS)[number]
 
+export interface MatchData {
+  date: string
+  time: string
+  teams: string
+  stage: string
+}
+
 export interface StadiumItem {
   id: string
   name: string
@@ -52,6 +59,7 @@ export interface StadiumItem {
   image: StaticImageData
   bentoA: string
   bentoB: string
+  matches?: MatchData[]
 }
 
 export const STADIUM_COUNT = STADIUMS.length

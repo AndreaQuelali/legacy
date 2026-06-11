@@ -2,14 +2,18 @@
 
 import { useEffect, type RefObject } from 'react'
 import gsap, { ScrollTrigger } from '@/lib/gsap/gsap'
+import { useScrollSectionsReady } from '@/hooks/useScrollSectionsReady'
+import { dispatchScrollSectionsReady } from '@/lib/scroll/scrollSectionsGate'
 
 export function useStadiumScroll(
   containerRef: RefObject<HTMLDivElement | null>,
   showBRef: RefObject<boolean>,
   triggerFlip: (nextShowB: boolean) => void
 ) {
+  const scrollSectionsReady = useScrollSectionsReady()
+
   useEffect(() => {
-    if (!containerRef.current) return
+    if (!scrollSectionsReady || !containerRef.current) return
 
     const ctx = gsap.context(() => {
       ScrollTrigger.create({
@@ -17,7 +21,11 @@ export function useStadiumScroll(
         start: 'top top',
         end: () => (window.innerWidth < 768 ? '+=120%' : '+=200%'),
         pin: true,
+        pinSpacing: true,
         scrub: 1,
+        anticipatePin: 1,
+        invalidateOnRefresh: true,
+        id: 'stadium-pin',
         onUpdate: (self) => {
           const wantsB = self.progress > 0.5
           if (wantsB !== showBRef.current) {
@@ -25,8 +33,13 @@ export function useStadiumScroll(
           }
         },
       })
+
+      requestAnimationFrame(() => {
+        ScrollTrigger.refresh()
+        dispatchScrollSectionsReady()
+      })
     }, containerRef)
 
     return () => ctx.revert()
-  }, [containerRef, showBRef, triggerFlip])
+  }, [scrollSectionsReady, containerRef, showBRef, triggerFlip])
 }

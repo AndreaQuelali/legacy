@@ -11,6 +11,7 @@ interface StadiumCardProps {
   capacity: string
   image: StaticImageData
   className?: string
+  onClick?: () => void
 }
 
 export default function StadiumCard({
@@ -20,13 +21,15 @@ export default function StadiumCard({
   capacity,
   image,
   className = "",
+  onClick,
 }: StadiumCardProps) {
   const t = useTranslations('stadiums')
 
   return (
     <div
       data-flip-id={`stadium-${id}`}
-      className={`relative overflow-hidden group rounded-sm border border-white/10 transition-[border-color] duration-300 hover:border-primary/30 opacity-100 ${className}`}
+      onClick={onClick}
+      className={`relative overflow-hidden group rounded-sm border border-white/10 transition-[border-color] duration-300 hover:border-primary/30 opacity-100 cursor-pointer ${className}`}
     >
       <div className="absolute inset-0 z-0">
         <Image

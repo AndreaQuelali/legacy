@@ -24,7 +24,7 @@ const inter = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "LEGACY | World Cup 2026",
+  title: "LEGACY 2026",
   description: "A cinematic football experience inspired by the 2026 World Cup.",
   icons: {
     icon: [{ url: "/icon.svg", type: "image/svg+xml" }],

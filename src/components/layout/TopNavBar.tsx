@@ -4,7 +4,9 @@ import { useState, useEffect, useRef } from 'react'
 import { useTranslations, useLocale } from 'next-intl'
 import { Link, usePathname, useRouter } from '@/i18n/routing'
 import { useLenis } from 'lenis/react'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { SCROLL_SECTIONS_READY_EVENT } from '@/lib/scroll/scrollSectionsGate'
+import { resolveActiveNavSection } from '@/lib/scroll/activeNavSection'
+import Image from 'next/image'
 
 export default function TopNavBar() {
   const t = useTranslations('nav');
@@ -16,7 +18,6 @@ export default function TopNavBar() {
   const [activeSection, setActiveSection] = useState('hero');
   const [isOpen, setIsOpen] = useState(false);
   const navRef = useRef<HTMLElement | null>(null)
-  const scrollTriggers = useRef<globalThis.ScrollTrigger[]>([]);
 
   // Lock body scroll when drawer is open
   useEffect(() => {
@@ -46,39 +47,30 @@ export default function TopNavBar() {
   }, [])
 
   useEffect(() => {
-    const sections = ['hero', 'nations', 'stadiums', 'journey'];
+    const syncActiveSection = () => {
+      const scrollY = lenis?.scroll ?? window.scrollY
+      setActiveSection(resolveActiveNavSection(scrollY))
+    }
 
-    const cleanup = () => {
-      scrollTriggers.current.forEach(st => st.kill());
-      scrollTriggers.current = [];
-    };
+    const mainTimer = setTimeout(syncActiveSection, 800)
+    window.addEventListener(SCROLL_SECTIONS_READY_EVENT, syncActiveSection)
 
-    const initTriggers = () => {
-      cleanup();
+    if (lenis) {
+      lenis.on('scroll', syncActiveSection)
+    } else {
+      window.addEventListener('scroll', syncActiveSection, { passive: true })
+    }
 
-      sections.forEach(id => {
-        const st = ScrollTrigger.create({
-          trigger: `#${id}`,
-          start: "top 30%",
-          end: "bottom 30%",
-          onToggle: (self) => {
-            if (self.isActive) setActiveSection(id);
-          },
-          onEnter: () => setActiveSection(id),
-          onEnterBack: () => setActiveSection(id),
-        });
-        scrollTriggers.current.push(st);
-      });
-
-      setTimeout(() => { ScrollTrigger.refresh(); }, 2500);
-    };
-
-    const mainTimer = setTimeout(initTriggers, 800);
     return () => {
-      clearTimeout(mainTimer);
-      cleanup();
-    };
-  }, []);
+      clearTimeout(mainTimer)
+      window.removeEventListener(SCROLL_SECTIONS_READY_EVENT, syncActiveSection)
+      if (lenis) {
+        lenis.off('scroll', syncActiveSection)
+      } else {
+        window.removeEventListener('scroll', syncActiveSection)
+      }
+    }
+  }, [lenis])
 
   const handleLocaleChange = (newLocale: string) => {
     router.replace(pathname, { locale: newLocale as 'en' | 'es' });
@@ -87,6 +79,8 @@ export default function TopNavBar() {
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, target: string) => {
     e.preventDefault();
     setIsOpen(false);
+    const sectionId = target === '#hero' ? 'hero' : target.replace('#', '')
+    if (sectionId) setActiveSection(sectionId)
     if (lenis) {
       if (target === '#hero') {
         lenis.scrollTo(0, { duration: 1.5, easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)) });
@@ -113,12 +107,13 @@ export default function TopNavBar() {
     <>
       <nav ref={navRef} className="anim-navbar fixed top-0 w-full z-[100] backdrop-blur-md bg-black/30 border-b border-white/10 opacity-0">
         <div className="flex items-center justify-between px-6 lg:px-10 py-4 max-w-[1440px] mx-auto">
-          {/* Logo — mobile: single line 'LEGACY', desktop: two lines */}
           <Link href="/" className="font-bebas leading-none text-white hover:opacity-80 transition-opacity">
-            <div className="lg:hidden text-[24px] tracking-[0.2em]">LEGACY</div>
-            <div className="hidden lg:block">
-              <div className="text-[22px] tracking-[0.15em]">{t('title1')}</div>
-              <div className="text-[22px] tracking-[0.15em]">{t('title2')}</div>
+            <div className="flex items-center justify-center gap-2">
+              <Image src="/icon.svg" alt="Logo" width={24} height={24} />
+              <div className="text-[24px] tracking-[0.15em] flex gap-2">
+                {t('title1')}
+                <span className="text-primary hidden lg:block">{t('title2')}</span>
+              </div>
             </div>
           </Link>
 
@@ -130,8 +125,8 @@ export default function TopNavBar() {
                 href={link.href}
                 onClick={(e) => handleNavClick(e, link.href)}
                 className={`cinematic-label transition-all duration-300 ${activeSection === link.id
-                    ? 'text-primary border-b border-primary pb-0.5'
-                    : 'text-white/70 hover:text-primary'
+                  ? 'text-primary border-b border-primary pb-0.5'
+                  : 'text-white/70 hover:text-primary'
                   }`}
               >
                 {link.label}
@@ -159,7 +154,7 @@ export default function TopNavBar() {
             </div>
 
             {/* Desktop: explore button only */}
-            <button 
+            <button
               onClick={(e) => handleNavClick(e as unknown as React.MouseEvent<HTMLAnchorElement>, '#nations')}
               className="hidden lg:block cinematic-label text-primary border border-primary px-6 py-2.5 hover:bg-primary hover:text-black transition-all duration-300 glass-card">
               {t('explore')}
@@ -256,7 +251,7 @@ export default function TopNavBar() {
         {/* Bottom branding */}
         <div className="px-10 py-8 border-t border-white/5">
           <div className="font-bebas text-[14px] tracking-[0.3em] text-white/20 uppercase">
-            Legacy World Cup 2026
+            LEGACY 2026
           </div>
         </div>
       </div>
