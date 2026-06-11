@@ -1,12 +1,12 @@
 "use client"
 
 import { useState, useRef, useEffect, useCallback, useLayoutEffect } from 'react'
-import { useLenis } from 'lenis/react'
 import gsap, { ScrollTrigger } from '@/lib/gsap/gsap'
 import {
   HERO_CINEMATIC_COMPLETE_EVENT,
   isHeroCinematicComplete,
 } from '@/lib/scroll/heroScrollGate'
+import { dispatchScrollSectionsReady } from '@/lib/scroll/scrollSectionsGate'
 import type { NationData } from '../data/nations'
 
 interface UseNationsSectionOptions {
@@ -14,7 +14,6 @@ interface UseNationsSectionOptions {
 }
 
 export function useNationsSection({ nations }: UseNationsSectionOptions) {
-  const lenis = useLenis()
   const sectionRef = useRef<HTMLElement>(null)
   const pinTriggerRef = useRef<ScrollTrigger | null>(null)
   const [selectedId, setSelectedId] = useState<string | null>(null)
@@ -59,23 +58,29 @@ export function useNationsSection({ nations }: UseNationsSectionOptions) {
         onEnter: () => {
           setSectionInView(true)
         },
+        onLeave: () => {
+          setSectionInView(false)
+        },
+        onEnterBack: () => {
+          setSectionInView(true)
+        },
+        onLeaveBack: () => {
+          setSectionInView(false)
+        },
       })
 
       if (pinTriggerRef.current.isActive) {
         setSectionInView(true)
       }
+
+      requestAnimationFrame(() => {
+        ScrollTrigger.refresh()
+        dispatchScrollSectionsReady()
+      })
     }, sectionRef)
 
     return () => ctx.revert()
   }, [heroCinematicDone])
-
-  useEffect(() => {
-    if (!lenis) return
-    lenis.start()
-    return () => {
-      lenis.start()
-    }
-  }, [lenis])
 
   const selectedNation = nations.find((n) => n.id === selectedId) || null
   const selectedIndex = nations.findIndex((n) => n.id === selectedId)

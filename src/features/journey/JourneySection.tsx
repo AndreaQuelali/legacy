@@ -16,16 +16,17 @@ import {
  * Immersive horizontal timeline showcasing the World Cup 2026 milestones.
  */
 export default function JourneySection() {
+  const sectionRef = useRef<HTMLElement>(null)
   const containerRef = useRef<HTMLDivElement>(null)
   const horizontalRef = useRef<HTMLDivElement>(null)
-  
-  // Data and Animations
+
   const milestones = useJourneyMilestones()
-  useJourneyScroll(containerRef, horizontalRef)
+  useJourneyScroll(containerRef, horizontalRef, sectionRef)
 
   return (
     <section
       id="journey"
+      ref={sectionRef}
       className="relative overflow-hidden bg-[#050505]"
     >
       {/* Background Map & Overlay */}

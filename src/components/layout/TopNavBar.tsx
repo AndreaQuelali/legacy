@@ -5,6 +5,7 @@ import { useTranslations, useLocale } from 'next-intl'
 import { Link, usePathname, useRouter } from '@/i18n/routing'
 import { useLenis } from 'lenis/react'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { SCROLL_SECTIONS_READY_EVENT } from '@/lib/scroll/scrollSectionsGate'
 import Image from 'next/image'
 
 export default function TopNavBar() {
@@ -58,8 +59,11 @@ export default function TopNavBar() {
       cleanup();
 
       sections.forEach(id => {
+        const el = document.getElementById(id)
+        if (!el) return
+
         const st = ScrollTrigger.create({
-          trigger: `#${id}`,
+          trigger: el,
           start: "top 30%",
           end: "bottom 30%",
           onToggle: (self) => {
@@ -70,13 +74,14 @@ export default function TopNavBar() {
         });
         scrollTriggers.current.push(st);
       });
-
-      setTimeout(() => { ScrollTrigger.refresh(); }, 2500);
     };
 
     const mainTimer = setTimeout(initTriggers, 800);
+    window.addEventListener(SCROLL_SECTIONS_READY_EVENT, initTriggers)
+
     return () => {
       clearTimeout(mainTimer);
+      window.removeEventListener(SCROLL_SECTIONS_READY_EVENT, initTriggers)
       cleanup();
     };
   }, []);

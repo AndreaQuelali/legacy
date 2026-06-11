@@ -3,50 +3,64 @@
 import { useEffect, type RefObject } from "react"
 import gsap from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
+import { useScrollSectionsReady } from "@/hooks/useScrollSectionsReady"
 
 gsap.registerPlugin(ScrollTrigger)
 
-export function useJourneyScroll(
-  containerRef: RefObject<HTMLDivElement | null>,
+function getHorizontalScrollDistance(
   horizontalRef: RefObject<HTMLDivElement | null>
 ) {
+  const totalWidth = horizontalRef.current?.scrollWidth ?? 0
+  const viewportWidth = window.innerWidth
+  return Math.max(0, totalWidth - viewportWidth)
+}
+
+export function useJourneyScroll(
+  containerRef: RefObject<HTMLDivElement | null>,
+  horizontalRef: RefObject<HTMLDivElement | null>,
+  parallaxRef: RefObject<HTMLElement | null>
+) {
+  const scrollSectionsReady = useScrollSectionsReady()
+
   useEffect(() => {
+    if (!scrollSectionsReady) return
+    if (!horizontalRef.current || !containerRef.current) return
+
     const ctx = gsap.context(() => {
-      if (!horizontalRef.current || !containerRef.current) return
-
-      // Horizontal Scroll
-      const totalWidth = horizontalRef.current.scrollWidth
-      const viewportWidth = window.innerWidth
-
       gsap.to(horizontalRef.current, {
-        x: () => -(totalWidth - viewportWidth),
+        x: () => -getHorizontalScrollDistance(horizontalRef),
         ease: "none",
         scrollTrigger: {
           trigger: containerRef.current,
           pin: true,
+          pinSpacing: true,
           scrub: 1,
           start: "top top",
-          end: () => `+=${totalWidth}`,
+          end: () => `+=${getHorizontalScrollDistance(horizontalRef)}`,
           anticipatePin: 1,
           invalidateOnRefresh: true,
-        }
+          id: "journey-pin",
+        },
       })
 
-      // Background Parallax — vertical only, no horizontal movement
-      gsap.fromTo(".journey-map", {
-        y: -40,
-      }, {
-        y: 40,
-        ease: "none",
-        scrollTrigger: {
-          trigger: containerRef.current,
-          scrub: true,
-          start: "top bottom",
-          end: "bottom top"
-        }
-      })
+      if (parallaxRef.current) {
+        gsap.fromTo(
+          ".journey-map",
+          { y: -40 },
+          {
+            y: 40,
+            ease: "none",
+            scrollTrigger: {
+              trigger: parallaxRef.current,
+              scrub: true,
+              start: "top bottom",
+              end: "bottom top",
+            },
+          }
+        )
+      }
     })
 
     return () => ctx.revert()
-  }, [containerRef, horizontalRef])
+  }, [scrollSectionsReady, containerRef, horizontalRef, parallaxRef])
 }
