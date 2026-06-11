@@ -18,6 +18,8 @@ export function useHeroScroll(
       playHeroTimeline()
 
       // Cinematic Scroll Sequence
+      let handoffLocked = false
+
       const scrollTl = gsap.timeline({
         scrollTrigger: {
           id: 'hero-main-scroll',
@@ -27,7 +29,24 @@ export function useHeroScroll(
           scrub: 1,
           pin: true,
           anticipatePin: 1,
-          onLeave: () => dispatchHeroCinematicComplete(),
+          onLeave: () => {
+            handoffLocked = true
+            scrollTl.progress(1)
+            dispatchHeroCinematicComplete()
+          },
+          onEnterBack: () => {
+            handoffLocked = false
+          },
+          onRefresh: (self) => {
+            if (handoffLocked && !self.isActive) {
+              scrollTl.progress(1)
+            }
+          },
+          onUpdate: (self) => {
+            if (handoffLocked && !self.isActive) {
+              scrollTl.progress(1)
+            }
+          },
         }
       })
 
@@ -69,7 +88,7 @@ export function useHeroScroll(
       }, 1.5)
 
       // 3. Reveal Horizontal Message (0.8 to 0.85 progress)
-      
+
       // 3. Reveal Marquee
       scrollTl.fromTo('.hero-cinematic-marquee',
         { opacity: 0, scale: 0.95 },
@@ -96,13 +115,6 @@ export function useHeroScroll(
         duration: 0.4,
         ease: 'power2.in',
       }, 6.8)
-
-      // Initial intro text hide
-      scrollTl.to('.hero-foreground-content', {
-        opacity: 0,
-        y: -100,
-        duration: 1
-      }, 0)
 
       // Hide smaller elements quickly
       scrollTl.to(['.anim-scroll-indicator', '.hero-footer-bar'], {
