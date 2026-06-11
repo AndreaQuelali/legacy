@@ -4,6 +4,7 @@ import { useEffect, type RefObject } from "react"
 import gsap from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
 import { useScrollSectionsReady } from "@/hooks/useScrollSectionsReady"
+import { dispatchScrollSectionsReady } from "@/lib/scroll/scrollSectionsGate"
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -59,6 +60,11 @@ export function useJourneyScroll(
           }
         )
       }
+
+      requestAnimationFrame(() => {
+        ScrollTrigger.refresh()
+        dispatchScrollSectionsReady()
+      })
     })
 
     return () => ctx.revert()
