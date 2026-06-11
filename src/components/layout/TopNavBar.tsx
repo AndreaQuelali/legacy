@@ -5,6 +5,7 @@ import { useTranslations, useLocale } from 'next-intl'
 import { Link, usePathname, useRouter } from '@/i18n/routing'
 import { useLenis } from 'lenis/react'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import Image from 'next/image'
 
 export default function TopNavBar() {
   const t = useTranslations('nav');
@@ -113,12 +114,13 @@ export default function TopNavBar() {
     <>
       <nav ref={navRef} className="anim-navbar fixed top-0 w-full z-[100] backdrop-blur-md bg-black/30 border-b border-white/10 opacity-0">
         <div className="flex items-center justify-between px-6 lg:px-10 py-4 max-w-[1440px] mx-auto">
-          {/* Logo — mobile: single line 'LEGACY', desktop: two lines */}
           <Link href="/" className="font-bebas leading-none text-white hover:opacity-80 transition-opacity">
-            <div className="lg:hidden text-[24px] tracking-[0.2em]">LEGACY</div>
-            <div className="hidden lg:block">
-              <div className="text-[22px] tracking-[0.15em]">{t('title1')}</div>
-              <div className="text-[22px] tracking-[0.15em]">{t('title2')}</div>
+            <div className="flex items-center justify-center gap-2">
+              <Image src="/icon.svg" alt="Logo" width={24} height={24} />
+              <div className="text-[24px] tracking-[0.15em] flex gap-2">
+                {t('title1')}
+                <span className="text-primary hidden lg:block">{t('title2')}</span>
+              </div>
             </div>
           </Link>
 
@@ -130,8 +132,8 @@ export default function TopNavBar() {
                 href={link.href}
                 onClick={(e) => handleNavClick(e, link.href)}
                 className={`cinematic-label transition-all duration-300 ${activeSection === link.id
-                    ? 'text-primary border-b border-primary pb-0.5'
-                    : 'text-white/70 hover:text-primary'
+                  ? 'text-primary border-b border-primary pb-0.5'
+                  : 'text-white/70 hover:text-primary'
                   }`}
               >
                 {link.label}
@@ -159,7 +161,7 @@ export default function TopNavBar() {
             </div>
 
             {/* Desktop: explore button only */}
-            <button 
+            <button
               onClick={(e) => handleNavClick(e as unknown as React.MouseEvent<HTMLAnchorElement>, '#nations')}
               className="hidden lg:block cinematic-label text-primary border border-primary px-6 py-2.5 hover:bg-primary hover:text-black transition-all duration-300 glass-card">
               {t('explore')}
