@@ -47,7 +47,7 @@ export function useNationsSection({ nations }: UseNationsSectionOptions) {
       pinTriggerRef.current = ScrollTrigger.create({
         trigger: sectionRef.current,
         start: 'top top',
-        end: '+=100%',
+        end: '+=200%',
         pin: true,
         anticipatePin: 1,
         pinSpacing: true,
