@@ -12,10 +12,8 @@ export default function Home() {
   return (
     <div className="overflow-x-hidden">
       <TopNavBar />
-      
       <HeroSection />
       <NationsSection />
-
       <StadiumSection />
       <StatsBar />
       <JourneySection />
