@@ -29,6 +29,7 @@
   },
   "stats": {
     "nations": "NATIONS",
+    "matches": "MATCHES",
     "players": "PLAYERS",
     "host_cities": "HOST CITIES",
     "champion": "CHAMPION"
