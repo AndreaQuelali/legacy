@@ -66,8 +66,8 @@ interface PlayerGallery3DProps {
   ballHoveredIndex?: number | null
   /** Whether to show the intro ball animation */
   showBallIntro?: boolean
+  scrollProgress?: React.MutableRefObject<number>
   onBallCardEnter?: (index: number) => void
-  onBallComplete?: () => void
 }
 
 export default function PlayerGallery3D({
@@ -76,8 +76,8 @@ export default function PlayerGallery3D({
   onSelect,
   ballHoveredIndex = null,
   showBallIntro = false,
+  scrollProgress,
   onBallCardEnter,
-  onBallComplete,
 }: PlayerGallery3DProps) {
   const selectedIndex = selectedId ? items.findIndex((p) => p.id === selectedId) : -1
   const isIdle = selectedId === null
@@ -131,12 +131,12 @@ export default function PlayerGallery3D({
           )}
 
           {/* Ball intro animation inside Suspense so useGLTF can suspend safely */}
-          {showBallIntro && onBallCardEnter && onBallComplete && (
+          {showBallIntro && onBallCardEnter && (
             <Suspense fallback={<BallIntroPlaceholder />}>
               <BallIntro
                 key="ball-intro"
+                scrollProgress={scrollProgress}
                 onCardEnter={onBallCardEnter}
-                onComplete={onBallComplete}
                 startDelay={0}
               />
             </Suspense>

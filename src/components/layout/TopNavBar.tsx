@@ -4,7 +4,8 @@ import { useState, useEffect, useRef } from 'react'
 import { useTranslations, useLocale } from 'next-intl'
 import { Link, usePathname, useRouter } from '@/i18n/routing'
 import { useLenis } from 'lenis/react'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { SCROLL_SECTIONS_READY_EVENT } from '@/lib/scroll/scrollSectionsGate'
+import { resolveActiveNavSection } from '@/lib/scroll/activeNavSection'
 import Image from 'next/image'
 
 export default function TopNavBar() {
@@ -17,7 +18,6 @@ export default function TopNavBar() {
   const [activeSection, setActiveSection] = useState('hero');
   const [isOpen, setIsOpen] = useState(false);
   const navRef = useRef<HTMLElement | null>(null)
-  const scrollTriggers = useRef<globalThis.ScrollTrigger[]>([]);
 
   // Lock body scroll when drawer is open
   useEffect(() => {
@@ -47,39 +47,30 @@ export default function TopNavBar() {
   }, [])
 
   useEffect(() => {
-    const sections = ['hero', 'nations', 'stadiums', 'journey'];
+    const syncActiveSection = () => {
+      const scrollY = lenis?.scroll ?? window.scrollY
+      setActiveSection(resolveActiveNavSection(scrollY))
+    }
 
-    const cleanup = () => {
-      scrollTriggers.current.forEach(st => st.kill());
-      scrollTriggers.current = [];
-    };
+    const mainTimer = setTimeout(syncActiveSection, 800)
+    window.addEventListener(SCROLL_SECTIONS_READY_EVENT, syncActiveSection)
 
-    const initTriggers = () => {
-      cleanup();
+    if (lenis) {
+      lenis.on('scroll', syncActiveSection)
+    } else {
+      window.addEventListener('scroll', syncActiveSection, { passive: true })
+    }
 
-      sections.forEach(id => {
-        const st = ScrollTrigger.create({
-          trigger: `#${id}`,
-          start: "top 30%",
-          end: "bottom 30%",
-          onToggle: (self) => {
-            if (self.isActive) setActiveSection(id);
-          },
-          onEnter: () => setActiveSection(id),
-          onEnterBack: () => setActiveSection(id),
-        });
-        scrollTriggers.current.push(st);
-      });
-
-      setTimeout(() => { ScrollTrigger.refresh(); }, 2500);
-    };
-
-    const mainTimer = setTimeout(initTriggers, 800);
     return () => {
-      clearTimeout(mainTimer);
-      cleanup();
-    };
-  }, []);
+      clearTimeout(mainTimer)
+      window.removeEventListener(SCROLL_SECTIONS_READY_EVENT, syncActiveSection)
+      if (lenis) {
+        lenis.off('scroll', syncActiveSection)
+      } else {
+        window.removeEventListener('scroll', syncActiveSection)
+      }
+    }
+  }, [lenis])
 
   const handleLocaleChange = (newLocale: string) => {
     router.replace(pathname, { locale: newLocale as 'en' | 'es' });
@@ -88,6 +79,8 @@ export default function TopNavBar() {
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, target: string) => {
     e.preventDefault();
     setIsOpen(false);
+    const sectionId = target === '#hero' ? 'hero' : target.replace('#', '')
+    if (sectionId) setActiveSection(sectionId)
     if (lenis) {
       if (target === '#hero') {
         lenis.scrollTo(0, { duration: 1.5, easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)) });

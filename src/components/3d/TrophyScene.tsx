@@ -5,7 +5,6 @@ import { Canvas, useFrame } from '@react-three/fiber'
 import { Environment, useGLTF } from '@react-three/drei'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import * as THREE from 'three'
-import gsap from '@/lib/gsap/gsap'
 import CameraFlashes from '@/components/3d/CameraFlashes'
 import { useIsMobile } from '@/hooks/useIsMobile'
 
@@ -152,10 +151,16 @@ function Trophy() {
     const MAX_TILT = Math.PI * 0.12  // ≈ 22° max diagonal lean
 
     if (p <= REVEAL_END) {
-      // Stationary — GSAP timeline drives position here
+      const t = p / REVEAL_END
       groupRef.current.rotation.set(0, 0, 0)
-      groupRef.current.scale.set(1, 1, 1)
-      groupRef.current.position.y = -1.2
+      groupRef.current.scale.set(0.8, 0.8, 0.8)
+      groupRef.current.position.set(0, -0.5 + t * -0.7, -4 + t * 4)
+      if (spotLightRef.current) {
+        spotLightRef.current.intensity = 2 + t * 98
+      }
+      if (ambientLightRef.current) {
+        ambientLightRef.current.intensity = 0.1 + t * 0.9
+      }
     } else if (p <= SPIN_END) {
       // Single rotation: 0 → 2π, smooth eased tilt arc
       const t   = (p - REVEAL_END) / (SPIN_END - REVEAL_END) // 0→1
@@ -163,12 +168,12 @@ function Trophy() {
       // tilt: rise to MAX_TILT at mid spin, back to 0 at end
       const tilt = Math.sin(t * Math.PI) * MAX_TILT
       groupRef.current.rotation.set(0, yRot, tilt)
-      groupRef.current.scale.set(1, 1, 1)
+      groupRef.current.scale.set(0.8, 0.8, 0.8)
       groupRef.current.position.y = -1.2
     } else if (p <= GLOBE_END) {
       // Globe zoom-out: scale 1→8, fly upward off screen
       const t = (p - SPIN_END) / (GLOBE_END - SPIN_END) // 0→1
-      const s = 1 + t * 7
+      const s = 0.8 + t * 7
       groupRef.current.scale.set(s, s, s)
       groupRef.current.position.y = -1.2 - t * 16
       // Return rotation to upright during zoom
@@ -187,46 +192,8 @@ function Trophy() {
 
   useEffect(() => {
     if (!groupRef.current) return
-
-    const ctx = gsap.context(() => {
-      groupRef.current!.position.set(0, -0.5, -4)
-      groupRef.current!.scale.set(1, 1, 1)
-
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: '.hero-section',
-          start: 'top top',
-          end: '+=6000',
-          scrub: 1,
-          pinnedContainer: '.hero-section',
-          invalidateOnRefresh: true,
-        }
-      })
-
-      tl.to(groupRef.current!.position, {
-        z: 0,
-        y: -1.2,
-        duration: 1.2,
-        ease: 'power2.inOut'
-      }, 1.5)
-
-      if (spotLightRef.current) {
-        tl.to(spotLightRef.current, {
-          intensity: 100,
-          duration: 1.2,
-          ease: 'power2.inOut'
-        }, 1.5)
-      }
-
-      if (ambientLightRef.current) {
-        tl.to(ambientLightRef.current, {
-          intensity: 1,
-          duration: 1.2
-        }, 1.5)
-      }
-    })
-
-    return () => ctx.revert()
+    groupRef.current.position.set(0, -0.5, -4)
+    groupRef.current.scale.set(0.8, 0.8, 0.8)
   }, [])
 
   return (

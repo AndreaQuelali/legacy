@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useRef, useCallback, useEffect } from 'react'
-import gsap, { Flip, ScrollTrigger } from '@/lib/gsap/gsap'
+import gsap, { Flip } from '@/lib/gsap/gsap'
 
 export function useStadiumFlip() {
   const gridARef = useRef<HTMLDivElement>(null)
@@ -48,7 +48,6 @@ export function useStadiumFlip() {
         onComplete: () => {
           gsap.set(gridOut, { display: 'none' })
           isAnimating.current = false
-          setTimeout(() => ScrollTrigger.refresh(), 100)
         },
       })
     })

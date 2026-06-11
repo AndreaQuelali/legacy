@@ -24,8 +24,8 @@ export default function NationsSection() {
     heroCinematicDone,
     selectedNation,
     selectedIndex,
+    scrollProgress,
     handleBallCardEnter,
-    handleBallComplete,
     handlePrev,
     handleNext,
   } = useNationsSection({ nations })
@@ -36,7 +36,7 @@ export default function NationsSection() {
     <section
       id="nations"
       ref={sectionRef}
-      className={`relative h-[90dvh] w-full bg-[#050505] overflow-hidden ${heroCinematicDone ? '' : 'invisible pointer-events-none'
+      className={`relative h-screen w-full bg-[#050505] overflow-hidden ${heroCinematicDone ? '' : 'invisible pointer-events-none'
         }`}
     >
       <AnimatePresence>
@@ -99,8 +99,8 @@ export default function NationsSection() {
             onSelect={(id) => setSelectedId(id)}
             ballHoveredIndex={ballHoveredIndex}
             showBallIntro={showBallIntro}
+            scrollProgress={scrollProgress}
             onBallCardEnter={handleBallCardEnter}
-            onBallComplete={handleBallComplete}
           />
         </div>
 
