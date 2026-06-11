@@ -34,7 +34,7 @@
     "champion": "CAMPEÓN"
   },
   "nations": {
-    "subtitle": "48 paÍSES. 32 HISTORIAS.",
+    "subtitle": "48 paÍSES. 48 HISTORIAS.",
     "title": "REPRESENTA A TU PAÍS",
     "view_team": "VER EQUIPO",
     "stat_founded": "MUNDIALES JUGADOS",
@@ -216,7 +216,6 @@
       }
     ]
   },
-
   "journey": {
     "subtitle": "EL VIAJE",
     "title": "CALENDARIO 2026",
