@@ -153,7 +153,7 @@ function Trophy() {
     if (p <= REVEAL_END) {
       const t = p / REVEAL_END
       groupRef.current.rotation.set(0, 0, 0)
-      groupRef.current.scale.set(1, 1, 1)
+      groupRef.current.scale.set(0.8, 0.8, 0.8)
       groupRef.current.position.set(0, -0.5 + t * -0.7, -4 + t * 4)
       if (spotLightRef.current) {
         spotLightRef.current.intensity = 2 + t * 98
@@ -168,12 +168,12 @@ function Trophy() {
       // tilt: rise to MAX_TILT at mid spin, back to 0 at end
       const tilt = Math.sin(t * Math.PI) * MAX_TILT
       groupRef.current.rotation.set(0, yRot, tilt)
-      groupRef.current.scale.set(1, 1, 1)
+      groupRef.current.scale.set(0.8, 0.8, 0.8)
       groupRef.current.position.y = -1.2
     } else if (p <= GLOBE_END) {
       // Globe zoom-out: scale 1→8, fly upward off screen
       const t = (p - SPIN_END) / (GLOBE_END - SPIN_END) // 0→1
-      const s = 1 + t * 7
+      const s = 0.8 + t * 7
       groupRef.current.scale.set(s, s, s)
       groupRef.current.position.y = -1.2 - t * 16
       // Return rotation to upright during zoom
@@ -193,7 +193,7 @@ function Trophy() {
   useEffect(() => {
     if (!groupRef.current) return
     groupRef.current.position.set(0, -0.5, -4)
-    groupRef.current.scale.set(1, 1, 1)
+    groupRef.current.scale.set(0.8, 0.8, 0.8)
   }, [])
 
   return (
