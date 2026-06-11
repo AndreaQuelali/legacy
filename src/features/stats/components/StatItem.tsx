@@ -2,12 +2,13 @@
 
 import { useRef } from 'react'
 import { useCountUp } from '@/lib/gsap/useCountUp'
+import { afterStadiumPinStart } from '@/lib/scroll/pinnedSectionTriggers'
 import type { StatData } from '../hooks/useStatsData'
 
 export default function StatItem({ icon, value, label }: StatData) {
   const numberRef = useRef<HTMLDivElement>(null)
 
-  useCountUp(numberRef, value, { trigger: 'scroll', duration: 2 })
+  useCountUp(numberRef, value, { trigger: 'scroll', duration: 2, scrollStart: afterStadiumPinStart() })
 
   return (
     <div className="flex items-center gap-5">

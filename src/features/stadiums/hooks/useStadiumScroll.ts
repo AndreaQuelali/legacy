@@ -3,6 +3,7 @@
 import { useEffect, type RefObject } from 'react'
 import gsap, { ScrollTrigger } from '@/lib/gsap/gsap'
 import { useScrollSectionsReady } from '@/hooks/useScrollSectionsReady'
+import { dispatchScrollSectionsReady } from '@/lib/scroll/scrollSectionsGate'
 
 export function useStadiumScroll(
   containerRef: RefObject<HTMLDivElement | null>,
@@ -31,6 +32,11 @@ export function useStadiumScroll(
             triggerFlip(wantsB)
           }
         },
+      })
+
+      requestAnimationFrame(() => {
+        ScrollTrigger.refresh()
+        dispatchScrollSectionsReady()
       })
     }, containerRef)
 

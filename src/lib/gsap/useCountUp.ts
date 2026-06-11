@@ -3,10 +3,12 @@
 import { useEffect, type RefObject } from 'react'
 import gsap from '@/lib/gsap/gsap'
 
+type ScrollStartValue = string | (() => string | number)
+
 interface UseCountUpScrollOptions {
   trigger: 'scroll'
   duration?: number
-  scrollStart?: string
+  scrollStart?: ScrollStartValue
 }
 
 interface UseCountUpManualOptions {
