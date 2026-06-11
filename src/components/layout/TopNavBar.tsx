@@ -256,7 +256,7 @@ export default function TopNavBar() {
         {/* Bottom branding */}
         <div className="px-10 py-8 border-t border-white/5">
           <div className="font-bebas text-[14px] tracking-[0.3em] text-white/20 uppercase">
-            Legacy World Cup 2026
+            LEGACY 2026
           </div>
         </div>
       </div>

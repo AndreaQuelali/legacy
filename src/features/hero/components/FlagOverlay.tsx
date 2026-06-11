@@ -4,7 +4,7 @@ import { useEffect, useRef, useMemo } from "react"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
 import { CircleFlag } from "react-circle-flags"
 
-// 32 nations for the World Cup experience
+// 48 nations for the World Cup experience
 const NATIONS = [
   { code: "ar", label: "Argentina" }, { code: "br", label: "Brasil" },
   { code: "fr", label: "France" }, { code: "de", label: "Germany" },

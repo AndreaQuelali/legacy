@@ -1,6 +1,6 @@
 {
   "nav": {
-    "title1": "LEGACY WORLD CUP",
+    "title1": "LEGACY",
     "title2": "2026",
     "home": "HOME",
     "nations": "NATIONS",
@@ -16,7 +16,7 @@
     "year": "2026",
     "title_part1": "THE WORLD",
     "title_part2": "IS OUR STAGE",
-    "description": "32 nations. 1 dream. The road to glory begins now. Experience the largest football event in history across North America.",
+    "description": "48 nations. 1 dream. The road to glory begins now. Experience the largest football event in history across North America.",
     "explore_btn": "EXPLORE THE NATIONS",
     "journey": "THE JOURNEY BEGINS IN",
     "days": "DAYS",
@@ -34,8 +34,8 @@
     "champion": "CHAMPION"
   },
   "nations": {
-    "subtitle": "32 NATIONS. 32 STORIES.",
-    "title": "REPRESENT YOUR COUNTRY",
+    "subtitle": "48 natIONS. 32 STORIES.",
+    "title": "REPRESENT YOUR NATION",
     "view_team": "VIEW TEAM",
     "stat_founded": "WORLD CUPS PLAYED",
     "stat_titles": "WORLD CUPS WON",
@@ -235,7 +235,7 @@
       "id": "03",
       "date": "JUNE 28 - JULY 3",
       "title": "ROUND OF 32",
-      "desc": "KNOCKOUT STAGE BEGINS. 32 NATIONS FIGHT TO MOVE FORWARD."
+      "desc": "KNOCKOUT STAGE BEGINS. 48 natIONS FIGHT TO MOVE FORWARD."
     },
     "milestone4": {
       "id": "04",
