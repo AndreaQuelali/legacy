@@ -16,7 +16,7 @@
     "year": "2026",
     "title_part1": "THE WORLD",
     "title_part2": "IS OUR STAGE",
-    "description": "48 nations. 1 dream. The road to glory begins now. Experience the largest football event in history across North America.",
+    "description": "48 nations. 1 dream. The road to glory begins now. Experience the largest football event in history.",
     "explore_btn": "EXPLORE THE NATIONS",
     "journey": "THE JOURNEY BEGINS IN",
     "days": "DAYS",
@@ -695,7 +695,7 @@
       "id": "02",
       "date": "JUNE 11 - 27",
       "title": "GROUP STAGE",
-      "desc": "48 NATIONS. 12 GROUPS. THE BATTLE FOR QUALIFICATION BEGINS ACROSS NORTH AMERICA."
+      "desc": "48 NATIONS. 12 GROUPS. THE BATTLE FOR QUALIFICATION BEGINS."
     },
     "milestone3": {
       "id": "03",

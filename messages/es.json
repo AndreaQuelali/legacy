@@ -16,7 +16,7 @@
     "year": "2026",
     "title_part1": "EL MUNDO",
     "title_part2": "ES NUESTRO ESCENARIO",
-    "description": "48 países. 1 sueño. El camino a la gloria comienza ahora. Vive el evento futbolístico más grande de la historia en Norteamérica.",
+    "description": "48 países. 1 sueño. El camino a la gloria comienza ahora. Vive el evento futbolístico más grande de la historia.",
     "explore_btn": "EXPLORAR PAÍSES",
     "journey": "EL VIAJE COMIENZA EN",
     "days": "DÍAS",
@@ -695,7 +695,7 @@
       "id": "02",
       "date": "11 - 27 DE JUNIO",
       "title": "FASE DE GRUPOS",
-      "desc": "48 PAÍSES. 12 GRUPOS. LA BATALLA POR LA CLASIFICACIÓN COMIENZA EN NORTEAMÉRICA."
+      "desc": "48 PAÍSES. 12 GRUPOS. LA BATALLA POR LA CLASIFICACIÓN COMIENZA."
     },
     "milestone3": {
       "id": "03",
