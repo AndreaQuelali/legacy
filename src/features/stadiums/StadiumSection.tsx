@@ -1,11 +1,13 @@
 "use client"
 
-import React, { useRef } from 'react'
+import React, { useRef, useState } from 'react'
 import StadiumHeader from './components/StadiumHeader'
 import StadiumGrid from './components/StadiumGrid'
+import StadiumModal from './components/StadiumModal'
 import { useStadiumData } from './hooks/useStadiumData'
 import { useStadiumFlip } from './hooks/useStadiumFlip'
 import { useStadiumScroll } from './hooks/useStadiumScroll'
+import type { StadiumItem } from './data/stadiums'
 
 const GRID_CLASS = 'grid grid-cols-2 md:grid-cols-8 md:grid-rows-3 gap-3 md:gap-5 md:h-[680px] w-full'
 
@@ -18,6 +20,14 @@ export default function StadiumSection() {
 
   const setA = stadiums.slice(0, 8)
   const setB = stadiums.slice(8, 16)
+
+  const [selectedStadium, setSelectedStadium] = useState<StadiumItem | null>(null)
+  const [isModalOpen, setIsModalOpen] = useState(false)
+
+  const handleStadiumClick = (stadium: StadiumItem) => {
+    setSelectedStadium(stadium)
+    setIsModalOpen(true)
+  }
 
   return (
     <section
@@ -39,6 +49,7 @@ export default function StadiumSection() {
             items={setA}
             bentoClasses={setA.map((s) => s.bentoA)}
             gridClass={GRID_CLASS}
+            onItemClick={handleStadiumClick}
           />
 
           <StadiumGrid
@@ -48,9 +59,23 @@ export default function StadiumSection() {
             gridClass={GRID_CLASS}
             className="absolute inset-0 opacity-0 invisible"
             style={{ display: 'none' }}
+            onItemClick={handleStadiumClick}
           />
         </div>
       </div>
+
+      {selectedStadium && (
+        <StadiumModal
+          id={selectedStadium.id}
+          name={selectedStadium.name}
+          city={selectedStadium.city}
+          capacity={selectedStadium.capacity}
+          image={selectedStadium.image}
+          matches={selectedStadium.matches || []}
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+        />
+      )}
 
       <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex items-center gap-3 z-20">
         <div className={`rounded-full transition-all duration-500 ${!showB ? 'w-10 h-[3px] bg-primary' : 'w-3 h-[2px] bg-white/20'}`} />

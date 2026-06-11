@@ -2,13 +2,14 @@
 
 import { useMemo } from 'react'
 import { useTranslations } from 'next-intl'
-import { STADIUMS, type StadiumItem } from '../data/stadiums'
+import { STADIUMS, type StadiumItem, type MatchData } from '../data/stadiums'
 
 interface StadiumListEntry {
   id: string
   name: string
   city: string
   capacity: string
+  matches?: MatchData[]
 }
 
 export function useStadiumData(): StadiumItem[] {
@@ -28,6 +29,7 @@ export function useStadiumData(): StadiumItem[] {
         name: entry?.name ?? '',
         city: entry?.city ?? '',
         capacity: entry?.capacity ?? '',
+        matches: entry?.matches ?? [],
       }
     })
   }, [stadiumList])

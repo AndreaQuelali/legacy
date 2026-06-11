@@ -11,6 +11,7 @@ interface StadiumGridProps {
   gridClass: string
   className?: string
   style?: React.CSSProperties
+  onItemClick?: (stadium: StadiumItem) => void
 }
 
 export default function StadiumGrid({
@@ -20,6 +21,7 @@ export default function StadiumGrid({
   gridClass,
   className = '',
   style,
+  onItemClick,
 }: StadiumGridProps) {
   return (
     <div ref={gridRef} className={`${gridClass} ${className}`} style={style}>
@@ -32,6 +34,7 @@ export default function StadiumGrid({
           capacity={stadium.capacity}
           image={stadium.image}
           className={`stadium-card ${bentoClasses[i]} h-[140px] md:h-auto`}
+          onClick={() => onItemClick?.(stadium)}
         />
       ))}
     </div>

@@ -116,103 +116,568 @@
     "subtitle": "IMMERSE YOURSELF",
     "title": "THE ARENAS OF 2026",
     "view_all": "VIEW ALL VENUES",
-    "capacity": "CAPACITY",
+    "capacity": "CAPACIDAD",
+    "schedule": "MATCHES",
     "list": [
       {
         "id": "1",
         "name": "Azteca Stadium",
         "city": "Mexico City",
-        "capacity": "87,523"
+        "capacity": "87,523",
+        "matches": [
+          {
+            "date": "Thursday, 11 June 2026",
+            "time": "15:00",
+            "teams": "Mexico v South Africa",
+            "stage": "Group A"
+          },
+          {
+            "date": "Wednesday, 17 June 2026",
+            "time": "22:00",
+            "teams": "Uzbekistan v Colombia",
+            "stage": "Group K"
+          },
+          {
+            "date": "Wednesday, 24 June 2026",
+            "time": "21:00",
+            "teams": "Czechia v Mexico",
+            "stage": "Group A"
+          }
+        ]
       },
       {
         "id": "2",
         "name": "SoFi Stadium",
         "city": "Los Angeles",
-        "capacity": "70,240"
+        "capacity": "70,240",
+        "matches": [
+          {
+            "date": "Friday, 12 June 2026",
+            "time": "21:00",
+            "teams": "USA v Paraguay",
+            "stage": "Group D"
+          },
+          {
+            "date": "Monday, 15 June 2026",
+            "time": "21:00",
+            "teams": "IR Iran v New Zealand",
+            "stage": "Group G"
+          },
+          {
+            "date": "Thursday, 18 June 2026",
+            "time": "15:00",
+            "teams": "Switzerland v Bosnia y Herzegovina",
+            "stage": "Group B"
+          },
+          {
+            "date": "Sunday, 21 June 2026",
+            "time": "15:00",
+            "teams": "Belgium v Irán",
+            "stage": "Group G"
+          },
+          {
+            "date": "Thursday, 25 June 2026",
+            "time": "22:00",
+            "teams": "Türkiye v USA",
+            "stage": "Group D"
+          }
+        ]
       },
       {
         "id": "3",
         "name": "BC Place",
         "city": "Vancouver",
-        "capacity": "54,500"
+        "capacity": "54,500",
+        "matches": [
+          {
+            "date": "Saturday, 13 June 2026",
+            "time": "00:00",
+            "teams": "Australia v Türkiye",
+            "stage": "Group D"
+          },
+          {
+            "date": "Thursday, 18 June 2026",
+            "time": "18:00",
+            "teams": "Canada v Qatar",
+            "stage": "Group B"
+          },
+          {
+            "date": "Sunday, 21 June 2026",
+            "time": "21:00",
+            "teams": "New Zealand v Egypt",
+            "stage": "Group G"
+          },
+          {
+            "date": "Wednesday, 24 June 2026",
+            "time": "15:00",
+            "teams": "Switzerland v Canada",
+            "stage": "Group B"
+          },
+          {
+            "date": "Friday, 26 June 2026",
+            "time": "23:00",
+            "teams": "New Zealand v Belgium",
+            "stage": "Group G"
+          }
+        ]
       },
       {
         "id": "4",
         "name": "MetLife Stadium",
         "city": "New York/NJ",
-        "capacity": "82,500"
+        "capacity": "82,500",
+        "matches": [
+          {
+            "date": "Saturday, 13 June 2026",
+            "time": "18:00",
+            "teams": "Brazil v Morocco",
+            "stage": "Group C"
+          },
+          {
+            "date": "Tuesday, 16 June 2026",
+            "time": "15:00",
+            "teams": "France v Senegal",
+            "stage": "Group I"
+          },
+          {
+            "date": "Monday, 22 June 2026",
+            "time": "20:00",
+            "teams": "Norway v Senegal",
+            "stage": "Group I"
+          },
+          {
+            "date": "Thursday, 25 June 2026",
+            "time": "16:00",
+            "teams": "Ecuador v Germany",
+            "stage": "Group E"
+          },
+          {
+            "date": "Saturday, 27 June 2026",
+            "time": "17:00",
+            "teams": "Panama v England",
+            "stage": "Group L"
+          }
+        ]
       },
       {
         "id": "5",
         "name": "Mercedes-Benz Stadium",
         "city": "Atlanta",
-        "capacity": "71,000"
+        "capacity": "71,000",
+        "matches": [
+          {
+            "date": "Monday, 15 June 2026",
+            "time": "12:00",
+            "teams": "Spain v Cabo Verde",
+            "stage": "Group H"
+          },
+          {
+            "date": "Thursday, 18 June 2026",
+            "time": "12:00",
+            "teams": "Czechia v South Africa",
+            "stage": "Group A"
+          },
+          {
+            "date": "Sunday, 21 June 2026",
+            "time": "12:00",
+            "teams": "Spain v Saudi Arabia",
+            "stage": "Group H"
+          },
+          {
+            "date": "Wednesday, 24 June 2026",
+            "time": "18:00",
+            "teams": "Morocco v Haiti",
+            "stage": "Group C"
+          },
+          {
+            "date": "Saturday, 27 June 2026",
+            "time": "19:30",
+            "teams": "Congo DR v Uzbekistan",
+            "stage": "Group K"
+          }
+        ]
       },
       {
         "id": "6",
         "name": "Hard Rock Stadium",
         "city": "Miami",
-        "capacity": "64,767"
+        "capacity": "64,767",
+        "matches": [
+          {
+            "date": "Monday, 15 June 2026",
+            "time": "18:00",
+            "teams": "Saudi Arabia v Uruguay",
+            "stage": "Group H"
+          },
+          {
+            "date": "Sunday, 21 June 2026",
+            "time": "18:00",
+            "teams": "Uruguay v Cabo Verde",
+            "stage": "Group H"
+          },
+          {
+            "date": "Wednesday, 24 June 2026",
+            "time": "18:00",
+            "teams": "Scotland v Brazil",
+            "stage": "Group C"
+          },
+          {
+            "date": "Saturday, 27 June 2026",
+            "time": "19:30",
+            "teams": "Colombia v Portugal",
+            "stage": "Group K"
+          }
+        ]
       },
       {
         "id": "7",
         "name": "Lumen Field",
         "city": "Seattle",
-        "capacity": "69,000"
+        "capacity": "69,000",
+        "matches": [
+          {
+            "date": "Monday, 15 June 2026",
+            "time": "15:00",
+            "teams": "Belgium v Egypt",
+            "stage": "Group G"
+          },
+          {
+            "date": "Friday, 19 June 2026",
+            "time": "15:00",
+            "teams": "USA v Australia",
+            "stage": "Group D"
+          },
+          {
+            "date": "Wednesday, 24 June 2026",
+            "time": "15:00",
+            "teams": "Bosnia y Herzegovina v Qatar",
+            "stage": "Group B"
+          },
+          {
+            "date": "Friday, 26 June 2026",
+            "time": "23:00",
+            "teams": "Egypt v Irán",
+            "stage": "Group G"
+          }
+        ]
       },
       {
         "id": "8",
         "name": "Levi's Stadium",
         "city": "San Francisco",
-        "capacity": "68,500"
+        "capacity": "68,500",
+        "matches": [
+          {
+            "date": "Saturday, 13 June 2026",
+            "time": "15:00",
+            "teams": "Qatar v Switzerland",
+            "stage": "Group B"
+          },
+          {
+            "date": "Tuesday, 16 June 2026",
+            "time": "00:00",
+            "teams": "Austria v Jordan",
+            "stage": "Group J"
+          },
+          {
+            "date": "Friday, 19 June 2026",
+            "time": "00:00",
+            "teams": "Türkiye v Paraguay",
+            "stage": "Group D"
+          },
+          {
+            "date": "Monday, 22 June 2026",
+            "time": "23:00",
+            "teams": "Jordan v Algeria",
+            "stage": "Group J"
+          },
+          {
+            "date": "Thursday, 25 June 2026",
+            "time": "22:00",
+            "teams": "Paraguay v Australia",
+            "stage": "Group D"
+          }
+        ]
       },
       {
         "id": "9",
         "name": "AT&T Stadium",
         "city": "Dallas",
-        "capacity": "80,000"
+        "capacity": "80,000",
+        "matches": [
+          {
+            "date": "Sunday, 14 June 2026",
+            "time": "16:00",
+            "teams": "Netherlands v Japan",
+            "stage": "Group F"
+          },
+          {
+            "date": "Wednesday, 17 June 2026",
+            "time": "16:00",
+            "teams": "England v Croacia",
+            "stage": "Group L"
+          },
+          {
+            "date": "Monday, 22 June 2026",
+            "time": "13:00",
+            "teams": "Argentina v Austria",
+            "stage": "Group J"
+          },
+          {
+            "date": "Thursday, 25 June 2026",
+            "time": "19:00",
+            "teams": "Japan v Suecia",
+            "stage": "Group F"
+          },
+          {
+            "date": "Saturday, 27 June 2026",
+            "time": "22:00",
+            "teams": "Jordan v Argentina",
+            "stage": "Group J"
+          }
+        ]
       },
       {
         "id": "10",
         "name": "NRG Stadium",
         "city": "Houston",
-        "capacity": "72,220"
+        "capacity": "72,220",
+        "matches": [
+          {
+            "date": "Sunday, 14 June 2026",
+            "time": "13:00",
+            "teams": "Germany v Curaçao",
+            "stage": "Group E"
+          },
+          {
+            "date": "Wednesday, 17 June 2026",
+            "time": "13:00",
+            "teams": "Portugal v Congo DR",
+            "stage": "Group K"
+          },
+          {
+            "date": "Saturday, 20 June 2026",
+            "time": "13:00",
+            "teams": "Netherlands v Suecia",
+            "stage": "Group F"
+          },
+          {
+            "date": "Tuesday, 23 June 2026",
+            "time": "13:00",
+            "teams": "Portugal v Uzbekistan",
+            "stage": "Group K"
+          },
+          {
+            "date": "Friday, 26 June 2026",
+            "time": "20:00",
+            "teams": "Cabo Verde v Saudi Arabia",
+            "stage": "Group H"
+          }
+        ]
       },
       {
         "id": "11",
         "name": "Arrowhead Stadium",
         "city": "Kansas City",
-        "capacity": "76,416"
+        "capacity": "76,416",
+        "matches": [
+          {
+            "date": "Tuesday, 16 June 2026",
+            "time": "21:00",
+            "teams": "Argentina v Algeria",
+            "stage": "Group J"
+          },
+          {
+            "date": "Saturday, 20 June 2026",
+            "time": "22:00",
+            "teams": "Ecuador v Curaçao",
+            "stage": "Group E"
+          },
+          {
+            "date": "Thursday, 25 June 2026",
+            "time": "19:00",
+            "teams": "Tunisia v Netherlands",
+            "stage": "Group F"
+          },
+          {
+            "date": "Saturday, 27 June 2026",
+            "time": "22:00",
+            "teams": "Algeria v Austria",
+            "stage": "Group J"
+          }
+        ]
       },
       {
         "id": "12",
         "name": "Gillette Stadium",
         "city": "Boston",
-        "capacity": "65,878"
+        "capacity": "65,878",
+        "matches": [
+          {
+            "date": "Saturday, 13 June 2026",
+            "time": "21:00",
+            "teams": "Haiti v Scotland",
+            "stage": "Group C"
+          },
+          {
+            "date": "Tuesday, 16 June 2026",
+            "time": "18:00",
+            "teams": "Iraq v Norway",
+            "stage": "Group I"
+          },
+          {
+            "date": "Friday, 19 June 2026",
+            "time": "18:00",
+            "teams": "Scotland v Morocco",
+            "stage": "Group C"
+          },
+          {
+            "date": "Tuesday, 23 June 2026",
+            "time": "16:00",
+            "teams": "England v Ghana",
+            "stage": "Group L"
+          },
+          {
+            "date": "Friday, 26 June 2026",
+            "time": "15:00",
+            "teams": "Norway v France",
+            "stage": "Group I"
+          }
+        ]
       },
       {
         "id": "13",
         "name": "Lincoln Financial Field",
         "city": "Philadelphia",
-        "capacity": "67,594"
+        "capacity": "67,594",
+        "matches": [
+          {
+            "date": "Sunday, 14 June 2026",
+            "time": "19:00",
+            "teams": "Côte d'Ivoire v Ecuador",
+            "stage": "Group E"
+          },
+          {
+            "date": "Friday, 19 June 2026",
+            "time": "21:00",
+            "teams": "Brazil v Haiti",
+            "stage": "Group C"
+          },
+          {
+            "date": "Monday, 22 June 2026",
+            "time": "17:00",
+            "teams": "France v Iraq",
+            "stage": "Group I"
+          },
+          {
+            "date": "Thursday, 25 June 2026",
+            "time": "16:00",
+            "teams": "Curaçao v Côte d'Ivoire",
+            "stage": "Group E"
+          },
+          {
+            "date": "Saturday, 27 June 2026",
+            "time": "17:00",
+            "teams": "Croacia v Ghana",
+            "stage": "Group L"
+          }
+        ]
       },
       {
         "id": "14",
         "name": "BMO Field",
         "city": "Toronto",
-        "capacity": "30,000"
+        "capacity": "30,000",
+        "matches": [
+          {
+            "date": "Friday, 12 June 2026",
+            "time": "15:00",
+            "teams": "Canada v Bosnia y Herzegovina",
+            "stage": "Group B"
+          },
+          {
+            "date": "Wednesday, 17 June 2026",
+            "time": "19:00",
+            "teams": "Ghana v Panama",
+            "stage": "Group L"
+          },
+          {
+            "date": "Saturday, 20 June 2026",
+            "time": "16:00",
+            "teams": "Germany v Côte d'Ivoire",
+            "stage": "Group E"
+          },
+          {
+            "date": "Tuesday, 23 June 2026",
+            "time": "19:00",
+            "teams": "Panama v Croacia",
+            "stage": "Group L"
+          },
+          {
+            "date": "Friday, 26 June 2026",
+            "time": "15:00",
+            "teams": "Senegal v Iraq",
+            "stage": "Group I"
+          }
+        ]
       },
       {
         "id": "15",
         "name": "Estadio BBVA",
         "city": "Monterrey",
-        "capacity": "51,000"
+        "capacity": "51,000",
+        "matches": [
+          {
+            "date": "Sunday, 14 June 2026",
+            "time": "22:00",
+            "teams": "Suecia v Tunisia",
+            "stage": "Group F"
+          },
+          {
+            "date": "Saturday, 20 June 2026",
+            "time": "00:00",
+            "teams": "Tunisia v Japan",
+            "stage": "Group F"
+          },
+          {
+            "date": "Wednesday, 24 June 2026",
+            "time": "21:00",
+            "teams": "South Africa v Korea Republic",
+            "stage": "Group A"
+          }
+        ]
       },
       {
         "id": "16",
         "name": "Estadio Akron",
         "city": "Guadalajara",
-        "capacity": "48,071"
+        "capacity": "48,071",
+        "matches": [
+          {
+            "date": "Thursday, 11 June 2026",
+            "time": "22:00",
+            "teams": "Korea Republic v Czechia",
+            "stage": "Group A"
+          },
+          {
+            "date": "Thursday, 18 June 2026",
+            "time": "21:00",
+            "teams": "Mexico v Korea Republic",
+            "stage": "Group A"
+          },
+          {
+            "date": "Tuesday, 23 June 2026",
+            "time": "22:00",
+            "teams": "Colombia v Congo DR",
+            "stage": "Group K"
+          },
+          {
+            "date": "Friday, 26 June 2026",
+            "time": "20:00",
+            "teams": "Uruguay v Spain",
+            "stage": "Group H"
+          }
+        ]
       }
     ]
   },
