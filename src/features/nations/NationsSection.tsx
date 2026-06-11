@@ -24,8 +24,8 @@ export default function NationsSection() {
     heroCinematicDone,
     selectedNation,
     selectedIndex,
+    scrollProgress,
     handleBallCardEnter,
-    handleBallComplete,
     handlePrev,
     handleNext,
   } = useNationsSection({ nations })
@@ -99,8 +99,8 @@ export default function NationsSection() {
             onSelect={(id) => setSelectedId(id)}
             ballHoveredIndex={ballHoveredIndex}
             showBallIntro={showBallIntro}
+            scrollProgress={scrollProgress}
             onBallCardEnter={handleBallCardEnter}
-            onBallComplete={handleBallComplete}
           />
         </div>
 

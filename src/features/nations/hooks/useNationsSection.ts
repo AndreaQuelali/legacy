@@ -17,17 +17,11 @@ export function useNationsSection({ nations }: UseNationsSectionOptions) {
   const lenis = useLenis()
   const sectionRef = useRef<HTMLElement>(null)
   const pinTriggerRef = useRef<ScrollTrigger | null>(null)
-  const ballIntroCompleteRef = useRef(false)
-
   const [selectedId, setSelectedId] = useState<string | null>(null)
-  const [ballIntroComplete, setBallIntroComplete] = useState(false)
   const [ballHoveredIndex, setBallHoveredIndex] = useState<number | null>(null)
   const [sectionInView, setSectionInView] = useState(false)
   const [heroCinematicDone, setHeroCinematicDone] = useState(false)
-
-  useEffect(() => {
-    ballIntroCompleteRef.current = ballIntroComplete
-  }, [ballIntroComplete])
+  const scrollProgress = useRef(0)
 
   useEffect(() => {
     const markHeroDone = () => setHeroCinematicDone(true)
@@ -40,25 +34,15 @@ export function useNationsSection({ nations }: UseNationsSectionOptions) {
     return () => window.removeEventListener(HERO_CINEMATIC_COMPLETE_EVENT, markHeroDone)
   }, [])
 
-  const showBallIntro =
-    heroCinematicDone && sectionInView && !ballIntroComplete && !selectedId
-  const shouldLockScroll = showBallIntro
+  const showBallIntro = heroCinematicDone && sectionInView && !selectedId
 
   const handleBallCardEnter = useCallback((index: number) => {
     setBallHoveredIndex(index)
     setTimeout(() => setBallHoveredIndex(null), 600)
   }, [])
 
-  const handleBallComplete = useCallback(() => {
-    setBallHoveredIndex(null)
-    setBallIntroComplete(true)
-    pinTriggerRef.current?.kill()
-    pinTriggerRef.current = null
-    ScrollTrigger.refresh()
-  }, [])
-
   useLayoutEffect(() => {
-    if (ballIntroComplete || !heroCinematicDone) return
+    if (!heroCinematicDone) return
 
     const ctx = gsap.context(() => {
       pinTriggerRef.current = ScrollTrigger.create({
@@ -69,8 +53,11 @@ export function useNationsSection({ nations }: UseNationsSectionOptions) {
         anticipatePin: 1,
         pinSpacing: true,
         id: 'nations-ball-pin',
+        onUpdate: (self) => {
+          scrollProgress.current = self.progress
+        },
         onEnter: () => {
-          if (!ballIntroCompleteRef.current) setSectionInView(true)
+          setSectionInView(true)
         },
       })
 
@@ -80,29 +67,15 @@ export function useNationsSection({ nations }: UseNationsSectionOptions) {
     }, sectionRef)
 
     return () => ctx.revert()
-  }, [ballIntroComplete, heroCinematicDone])
+  }, [heroCinematicDone])
 
   useEffect(() => {
     if (!lenis) return
-    if (shouldLockScroll) {
-      lenis.stop()
-    } else {
-      lenis.start()
-    }
+    lenis.start()
     return () => {
       lenis.start()
     }
-  }, [lenis, shouldLockScroll])
-
-  useEffect(() => {
-    if (!showBallIntro) return
-
-    const timeout = setTimeout(() => {
-      handleBallComplete()
-    }, 18000)
-
-    return () => clearTimeout(timeout)
-  }, [showBallIntro, handleBallComplete])
+  }, [lenis])
 
   const selectedNation = nations.find((n) => n.id === selectedId) || null
   const selectedIndex = nations.findIndex((n) => n.id === selectedId)
@@ -126,8 +99,8 @@ export function useNationsSection({ nations }: UseNationsSectionOptions) {
     heroCinematicDone,
     selectedNation,
     selectedIndex,
+    scrollProgress,
     handleBallCardEnter,
-    handleBallComplete,
     handlePrev,
     handleNext,
   }

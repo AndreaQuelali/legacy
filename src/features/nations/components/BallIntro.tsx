@@ -23,7 +23,6 @@ export { CARD_X_POSITIONS }
 
 type EaseFn = (t: number) => number
 
-const easeSmoothstep: EaseFn = (t) => t * t * (3 - 2 * t)
 const easePower2Out: EaseFn = (t) => 1 - (1 - t) * (1 - t)
 const easePower2In: EaseFn = (t) => t * t
 const easePower3InOut: EaseFn = (t) =>
@@ -169,10 +168,10 @@ function buildTimeline(): IntroSegment[] {
       kind: "roll",
       fromX: ROLL_ENTRY_X,
       toX: CARD_X_POSITIONS[0],
-      duration: 2.2,
+      duration: 0.6,
       y: FLOOR_Y,
       z: FLOOR_Z,
-      ease: easeSmoothstep,
+      ease: easePower2Out,
     },
   ]
 
@@ -203,7 +202,7 @@ function buildTimeline(): IntroSegment[] {
     kind: "roll",
     fromX: CARD_X_POSITIONS[5] + 4,
     toX: ROLL_EXIT_X,
-    duration: 1.6,
+    duration: 0.8,
     y: FLOOR_Y,
     z: FLOOR_Z,
     ease: easePower2Out,
@@ -263,8 +262,8 @@ function getSegmentState(t: number): {
 // ─── Model prep ─────────────────────────────────────────────────────────────
 
 interface BallIntroProps {
+  scrollProgress?: React.MutableRefObject<number>
   onCardEnter: (index: number) => void
-  onComplete: () => void
   startDelay?: number
 }
 
@@ -292,31 +291,21 @@ function prepareBallModel(scene: THREE.Group): THREE.Group {
 }
 
 export default function BallIntro({
+  scrollProgress,
   onCardEnter,
-  onComplete,
   startDelay = 0,
 }: BallIntroProps) {
   const { scene } = useGLTF("/models/balon_futbol_paises.glb")
   const ballModel = useMemo(() => prepareBallModel(scene), [scene])
 
   const groupRef = useRef<THREE.Group>(null)
-  const elapsed = useRef(0)
   const lastCardIndex = useRef(-1)
-  const finished = useRef(false)
-  const firstFrame = useRef(true)
   const prevX = useRef(0)
 
   useFrame((_, dt) => {
-    if (finished.current || !groupRef.current) return
+    if (!groupRef.current) return
 
-    if (firstFrame.current) {
-      firstFrame.current = false
-      elapsed.current = 0
-      prevX.current = ROLL_ENTRY_X
-    }
-
-    elapsed.current += dt
-    const t = elapsed.current - startDelay
+    const t = (scrollProgress?.current || 0) * TOTAL_DURATION - startDelay
 
     if (t < 0) {
       groupRef.current.visible = false
@@ -325,16 +314,10 @@ export default function BallIntro({
 
     groupRef.current.visible = true
 
-    if (t >= TOTAL_DURATION) {
-      if (!finished.current) {
-        finished.current = true
-        groupRef.current.visible = false
-        onComplete()
-      }
-      return
-    }
+    // GSAP bounds constraints (keeps the ball at exact edge limits if scrolled slightly past)
+    const clampedT = Math.min(Math.max(t, 0), TOTAL_DURATION)
 
-    const { segment, segT } = getSegmentState(t)
+    const { segment, segT } = getSegmentState(clampedT)
     let x: number
     let y: number
     let z: number
