@@ -1,10 +1,13 @@
 "use client"
 
 import { useTranslations } from 'next-intl'
+import { useIdleReady } from '@/hooks/useIdleReady'
 import { MARQUEE_NATIONS } from '../hooks/marqueeNations'
 
 export default function NationsMarquee() {
   const t = useTranslations('countries')
+  // Flag sprites load after first interaction so ~50 requests stay off the initial load
+  const flagsReady = useIdleReady()
   return (
     <section className="relative py-16 bg-[#0e0e0e] overflow-hidden border-b border-white/5">
       {/* Edge Gradients for Smooth Entry/Exit */}
@@ -20,7 +23,7 @@ export default function NationsMarquee() {
                 key={`${country.code}-${idx}`}
                 className="flex items-center transition-transform duration-500 hover:scale-125 cursor-pointer"
               >
-                <span className={`fi fi-${country.code} text-[50px] md:text-[64px] rounded-sm shadow-2xl border border-white/10`} />
+                <span className={`${flagsReady ? `fi fi-${country.code}` : 'inline-block w-[1.33em] h-[1em]'} text-[50px] md:text-[64px] rounded-sm shadow-2xl border border-white/10`} />
               </div>
             ))}
           </div>
@@ -30,7 +33,7 @@ export default function NationsMarquee() {
                 key={`${country.code}-dup-${idx}`}
                 className="flex items-center transition-transform duration-500 hover:scale-125 cursor-pointer"
               >
-                <span className={`fi fi-${country.code} text-[50px] md:text-[64px] rounded-sm shadow-2xl border border-white/10`} />
+                <span className={`${flagsReady ? `fi fi-${country.code}` : 'inline-block w-[1.33em] h-[1em]'} text-[50px] md:text-[64px] rounded-sm shadow-2xl border border-white/10`} />
               </div>
             ))}
           </div>
@@ -44,7 +47,7 @@ export default function NationsMarquee() {
                 key={`${country.code}-name-${idx}`}
                 className="flex items-center group/item cursor-pointer transition-all duration-400 hover:scale-110"
               >
-                <span className="font-bebas text-[32px] md:text-[46px] tracking-[0.2em] text-white/30 group-hover/item:text-primary transition-colors duration-300 uppercase mr-[-0.2em]">
+                <span className="font-bebas text-[32px] md:text-[46px] tracking-[0.2em] text-white/60 group-hover/item:text-primary transition-colors duration-300 uppercase mr-[-0.2em]">
                   {t(country.key)}
                 </span>
                 <span className="px-8 md:px-12 text-primary/10 select-none">•</span>
@@ -57,7 +60,7 @@ export default function NationsMarquee() {
                 key={`${country.code}-name-dup-${idx}`}
                 className="flex items-center group/item cursor-pointer transition-all duration-400 hover:scale-110"
               >
-                <span className="font-bebas text-[32px] md:text-[46px] tracking-[0.2em] text-white/30 group-hover/item:text-primary transition-colors duration-300 uppercase mr-[-0.2em]">
+                <span className="font-bebas text-[32px] md:text-[46px] tracking-[0.2em] text-white/60 group-hover/item:text-primary transition-colors duration-300 uppercase mr-[-0.2em]">
                   {t(country.key)}
                 </span>
                 <span className="px-8 md:px-12 text-primary/10 select-none">•</span>

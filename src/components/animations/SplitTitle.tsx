@@ -30,7 +30,7 @@ export default function SplitTitle({
     if (!textRef.current || !trigger) return
 
     const ctx = gsap.context(() => {
-      const split = new SplitText(textRef.current, { type })
+      const split = new SplitText(textRef.current, { type, aria: "none" })
       
       const targets = type === "chars" ? split.chars : type === "words" ? split.words : split.lines
 

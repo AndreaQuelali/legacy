@@ -1,4 +1,4 @@
-import gsap, { SplitText } from '../gsap'
+import gsap from '../gsap'
 
 export const playHeroTimeline = () => {
   const tl = gsap.timeline({
@@ -6,41 +6,13 @@ export const playHeroTimeline = () => {
   })
 
   // Prevent FOUC by making sure items start hidden
-  gsap.set('.anim-navbar, .anim-subtitle, .anim-title-1, .anim-title-2, .anim-desc, .anim-cta, .anim-countdown, .anim-location, .anim-scroll-indicator', {
+  gsap.set('.anim-navbar, .anim-cta, .anim-countdown, .anim-location, .anim-scroll-indicator', {
     opacity: 0
   })
 
   tl.fromTo('.anim-navbar',
     { y: -30, opacity: 0, filter: 'blur(8px)' },
-    { y: 0, opacity: 1, filter: 'blur(0px)', duration: 1.2 }
-  )
-  .fromTo('.anim-subtitle',
-    { y: 20, opacity: 0 },
-    { y: 0, opacity: 1, duration: 1 },
-    "-=0.6"
-  )
-
-  // Use SplitText for the main titles
-  const title1 = new SplitText('.anim-title-1', { type: 'chars' })
-  const title2 = new SplitText('.anim-title-2', { type: 'chars' })
-
-  // Set parents to visible immediately as we are animating characters
-  gsap.set(['.anim-title-1', '.anim-title-2'], { opacity: 1 })
-
-  tl.fromTo(title1.chars,
-    { opacity: 0, y: 15, filter: 'blur(10px)' },
-    { opacity: 1, y: 0, filter: 'blur(0px)', duration: 0.5, stagger: 0.08 },
-    "-=0.6"
-  )
-  .fromTo(title2.chars,
-    { opacity: 0, y: 15, filter: 'blur(10px)' },
-    { opacity: 1, y: 0, filter: 'blur(0px)', duration: 0.5, stagger: 0.08 },
-    "-=0.7"
-  )
-  .fromTo('.anim-desc',
-    { y: 20, opacity: 0 },
-    { y: 0, opacity: 1, duration: 1 },
-    "-=0.8"
+    { y: 0, opacity: 1, filter: 'blur(0px)', duration: 0.7 }
   )
   .fromTo('.anim-cta',
     { y: 20, opacity: 0 },

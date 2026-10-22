@@ -1,15 +1,19 @@
 "use client"
 
 import heroImg from '../assets/images/hero.webp'
+import { useIdleReady } from '@/hooks/useIdleReady'
 
 export default function HeroAtmosphere() {
+  // The layer is invisible until the user scrolls, so its image is fetched lazily
+  const ready = useIdleReady()
+
   return (
     <div className="trophy-atmosphere-layer absolute inset-0 z-[1] pointer-events-none opacity-0">
       {/* Blurred stadium background */}
       <div
         className="absolute inset-0"
         style={{
-          backgroundImage: `url(${heroImg.src})`,
+          backgroundImage: ready ? `url(${heroImg.src})` : undefined,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           filter: 'blur(40px) brightness(0.18)',

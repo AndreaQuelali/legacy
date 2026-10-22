@@ -1,5 +1,6 @@
 "use client"
 
+import Icon from "@/components/ui/Icon"
 import React from 'react'
 
 interface TimelineItemProps {
@@ -37,9 +38,7 @@ export default function TimelineItem({ date, title, desc, icon, side }: Timeline
       <div className={`w-full md:w-1/2 flex items-center justify-center ${isLeft ? "md:justify-start md:pl-16" : "md:justify-end md:pr-16"}`}>
         <div className="w-full sm:w-80 h-44 border border-white/10 bg-[#1a1a1a] flex items-center justify-center group-hover:border-primary/40 transition-all duration-500 overflow-hidden relative">
           <div className="absolute inset-0 bg-primary/5 opacity-0 group-hover:opacity-100 transition-opacity" />
-          <span className="material-symbols-outlined text-white/[0.08] group-hover:text-primary/20 transition-all duration-500 scale-90 group-hover:scale-110" style={{ fontSize: "56px" }}>
-            {icon}
-          </span>
+          <Icon name={icon} size={56} className="text-white/[0.08] group-hover:text-primary/20 transition-all duration-500 scale-90 group-hover:scale-110" />
         </div>
       </div>
     </div>

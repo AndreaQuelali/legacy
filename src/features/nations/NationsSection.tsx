@@ -4,9 +4,11 @@ import { useTranslations } from 'next-intl'
 import Image from 'next/image'
 import { AnimatePresence, motion } from 'framer-motion'
 import SplitTitle from '@/components/animations/SplitTitle'
-import PlayerGallery3D from './components/PlayerGallery3D'
+import dynamic from 'next/dynamic'
+import { useIdleReady } from '@/hooks/useIdleReady'
 import NationInfoOverlay from './components/NationInfoOverlay'
 import NationMobileSheet from './components/NationMobileSheet'
+const PlayerGallery3D = dynamic(() => import('./components/PlayerGallery3D'), { ssr: false })
 import { getNationFolder } from './data/nations'
 import { getNationImageData } from './assets/nationImages'
 import { useNationsData } from './hooks/useNationsData'
@@ -14,6 +16,7 @@ import { useNationsSection } from './hooks/useNationsSection'
 
 export default function NationsSection() {
   const t = useTranslations('nations')
+  const galleryReady = useIdleReady(800)
   const { nations, galleryItems } = useNationsData()
   const {
     sectionRef,
@@ -83,7 +86,7 @@ export default function NationsSection() {
               type="words"
             />
 
-            <p className="font-inter text-[10px] sm:text-xs text-white/25 mt-2 sm:mt-3 tracking-[0.2em] hidden sm:block uppercase">
+            <p className="font-inter text-[10px] sm:text-xs text-white/60 mt-2 sm:mt-3 tracking-[0.2em] hidden sm:block uppercase">
               {t('select_hint')}
             </p>
           </div>
@@ -93,7 +96,7 @@ export default function NationsSection() {
           className={`relative flex-1 min-h-0 z-[10] flex items-center justify-center transition-all duration-700 ${selectedId ? 'md:ml-auto md:w-[40%] md:flex-none' : 'w-full'
             }`}
         >
-          <PlayerGallery3D
+          {galleryReady && <PlayerGallery3D
             items={galleryItems}
             selectedId={selectedId}
             onSelect={(id) => setSelectedId(id)}
@@ -101,7 +104,7 @@ export default function NationsSection() {
             showBallIntro={showBallIntro}
             scrollProgress={scrollProgress}
             onBallCardEnter={handleBallCardEnter}
-          />
+          />}
         </div>
 
         <div className="hidden md:block">

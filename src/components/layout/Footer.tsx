@@ -13,7 +13,7 @@ export default function Footer() {
         </div>
 
         {/* Copyright */}
-        <p className="font-inter text-[10px] font-bold text-white/25 uppercase tracking-[0.2em] mt-3">
+        <p className="font-inter text-[10px] font-bold text-white/60 uppercase tracking-[0.2em] mt-3">
           {t("copyright")}
         </p>
       </div>
