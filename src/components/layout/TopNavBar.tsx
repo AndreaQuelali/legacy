@@ -109,7 +109,7 @@ export default function TopNavBar() {
         <div className="flex items-center justify-between px-6 lg:px-10 py-4 max-w-[1440px] mx-auto">
           <Link href="/" className="font-bebas leading-none text-white hover:opacity-80 transition-opacity">
             <div className="flex items-center justify-center gap-2">
-              <Image src="/icon.svg" alt="Logo" width={24} height={24} />
+              <Image src="/logo.png" alt="Logo" width={24} height={24} />
               <div className="text-[24px] tracking-[0.15em] flex gap-2">
                 {t('title1')}
                 <span className="text-primary hidden lg:block">{t('title2')}</span>
@@ -229,19 +229,19 @@ export default function TopNavBar() {
 
           {/* Language switcher inside drawer */}
           <div className="flex items-center gap-4 mt-10">
-            <span className="font-inter text-[10px] font-bold tracking-[0.3em] text-white/20 uppercase">
+            <span className="font-inter text-[10px] font-bold tracking-[0.3em] text-white/60 uppercase">
               Lang
             </span>
             <button
               onClick={() => handleLocaleChange('en')}
-              className={`font-inter text-[11px] font-bold tracking-widest transition-colors ${locale === 'en' ? 'text-primary' : 'text-white/30 hover:text-white/70'}`}
+              className={`font-inter text-[11px] font-bold tracking-widest transition-colors ${locale === 'en' ? 'text-primary' : 'text-white/60 hover:text-white/70'}`}
             >
               EN
             </button>
             <div className="w-[1px] h-3 bg-white/10" />
             <button
               onClick={() => handleLocaleChange('es')}
-              className={`font-inter text-[11px] font-bold tracking-widest transition-colors ${locale === 'es' ? 'text-primary' : 'text-white/30 hover:text-white/70'}`}
+              className={`font-inter text-[11px] font-bold tracking-widest transition-colors ${locale === 'es' ? 'text-primary' : 'text-white/60 hover:text-white/70'}`}
             >
               ES
             </button>
@@ -250,7 +250,7 @@ export default function TopNavBar() {
 
         {/* Bottom branding */}
         <div className="px-10 py-8 border-t border-white/5">
-          <div className="font-bebas text-[14px] tracking-[0.3em] text-white/20 uppercase">
+          <div className="font-bebas text-[14px] tracking-[0.3em] text-white/60 uppercase">
             LEGACY 2026
           </div>
         </div>

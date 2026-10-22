@@ -14,7 +14,7 @@ export default function HeroContent() {
       <HeroSubtitle />
       <HeroTitle />
       
-      <p className="anim-desc body-muted max-w-xl mx-auto mt-6 opacity-0">
+      <p className="hero-title-line hero-title-line-3 body-muted max-w-xl mx-auto mt-6">
         {t("description")}
       </p>
 

@@ -1,6 +1,7 @@
 "use client"
 
 import React from 'react'
+import { useIdleReady } from '@/hooks/useIdleReady'
 import Image, { type StaticImageData } from 'next/image'
 import { useTranslations } from 'next-intl'
 
@@ -23,6 +24,8 @@ export default function StadiumCard({
   className = "",
   onClick,
 }: StadiumCardProps) {
+  // Offscreen at load time (layout is pinned later), so defer its image request until interaction
+  const imageReady = useIdleReady()
   const t = useTranslations('stadiums')
 
   return (
@@ -32,13 +35,15 @@ export default function StadiumCard({
       className={`relative overflow-hidden group rounded-sm border border-white/10 transition-[border-color] duration-300 hover:border-primary/30 opacity-100 cursor-pointer ${className}`}
     >
       <div className="absolute inset-0 z-0">
-        <Image
-          src={image}
-          alt={name}
-          fill
-          className="object-cover transition-transform duration-700 group-hover:scale-110"
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-        />
+        {imageReady && (
+          <Image
+            src={image}
+            alt={name}
+            fill
+            className="object-cover transition-transform duration-700 group-hover:scale-110"
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+          />
+        )}
         <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent" />
         <div className="absolute inset-0 bg-black/25 group-hover:bg-black/5 transition-colors duration-500" />
       </div>
@@ -50,9 +55,9 @@ export default function StadiumCard({
           </span>
         </div>
 
-        <h4 className="font-bebas text-white uppercase tracking-wider leading-tight text-[16px] xs:text-[18px] sm:text-[26px] group-hover:text-primary transition-colors duration-300">
+        <h3 className="font-bebas text-white uppercase tracking-wider leading-tight text-[16px] xs:text-[18px] sm:text-[26px] group-hover:text-primary transition-colors duration-300">
           {name}
-        </h4>
+        </h3>
 
         <div className="overflow-hidden">
           <div className="flex items-center gap-2 translate-y-6 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-400 ease-out mt-1.5">

@@ -2,9 +2,10 @@
 
 import React, { useEffect, useRef, Suspense } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
-import { Environment, useGLTF } from '@react-three/drei'
+import { useGLTF } from '@react-three/drei'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import * as THREE from 'three'
+import LocalEnvironment from '@/components/3d/LocalEnvironment'
 import CameraFlashes from '@/components/3d/CameraFlashes'
 import { useIsMobile } from '@/hooks/useIsMobile'
 
@@ -220,7 +221,7 @@ export default function TrophyScene() {
     <div className="absolute inset-0 pointer-events-none z-0">
       <Canvas camera={{ position: [0, 0, 5], fov: 45 }} dpr={isMobile ? 1 : [1, 1.5]}>
         <Suspense fallback={null}>
-          <Environment preset="night" />
+          <LocalEnvironment />
           <Trophy />
           <Particles />
           <CameraFlashes scrollTriggerId="hero-main-scroll" scrollRange={[0.44, 0.72]} />
