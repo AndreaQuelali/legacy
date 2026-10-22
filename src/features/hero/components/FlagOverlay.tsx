@@ -4,6 +4,7 @@ import { useEffect, useRef, useMemo } from "react"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
 import { CircleFlag } from "react-circle-flags"
 import { useTranslations } from "next-intl"
+import { useIdleReady } from "@/hooks/useIdleReady"
 
 // 48 nations for the World Cup experience
 const NATIONS = [
@@ -36,6 +37,8 @@ const NATIONS = [
 export default function FlagOverlay() {
   const t = useTranslations("countries")
   const refs = useRef<(HTMLDivElement | null)[]>([])
+  // Flags only appear mid-scroll: skip fetching 48 images and the rAF loop until the user interacts
+  const ready = useIdleReady()
 
   // Pre-calculate positions and timings for 48 flags
   const flagsData = useMemo(() => {
@@ -73,6 +76,7 @@ export default function FlagOverlay() {
   }, [])
 
   useEffect(() => {
+    if (!ready) return
     let rafId: number
 
     const tick = () => {
@@ -118,11 +122,11 @@ export default function FlagOverlay() {
 
     rafId = requestAnimationFrame(tick)
     return () => cancelAnimationFrame(rafId)
-  }, [flagsData])
+  }, [flagsData, ready])
 
   return (
     <div className="absolute inset-0 pointer-events-none z-[3] overflow-hidden">
-      {flagsData.map((flag, i) => (
+      {ready && flagsData.map((flag, i) => (
         <div
           key={`${flag.code}-${i}`}
           ref={el => { refs.current[i] = el }}

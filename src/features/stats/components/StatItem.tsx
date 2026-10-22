@@ -1,6 +1,7 @@
 "use client"
 
 import { useRef } from 'react'
+import Icon from "@/components/ui/Icon"
 import { useCountUp } from '@/lib/gsap/useCountUp'
 import { afterStadiumPinStart } from '@/lib/scroll/pinnedSectionTriggers'
 import type { StatData } from '../hooks/useStatsData'
@@ -12,9 +13,7 @@ export default function StatItem({ icon, value, label }: StatData) {
 
   return (
     <div className="flex items-center gap-5">
-      <span className="material-symbols-outlined text-primary" style={{ fontSize: "36px" }}>
-        {icon}
-      </span>
+      <Icon name={icon} size={36} className="text-primary" />
       <div>
         <div
           ref={numberRef}

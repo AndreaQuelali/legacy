@@ -3,8 +3,9 @@
 import * as THREE from "three"
 import { useRef, Suspense, useState } from "react"
 import { Canvas, useFrame } from "@react-three/fiber"
-import { useCursor, MeshReflectorMaterial, Image, Text, Environment } from "@react-three/drei"
+import { useCursor, MeshReflectorMaterial, Image, Text } from "@react-three/drei"
 import { easing } from "maath"
+import LocalEnvironment from "@/components/3d/LocalEnvironment"
 import CameraFlashes from "@/components/3d/CameraFlashes"
 import BallIntro from "./BallIntro"
 import { useIsMobile } from "@/hooks/useIsMobile"
@@ -98,7 +99,7 @@ export default function PlayerGallery3D({
         gl={{ alpha: true, antialias: !isMobile }}
       >
         <fog attach="fog" args={["#050505", isIdle ? 35 : 10, isIdle ? 80 : 35]} />
-        <Environment preset="city" />
+        <LocalEnvironment />
         <CameraFlashes active={isIdle && !showBallIntro} />
 
         <group position={[0, isIdle ? 1.0 : 0.5, 0]}>

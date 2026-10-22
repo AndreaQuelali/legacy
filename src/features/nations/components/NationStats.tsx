@@ -22,7 +22,7 @@ export default function NationStats({ founded, titles, stadium, isActive }: Nati
   return (
     <div className="flex gap-8 sm:gap-12">
       <div className="flex flex-col items-center">
-        <span className="font-inter text-[10px] font-bold tracking-[0.25em] text-white/40 uppercase mb-1">
+        <span className="font-inter text-[10px] font-bold tracking-[0.25em] text-white/60 uppercase mb-1">
           {t('stat_founded')}
         </span>
         <span
@@ -36,7 +36,7 @@ export default function NationStats({ founded, titles, stadium, isActive }: Nati
       <div className="w-[1px] bg-white/10 self-stretch my-2" />
 
       <div className="flex flex-col items-center">
-        <span className="font-inter text-[10px] font-bold tracking-[0.25em] text-white/40 uppercase mb-1">
+        <span className="font-inter text-[10px] font-bold tracking-[0.25em] text-white/60 uppercase mb-1">
           {t('stat_titles')}
         </span>
         <span
@@ -50,7 +50,7 @@ export default function NationStats({ founded, titles, stadium, isActive }: Nati
       <div className="w-[1px] bg-white/10 self-stretch my-2" />
 
       <div className="flex flex-col items-center px-2">
-        <span className="font-inter text-[10px] font-bold tracking-[0.25em] text-white/40 uppercase mb-1">
+        <span className="font-inter text-[10px] font-bold tracking-[0.25em] text-white/60 uppercase mb-1">
           {t('stat_stadium')}
         </span>
         <span className="font-bebas text-[40px] sm:text-[52px] leading-none text-white text-center">

@@ -1,5 +1,4 @@
 export { default as NationsSection } from './NationsSection'
 export { default as NationsMarquee } from './components/NationsMarquee'
-export { default as PlayerGallery3D } from './components/PlayerGallery3D'
 export * from './data/nations'
 export * from './hooks/galleryConstants'

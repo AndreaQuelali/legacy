@@ -131,14 +131,14 @@ export default function StadiumModal({
                           <div className="text-sm font-bold text-white uppercase tracking-tight">
                             {match.teams}
                           </div>
-                          <div className="text-[10px] text-white/30 font-medium uppercase tracking-widest mt-1">
+                          <div className="text-[10px] text-white/60 font-medium uppercase tracking-widest mt-1">
                             {match.stage}
                           </div>
                         </div>
                       </motion.div>
                     ))
                   ) : (
-                    <div className="py-20 text-center text-white/20 italic font-inter text-sm">
+                    <div className="py-20 text-center text-white/60 italic font-inter text-sm">
                       No hay partidos programados aún.
                     </div>
                   )}
@@ -153,7 +153,7 @@ export default function StadiumModal({
                       <div key={i} className="w-1 h-1 rounded-full bg-primary/30" />
                     ))}
                   </div>
-                  <span className="text-[9px] font-bold text-white/20 uppercase tracking-[0.3em]">
+                  <span className="text-[9px] font-bold text-white/60 uppercase tracking-[0.3em]">
                     LEGACY 2026
                   </span>
                 </div>

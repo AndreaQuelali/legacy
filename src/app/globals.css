@@ -53,7 +53,7 @@
   }
 
   .cinematic-label {
-    @apply font-inter text-[10px] font-bold tracking-[0.25em] text-white/40 uppercase;
+    @apply font-inter text-[10px] font-bold tracking-[0.25em] text-white/60 uppercase;
   }
 
   .gold-text {
@@ -125,6 +125,38 @@
 
   100% {
     transform: translateX(0);
+  }
+}
+
+/* Hero text intro is a pure-CSS slide (no opacity animation) so the text is painted and counted as LCP on first frame, without waiting on JS */
+@keyframes hero-title-in {
+  from {
+    transform: translateY(15px);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+.hero-title-line {
+  animation: hero-title-in 0.8s cubic-bezier(0.215, 0.61, 0.355, 1) 0.2s backwards;
+}
+
+.hero-title-line-0 {
+  animation-delay: 0s;
+}
+
+.hero-title-line-2 {
+  animation-delay: 0.45s;
+}
+
+.hero-title-line-3 {
+  animation-delay: 0.7s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-title-line {
+    animation: none;
   }
 }
 

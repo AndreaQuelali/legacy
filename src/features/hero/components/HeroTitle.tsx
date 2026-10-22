@@ -7,8 +7,8 @@ export default function HeroTitle() {
 
   return (
     <h1 className="hero-title drop-shadow-2xl mb-4 flex flex-col items-center">
-      <span className="anim-title-1 block opacity-0">{t("title_part1")}</span>
-      <span className="anim-title-2 block gold-text opacity-0 whitespace-nowrap">{t("title_part2")}</span>
+      <span className="anim-title-1 hero-title-line block">{t("title_part1")}</span>
+      <span className="anim-title-2 hero-title-line hero-title-line-2 block gold-text whitespace-nowrap">{t("title_part2")}</span>
     </h1>
   )
 }

@@ -10,7 +10,7 @@ import {
   LocationInfo,
   ScrollIndicator
 } from "."
-import TrophyScene from "@/components/3d/TrophyScene"
+import DeferredTrophyScene from "@/components/3d/DeferredTrophyScene"
 import FlagOverlay from "./components/FlagOverlay"
 import { useHeroScroll } from "./hooks/useHeroScroll"
 
@@ -44,7 +44,7 @@ export default function HeroSection() {
 
         {/* 3D Scene Layer */}
         <div className="trophy-canvas-container absolute inset-0 z-[2] opacity-0">
-          <TrophyScene />
+          <DeferredTrophyScene />
         </div>
 
         {/* Flag Overlay — staggered country flags synced to trophy spin */}
